@@ -15,24 +15,17 @@
     color: #4dbf00;
   }
 .navbar-nav .menu-list-items .nav-link {
-    margin-right: 30px;
+    margin-right: 15px;
     font: normal 500 18px/24px var(--popins);
 }
 
-.navbar-nav .menu-list-items .nav-link:hover, .login-link:hover {
+.navbar-nav .menu-list-items .nav-link:hover {
     color: #4dbf00;
 }
 
 .navbar-nav .menu-list-items .nav-link.active {
     font-weight: bold;
 }
-
-.login-link{
-  color: white; 
-  text-decoration: none; 
-  font: normal 600 16px/24px var(--popins);
-}
-
 /* Styling for carousel */
 .container-fluid{
      padding-left: 0;
@@ -45,13 +38,27 @@
 .carousel-inner {
   width: 100%; /* Set the inner carousel content width to 100% */
 }
-
+.carousel-item{
+  height: 750px;
+  position: relative; 
+}
+.carousel-item::before {
+  content: ""; /* Create a pseudo-element */
+  position: absolute; /* Position the overlay */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #212429); /* Define gradient */
+}
 .carousel-item img {
   width: 100%; /* Make the carousel images fill the entire width */
-  height: auto; /* Ensure images maintain aspect ratio */
-  position: relative;
+  height: 100%; /* Ensure images maintain aspect ratio */
+  /* position: relative; */
+  object-fit: cover;
+  
+  
 }
-
 .featured-desc {
   position: absolute;
   bottom: 10px; /* Adjust the distance from the bottom */
@@ -59,6 +66,7 @@
   right: 0;
   text-align: center;
   font: bold 900 32px/24px var(--popins);
+  
 }
 
 .featured-desc h5 {
@@ -101,9 +109,7 @@
     font: normal 200 16px/24px var(--popins);
     /* transform: translate(0,10%); */
   }
- .arrow-icon{
-  color: #4dbf00;
- }
+ 
   .movie-list-item{
     margin-right: 10px ;
     cursor: pointer;
@@ -165,31 +171,40 @@
   /* WHAT WE OFFER CARDS */
   
 /* service start */
-.service-list-title{
+/* .service-list-title{
   margin-bottom: 10px;
   transform: translate(14%,0);
   display: flex;
   flex-direction: column;
-}
+} */
+
 .service-list-title h1{
-  font: normal 200 16px/24px var(--popins);
+  font: normal 200 24px/24px var(--popins);
+  margin-bottom: 1px;
+  padding-bottom: 5px;
 }
-.service-list-wrapper{
+.service-list-title h2{
+  font: normal 200 16px/24px var(--popins);
+  margin-bottom: 1px;
+}
+
+
+/* .service-list-wrapper{
   display: flex;
   justify-content: center;
-}
-.service-list{
+} */
+/* .service-list{
   display: flex;
   justify-content: center;
   margin-bottom: 100px;
   flex-wrap: wrap;
-}
-.service-list-item{
-  /* margin: 5px 5px; */
+} */
+/* .service-list-item{
+  margin: 5px 5px;
   display: flex;
   flex-direction: column;
   
-}
+} */
 .notification {
   display: flex;
   flex-direction: column;
@@ -293,8 +308,9 @@
 }
 /* service end */
 /* carousel cards */
-.owl-carousel .item {
-  width: 150px;
+.item {
+  width: fit-content;
+
 }
 .owl-carousel .movie-card {
   background-color: #f8f9fa; /* Example: Set background color for the card */
@@ -302,7 +318,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Example: Add a subtle shadow to the card */
   width: 150px;
   height: 250px;
-  border: none;
+  
 }
 .card-img-top {
   width: 150px; /* Ensure the image width fills the card */
@@ -312,11 +328,117 @@
 }
 .owl-carousel .item {
   margin-right: 5px; /* Adjust the right margin */
-  transition: transform 0.3s ease; /* Smooth transition for scaling */
+  transition: transform 0.6s ease; /* Smooth transition for scaling */
+  
 }
 
-.owl-carousel .item:hover {
+.owl-carousel .movie-card:hover {
   transform: scale(1.1); /* Scale up on hover */
   border: 1.5px solid #4dbf00;
   border-radius: 10px;
 }
+
+
+/* oscars section */
+.gradient-section {
+  position: relative;
+  width: 100%;
+  height: 350px;
+  margin: 60px 0;
+}
+
+.gradient-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg,  #4dbf00, #45ac00,#3e9900, #368600, #2e7300, #276000, #1f4c00, #173900, #0f2600,#212429 );
+  background-size: 200% 200%;
+  animation: gradientAnimation 10s ease infinite;
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.container-fluid {
+  position: relative;
+  z-index: 1;
+}
+
+
+.ring-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.ring {
+  position: absolute;
+  bottom: -100px; /* Adjust to position the semi-rings properly */
+  left: -200px; /* Adjust to position the semi-rings properly */
+  width: 400px; /* Adjust the width for bigger rings */
+  height: 200px; /* Half the width to create semi-circles */
+  border: 8px solid rgba(255, 255, 255, 0.5); /* Adjust the border thickness */
+  border-radius: 100px; /* Adjust the border radius to create semi-circles */
+  opacity: 0; /* Initial opacity */
+  animation: animateRing 3s linear infinite; /* Faster speed */
+}
+
+@keyframes animateRing {
+  0% {
+    transform: scale(0); /* Initial transform */
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.2); /* Scale up */
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2); /* Scale up further */
+    opacity: 0;
+  }
+}
+
+/* Apply animation delays to each ring to make them move successively */
+.ring:nth-child(2) {
+  animation-delay: 0.5s; /* Delay the start of animation for the second ring */
+}
+
+.ring:nth-child(3) {
+  animation-delay: 1s; /* Delay the start of animation for the third ring */
+}
+/* end of oscar section  */
+
+/* start of popular section */
+.news-container{
+  margin-bottom: 20px;
+  margin-top: 60px;
+}
+.popular-title{
+  font: normal 200 px/24px var(--popins);
+  margin-bottom: 0;
+}
+.gradient-background {
+  background-image: linear-gradient(to bottom, #515151, #525252, #535353, #545454, #555555,#565656,#575757,#585858,#595959, #5a5a5a);
+}
+
+/* .img-popular-poster{
+  object-fit: cover;
+} */
+
+/* .poster-column{
+  align-items: center;
+} */
