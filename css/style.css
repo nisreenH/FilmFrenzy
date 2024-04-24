@@ -19,13 +19,20 @@
     font: normal 500 18px/24px var(--popins);
 }
 
-.navbar-nav .menu-list-items .nav-link:hover {
+.navbar-nav .menu-list-items .nav-link:hover, .login-link:hover {
     color: #4dbf00;
 }
 
 .navbar-nav .menu-list-items .nav-link.active {
     font-weight: bold;
 }
+
+.login-link{
+  color: white; 
+  text-decoration: none; 
+  font: normal 600 16px/24px var(--popins);
+}
+
 /* Styling for carousel */
 .container-fluid{
      padding-left: 0;

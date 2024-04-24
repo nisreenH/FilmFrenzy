@@ -1,5 +1,4 @@
 <?php
-    session_start();
     require_once('../vendor/autoload.php');
 ?>
 <!DOCTYPE html>
@@ -26,7 +25,6 @@
                     (.navbar-expand-lg sets the drop down navbar for medium & small screens)
                     .fixed-top:  navbar remains fixed at the top of the viewport, regardless of scrolling -->
             <nav class="navbar navbar-expand-lg fixed-top bg-dark"  data-bs-theme="dark">
-            <!-- <nav class="navbar navbar-expand-lg fixed-top"  style="background-color: rgba(255, 255, 255, 0.7);"> -->
                 <div class="container-fluid">
                     <a class="navbar-brand logo ps-2 order-first" href="#">Film Frenzy</a>
                     <div class="d-flex align-items-center">
@@ -39,9 +37,8 @@
                                 </div>
                         </form>
                     <?php
-                        // $isLoggedin = false;
-                        // if ($isLoggedin) {
-                    if(isset($_SESSION['username'])){
+                    $isLoggedin = false;
+                    if ($isLoggedin) {
                     ?> 
                         <div class="nav-item dropdown ms-3 d-block d-lg-none">
                             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -52,13 +49,13 @@
                             <li><a class="dropdown-item" href="#">My List</a></li>
                             <li><a class="dropdown-item" href="#">My Favorites</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="../php/logout.php"> Sign Out </a></li>
+                            <li><a class="dropdown-item" href="#"> Sign Out </a></li>
                             </ul>
                         </div>
                     <?php
                         } else{
                     ?>
-                        <a class="login-link  ms-3 d-block d-lg-none" href="../php/login.php">
+                        <a class="login-link  ms-3 d-block d-lg-none" href="#">
                             <i class="bi bi-person-fill me-1"></i> Sign In
                         </a>
                     <?php
@@ -114,9 +111,8 @@
                             </div>
                     </form>
                     <?php
-                    // $isLoggedin = false;
-                    // if ($isLoggedin) {
-                        if(isset($_SESSION['username'])){
+                    $isLoggedin = false;
+                    if ($isLoggedin) {
                     ?> 
                     <div class="nav-item dropdown ps-3 pe-4 d-none d-lg-block">
                         <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -127,13 +123,13 @@
                         <li><a class="dropdown-item" href="#">My List</a></li>
                         <li><a class="dropdown-item" href="#">My Favorites</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="../php/logout.php"> Sign Out </a></li>
+                        <li><a class="dropdown-item" href="#"> Sign Out </a></li>
                         </ul>
                     </div>
                     <?php
                         } else{
                     ?>
-                        <a class="login-link ps-3 pe-4 d-none d-lg-block" href="../php/login.php">
+                        <a class="login-link ps-3 pe-4 d-none d-lg-block" href="#">
                             <i class="bi bi-person-fill me-1"></i> Sign In
                         </a>
 
@@ -143,6 +139,7 @@
                 </div>
             </nav>
         </header>
+        <!--movie carousel start  -->
         <div class="container-fluid main-body">
             <div id="carouselExampleAutoplaying" class="carousel slide carousel-fade" data-bs-ride="carousel">
                 <div class="carousel-inner">
@@ -194,7 +191,6 @@
                 </div>
             </div> 
     <!-- End of Movie Carousel -->
-
     <!-- Service Section -->
     <div class="container my-5">
         <div class="row justify-content-center">
@@ -275,15 +271,15 @@
     <!-- End of Service Section -->
 </div>
     <!-- start of card carousel -->
-    <div class="container"> 
+    <div class="container">
         <div class="service-list-title row" style="transform: translate(0, 70%);">
-                      <div class="col-6">
-                        <h1 style="margin-bottom: 1px;">New Realeases</h1>
-                      </div>
-                      <div class="col-6 text-right" style="transform: translate(90%,0);">
-                        <h2><a href="#" style="text-decoration: none; color: inherit;">more</a></h2>
-                      </div>
-                        <hr style="margin-top: 0px;">
+            <div class="col-6">
+                <h1 style="margin-bottom: 1px;">New Realeases</h1>
+            </div>
+            <div class="col-6 text-right" style="transform: translate(90%,0);">
+                <h2><a href="#" style="text-decoration: none; color: inherit;">more</a></h2>
+            </div>
+            <hr style="margin-top: 0px;">
         </div>
         <div class="row">
             <div class="col-12">
@@ -307,16 +303,15 @@
                                 </div>
                             </a>
                         </div>
-                    </div>
+                </div>
                
                 <?php
             }
             ?>      
-    </div>
             </div>
-        </div>
-        
-</div>
+            </div>
+        </div>      
+    </div>
 <!-- end of card carousel -->
 <!-- start oscar section -->
 <section class="gradient-section">
@@ -336,11 +331,11 @@
     <div class="ring"></div>
     <div class="ring"></div>
   </div>
-  </section>
+</section>
 <!-- end of oscar sections  -->
 <!-- start of popular section -->
 <section>
-    <div class=" popular-container container">
+    <div class="container popular-container">
         <div class="row">
             <div class="col-8 popular-reviews-column">
                 <h1 class="popular-title">Popular Reviews</h1>
@@ -406,7 +401,8 @@
         </div>
     </div>
 </section>
-<!-- </div> -->
+</div>
+
 
 
 
