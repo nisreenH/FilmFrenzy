@@ -3,8 +3,10 @@
 	<head>
 		<title>Registration</title>
 		<meta charset="UTF-8">
-		<link rel="stylesheet" href="css/styleregister.css">
-		<script src="regJS.js">
+		<link rel="stylesheet" href="../css/styleregister.css">
+        <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+		<script src="../js/registrationFunctions.js">
 		</script>
 	</head>
 	<body>
@@ -12,6 +14,7 @@
 			<a href="mainpage.php">
 				<img src="images/logo.png" class="logo" alt="logo">
 			</a>
+            <div id="modalContainer"></div>
 			<div class="title">Registration</div>
 			<p class="terms">Thank you for joining us.</p>
 			<p>Please register by filling the information below..</p>
@@ -60,7 +63,7 @@
 					</div>
 					<div class="input-box">
 						<span class="question">Question:</span>
-						<span class="details">What is your favorite movie?</span>
+						<span class="details">What is the name of your favorite teacher?</span>
 						<input type="text" class="questmarklogo" name="security" placeholder="Enter your favorite movie" required>
 					</div>
 				</div>
@@ -84,7 +87,8 @@
 if (isset($_POST['username'], $_POST['password'],$_POST['gender'],$_POST['email'],$_POST['dob'],$_POST['security'])) {
    require_once 'connection.php';
     $uname=$_POST['username'];
-    $pass=$_POST['password'];
+    $password=$_POST['password'];
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 	$Gender=$_POST['gender'];
 	$mail=$_POST['email'];
 	$dob=$_POST['dob'];
@@ -103,7 +107,9 @@ if (isset($_POST['username'], $_POST['password'],$_POST['gender'],$_POST['email'
    else{
 	
 	   if (mysqli_num_rows($query_exist)==1) {
-                 echo '<script>alert("Email already exist.")</script>';
+                 echo '<script>
+                         displayWarningMessage("Email already exist.")
+                        </script>';
         }
         else{
             $usernameQuery = "SELECT `username` FROM `users` WHERE `username`='$uname';";
@@ -118,7 +124,7 @@ if (isset($_POST['username'], $_POST['password'],$_POST['gender'],$_POST['email'
                 if (mysqli_num_rows($query_exist)==1) {
                     echo '<script>alert("Username not available. Please choose a new one")</script>';
             } else{
-                $query = "INSERT INTO users(email, username, password, gender, dob, type, security_answer) VALUES('$mail','$uname','$pass','$Gender','$dob','$userType','$Security')";
+                $query = "INSERT INTO users(email, username, password, gender, dob, type, security_answer) VALUES('$mail','$uname','$hashed_password','$Gender','$dob','$userType','$Security')";
                 $result= mysqli_query($con,$query);
     
                 if(!$result){
@@ -127,7 +133,10 @@ if (isset($_POST['username'], $_POST['password'],$_POST['gender'],$_POST['email'
     
                 else { 
                     $Message='';
-                    header("location:login.php?Message={$Message}");
+                    // header("location:login.php?Message={$Message}");
+                    header("Location: registerationSuccess.php"); // Redirect to a success page
+                    exit(); // Make sure no other content is sent
+
                     }
                     
                 }     
@@ -140,3 +149,7 @@ mysqli_close($con);
 
 
 ?>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -47,6 +47,57 @@ window.onload = function() {
 };
 
 
+// this code detects clicking add to favorites and calls an AJAX request  to the server to insert the movie ID into the database
+    // Add event listener to all "Add to Favorites" buttons
+    document.querySelectorAll('.add-to-favorites').forEach(button => {
+        button.addEventListener('click', addToFavorites);
+    });
 
+    function addToFavorites(event) {
+        // Prevent the default form submission behavior
+        event.preventDefault();
 
+        // Get the movie ID from the data attribute of the clicked button
+        const movieId = event.target.dataset.movieId;
+
+        // Send an AJAX request to the server to insert the movie ID into the database
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    // Request was successful, handle the response if needed
+                    console.log(xhr.responseText);
+                } else {
+                    // Request failed, handle errors if needed
+                    console.error('Failed to add to favorites:', xhr.statusText);
+                }
+            }
+        };
+        xhr.open('POST', '../php/userActions.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send('movie_id=' + encodeURIComponent(movieId));
+    }
+
+//  function addMovietoFavorites(movieId) {
+
+//               // Get the movie ID from the data attribute of the clicked button
+//             //   const movieId = event.target.dataset.movieId;
+//       alert(movieId);
+//               // Send an AJAX request to the server to insert the movie ID into the database
+//               const xhr = new XMLHttpRequest();
+//               xhr.onreadystatechange = function() {
+//                   if (xhr.readyState === XMLHttpRequest.DONE) {
+//                       if (xhr.status === 200) {
+//                           // Request was successful, handle the response if needed
+//                           console.log(xhr.responseText);
+//                       } else {
+//                           // Request failed, handle errors if needed
+//                           console.error('Failed to add to favorites:', xhr.statusText);
+//                       }
+//                   }
+//               };
+//               xhr.open('POST', '../php/userActions.php', true);
+//               xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+//               xhr.send('movie_id=' + encodeURIComponent(movieId));
+//     };
 

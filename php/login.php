@@ -5,7 +5,7 @@
 	<head>
 		<title>Login</title>
 		<meta charset="UTF-8">
-		<link rel="stylesheet" href="css/stylelogin.css">
+		<link rel="stylesheet" href="../css/stylelogin.css">
 	</head>
 	<body>
 		<div class="container">
@@ -51,7 +51,7 @@ if (isset($_POST['username'], $_POST['password'])) {
     $username=$_POST['username'];
     $password=$_POST['password'];
 	
-	$query = "SELECT `username`,`email`,`password`,`type` FROM `users` WHERE username='$username';";
+	$query = "SELECT `user_id`,`username`,`email`,`password`,`type` FROM `users` WHERE username='$username';";
 	$result= mysqli_query($con,$query);
 	
 	if(!$result){
@@ -63,13 +63,14 @@ if (isset($_POST['username'], $_POST['password'])) {
 			
 		   if (mysqli_num_rows($result)==1) { 
 			
-			 	if($row['password'] != $password ){
+			 	// if($row['password'] != $password ){
+                if(!password_verify($password, $row['password'])){
 				  echo '<script>alert("Wrong Password! Try again")</script>';	
 			    }  
 				else{
 					  $_SESSION['useremail'] = $row['email'];
 					  $_SESSION['username'] = $row['username'];
-					  
+					  $_SESSION['user_id'] = $row['user_id'];
                     //   if(($row['type'] == 'Member' || $row['type'] == 'member')){
                         if (strcasecmp($row['type'], 'member') === 0) {
 						    $_SESSION['memberlogin']= true;

@@ -16,6 +16,7 @@
         <link rel="stylesheet" href="../css/style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="../js/main.js"></script>
     </head>
     <!-- The bg-dark class sets the background color of the body to dark, and data-bs-theme="dark" is a Bootstrap 5 attribute 
         that applies a dark theme to Bootstrap components. This will ensure that all Bootstrap components, including the navbar,
@@ -292,6 +293,7 @@
             // Iterate through each movie in the results array
             foreach ($popularMoviesList->results as $movie) {
                 // Extract movie details
+                $movieId = $movie->id;
                 $title = $movie->title;
                 $posterPath = $movie->poster_path;
                 ?>
@@ -303,10 +305,23 @@
                                         <img src="https://image.tmdb.org/t/p/original<?= $movie->poster_path ?>" alt="<?= $movie->title ?>" class="card-img-top movie-list-item-img">
                                         <span class="movie-list-item-watched"><i class="fa-regular fa-eye"></i></span>
                                         <span class="movie-list-item-liked"><i class="fa-solid fa-heart"></i></span>
+                                        <!-- Button for Add to Favorites -->
+                                        <!-- <button onclick="addMovietoFavorites(<?= $movieId ?>)" class="btn btn-sm btn-outline-primary position-absolute top-0 start-0 mt-2 ms-2" style="background: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)); border-color: rgba(255, 255, 255, 0.5); color: white;">
+                                            <i class="fas fa-heart"></i> Add to Favorites
+                                        </button> -->
+                                        <!-- <button onclick="addMovietoFavorites(<?= $movieId ?>)"  class="btn btn-sm btn-outline-primary position-absolute top-0 start-0 mt-2 ms-2 add-to-favorites" data-movie-id="<?= $movie->id ?>" style="background: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)); border-color: rgba(255, 255, 255, 0.5); color: white;">
+                                            <i class="fas fa-heart"></i> Add to Favorites
+                                        </button> -->
                                     </div>
                                 </div>
                             </a>
                         </div>
+                        <!-- <button onclick="addMovietoFavorites(<?= $movieId ?>)" data-movie-id="<?= $movie->id ?>" style="background: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)); border-color: rgba(255, 255, 255, 0.5); color: white;">
+                                            <i class="fas fa-heart"></i> Add to Favorites
+                        </button> -->
+                        <button  class="btn btn-sm btn-outline-primary position-absolute top-0 start-0 mt-2 ms-2 add-to-favorites" data-movie-id="<?= $movie->id ?>" style="background: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)); border-color: rgba(255, 255, 255, 0.5); color: white;">
+                                            <i class="fas fa-heart"></i> Add to Favorites
+                        </button>
                     </div>
                
                 <?php
