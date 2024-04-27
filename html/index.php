@@ -299,7 +299,7 @@
                 ?>
                 <div class="mx-1" style="width: fit-content; margin-right: -10px;">
                         <div class="movie-wrapper" style="padding: 50px 0px">
-                            <a href="../php/movieDetails.php?movie_id=<?= $movie->id ?>" class="movie-link">
+                            <a href="../php/movieDetails.php?movieId=<?= $movie->id ?>" class="movie-link">
                                 <div class="item movie-list-item" style="150px">
                                     <div class="card movie-card">
                                         <img src="https://image.tmdb.org/t/p/original<?= $movie->poster_path ?>" alt="<?= $movie->title ?>" class="card-img-top movie-list-item-img">

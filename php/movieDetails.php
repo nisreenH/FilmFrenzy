@@ -1,6 +1,11 @@
 <?php
     session_start();
     require_once('../vendor/autoload.php');
+    $client = new \GuzzleHttp\Client();
+    
+    if(isset($_GET['movieId'])){
+        $movieId = $_GET['movieId'];
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -147,21 +152,20 @@
         <div class="container-fluid main-body">
              <!-- Move Details Card -->
              <?php             
-             $client = new \GuzzleHttp\Client();
-             
-             $response = $client->request('GET', 'https://api.themoviedb.org/3/movie/693134?language=en-US', [
+           
+             $movieDetailsResponse = $client->request('GET', "https://api.themoviedb.org/3/movie/{$movieId}?language=en-US", [
                'headers' => [
                  'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MDU2NTIwNjI0N2YzYjc3NjhkOWIyNWJiZWRmNjhkOCIsInN1YiI6IjY1ZmVkNzU0MDkyOWY2MDE3ZTliZGUyMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.DW9RlEQ4PPwEzMPv8vutOwT8SAD1j47bBX7F1_RIANk',
                  'accept' => 'application/json',
                ],
              ]);
-            //  echo $response->getBody();
+            //  echo $movieDetailsResponse->getBody();
 
               // Get the response body as a string
-              $responseBody = $response->getBody()->getContents();
+              $movieDetailsResponseBody = $movieDetailsResponse->getBody()->getContents();
                     
               // Decode the JSON response into a PHP object
-              $movie = json_decode($responseBody);
+              $movie = json_decode($movieDetailsResponseBody);
            
             //   if ($movie !== null && isset($movie->results)) {
                 if ($movie !== null) {
@@ -188,7 +192,7 @@
 
                     // Format vote average to display only one digit after the decimal point
                     $voteAverageFormatted = number_format($movie->vote_average, 1);
-                    //   echo $response->getBody();      
+                    //   echo $movieDetailsResponse->getBody();      
              ?>
 
 <!--              
@@ -216,7 +220,7 @@
                     </div>
                     <div class="col-md-7">
                     <div class="card-body">
-                        <h5 class="card-title"><?=$movie->title?></h5>
+                        <h5 class="card-title fw-bold"><?=$movie->title?></h5>
                         <p class="card-text"><small class="text-body-secondary">Runtime: <?=$movie->runtime?>min</small></p>
                         <p class="card-text"><small class="text-body-secondary">Release Date: <?=$releaseDateFormatted?></small></p>
                         <p class="card-text"><small class="text-body-secondary"> Genre: <?=$genreNames?></small></p>
@@ -230,15 +234,97 @@
           
             <?php }?>
 
+<!-- MOVIE CREDITS -->
+<!-- <h2>Top Cast: </h2> -->
+<div class="container mt-3">
+    <div class="">
+        <h3 class="text-center">
+            <span class="border border-dark p-2 bg-dark" style="color:rgb(77 191 0 / 70%);">Top Cast</span>
+        </h3>
+    </div>
+<div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 g-4 ms-2 border border-3">
+<!-- <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 g-4 ms-5 border border-3 rounded p-3"> -->
+        <?php
+            $movieCreditsResponse = $client->request('GET', "https://api.themoviedb.org/3/movie/{$movieId}/credits?language=en-US", [
+            'headers' => [
+                'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MDU2NTIwNjI0N2YzYjc3NjhkOWIyNWJiZWRmNjhkOCIsInN1YiI6IjY1ZmVkNzU0MDkyOWY2MDE3ZTliZGUyMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.DW9RlEQ4PPwEzMPv8vutOwT8SAD1j47bBX7F1_RIANk',
+                'accept' => 'application/json',
+            ],
+            ]);
 
+            // echo $movieCreditsResponse->getBody();
 
+            $movieCreditsResponseBody = $movieCreditsResponse->getBody()->getContents();
+                    
+            // Decode the JSON response into a PHP object
+            $movieCredits = json_decode($movieCreditsResponseBody);
 
+            if ($movieCredits !== null) {
+                // cast is an array
+                $castActors = $movieCredits->cast;
+                foreach ($castActors as $key => $actor) {
+                    $actorName = $actor->name; // Append the current genre name
+                    // echo  $actorName ." cast Id ".$actor->cast_id ." ORDER ".$actor->order ."<br>";
+         
+                    // Append a comma if it's not the last genre
+                    // if ($key < count($genres) - 1) {
+                    //     $genreNames .= ", ";
+                    // }
 
+                    if($actor->order < 12){
+                        // echo  $actorName ." cast Id ".$actor->cast_id ." ORDER ".$actor->order ."<br>";
+            //         }
+            //     }
+            // }
+        ?>
+<!-- CAST CARDS -->
+        <!-- <div class="row row-cols-1 row-cols-md-3 g-4"> -->
+            <div class="col">
+                <div class="card h-100 castCard">
+                <img src="https://image.tmdb.org/t/p/original<?=$actor->profile_path?>"  class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title text-center mb-0"> <?=$actor->name?> </h5>
+                    <p class="card-text text-center" style="rgb(196 193 190 / 60%)"> <?=$actor->character?> </p>
+                </div>
+                </div>
+            </div>
+        <!-- <div class="col">
+            <div class="card h-100">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This is a short card.</p>
+            </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+            </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100">
+            <img src="..." class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">Card title</h5>
+                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            </div>
+            </div>
+        </div> -->
+      
 
+<?php } } }?>
 
+  </div>
+</div>
 
-
-
+<div>
+<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+</div>
 
 
 
