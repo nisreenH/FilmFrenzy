@@ -24,62 +24,52 @@
             <!-- .navbar-expand-md sets the drop down navbar for small screens only 
                 (.navbar-expand-lg sets the drop down navbar for medium & small screens)
                 .fixed-top:  navbar remains fixed at the top of the viewport, regardless of scrolling -->
-            <nav class="navbar navbar-expand-md fixed-top bg-dark  me-1 blur "  data-bs-theme="dark">
-                <div class="container-fluid">
-                <a class="navbar-brand logo" href="#" style="color: #4dbf00;">Film Frenzy</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item menu-list-items">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item menu-list-items">
-                        <a class="nav-link" href="#">Create Account</a>
-                    </li>
-                    <li class="nav-item menu-list-items">
-                        <a class="nav-link" href="#">Members</a>
-                    </li>
-                    <li class="nav-item menu-list-items">
-                        <a class="nav-link" href="#">Sign In</a>
-                    </li>
-                    <li class="nav-item menu-list-items">
-                        <a class="nav-link" href="#">Movies</a>
-                    </li>
-                    <!-- <li class="nav-item">
-                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                    </li> -->
+                <nav class="navbar navbar-expand-md fixed-top" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand logo px-2" href="#" style="color: #4dbf00;">Film Frenzy</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item menu-list-items">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item menu-list-items">
+                    <a class="nav-link" href="#">Create Account</a>
+                </li>
+                <li class="nav-item menu-list-items">
+                    <a class="nav-link" href="#">Members</a>
+                </li>
+                <li class="nav-item menu-list-items">
+                    <a class="nav-link" href="#">Sign In</a>
+                </li>
+                <li class="nav-item menu-list-items">
+                    <a class="nav-link" href="#">Movies</a>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit" style="border: none;"><i class="fa-solid fa-magnifying-glass fa-lg"></i></button>
+            </form>
+            <div class="navbar-nav me-4">
+                <div class="nav-item dropdown">
+                    <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="dropdown-toggle">Profile</span>
+                        <img src="../img/user-avatar.png" alt="" class="profile-picture">
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">My List</a></li>
+                        <li><a class="dropdown-item" href="#">My Favorites</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Sign Out</a></li>
                     </ul>
-                    <!-- <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form> -->
-                    <form class="d-flex" role="search">
-                        <div class="input-group">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-secondary" type="submit">
-                                <i class="bi bi-search text-white"></i>
-                            </button>
-                        </div>
-                    </form>                    
-                    <div class="navbar-nav  me-4 ">
-                        <div class="nav-item dropdown">
-                            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span  class=" dropdown-toggle"> Profile </span>
-                            <img src="../img/user-avatar.png" alt="" class="profile-picture">
-                            </a>
-                            <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">My List</a></li>
-                            <li><a class="dropdown-item" href="#">My Favorites</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#"> Sign Out </a></li>
-                            </ul>
-                        </div>
-                    </div>
                 </div>
-                </div>
-            </nav>
+            </div>
+        </div>
+    </div>
+</nav>
+
         </header>
         <div class="container-fluid main-body">
             <div id="carouselExampleAutoplaying" class="carousel slide carousel-fade" data-bs-ride="carousel">
@@ -119,7 +109,9 @@
                         <div class="carousel-caption d-none d-md-block mb-4" style="color:white; font-weight:600;">
                            <h5 style="font-size:30px">
                                <div class="featured-content" id="carousel">
-                                 <div class="featured-desc"></div>
+                                 <div class="featured-desc">
+                                    <!-- <button class="featured-button">Get started!</button> -->
+                                 </div>
                                </div>
                            </h5>
                         </div>
@@ -131,6 +123,60 @@
                   ?>
                 </div>
             </div> 
+            <!-- login form -->
+             <section class="home">
+                   <div class="form-container">
+                   <i class="fa-regular fa-circle-xmark form_close"></i>
+                    <div class="form login-form">
+                        <form action="#">
+                            <h2>Login</h2>
+                            <div class="input-box">
+                                <input type="email" placeholder="enter your email address." required />
+                                <i class="fa-regular fa-envelope email"></i>
+                            </div>
+                            <div class="input-box">
+                                <input type="password" placeholder="enter your password." required />
+                                <i class="fa-solid fa-lock password"></i>
+                            </div>
+                            <div class="option-field">
+                                <!-- <span class="checkbox">
+                                    <input type="checkbox" id="check">
+                                    <label for="check">Remember me</label>
+                                </span> -->
+                                <a href="#" class="forgot-password">Forgot password?</a>
+                            </div>
+                            <button class="button">Login Now</button>
+                            <div class="login-signup">
+                                 Don't have an account <a href="#" id="signup">Signup</a>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form signup-form">
+                        <form action="#">
+                            <h2>Signup</h2>
+                            <div class="input-box">
+                                <input type="email" placeholder="enter your email address."  required />
+                                <i class="fa-regular fa-envelope email"></i>
+                            </div>
+                            <div class="input-box">
+                                <input type="password" placeholder="create password." required />
+                                <i class="fa-solid fa-lock password"></i>
+                            </div>
+                            <div class="input-box">
+                                <input type="password" placeholder="confirm password." required />
+                                <i class="fa-solid fa-lock password"></i>
+                            </div>
+                            <button class="button">Signup Now</button>
+                            <div class="login-signup">
+                                 already have an account <a href="#" id="login">Login</a>
+                            </div>
+                        </form>
+                    </div>
+                   </div>
+             </section>
+
+            <!-- end of login form -->
+            
     <!-- End of Movie Carousel -->
 
     <!-- Service Section -->
@@ -262,7 +308,7 @@
     <div class="container-fluid content">
       <div class="row">
         <div class="col-6">
-          <img src="../img/pngwing.com (1).png" alt="">
+          <!-- <img src="../img/pngwing.com (1).png" alt=""> -->
         </div>
        
     </div>
@@ -278,7 +324,7 @@
 <!-- end of oscar sections  -->
 <!-- start of popular section -->
 <section>
-    <div class="container popular-container">
+    <div class="container popular-container my-5">
         <div class="row">
             <div class="col-8 popular-reviews-column">
                 <h1 class="popular-title">Popular Reviews</h1>
@@ -293,10 +339,10 @@
                         </div>
                         <div class="col-10 review-column">
                             <div class="row mt-1">
-                                <div class="col-5 review-username"><i class="fa-regular fa-user"></i>@mhmadiab</div>
+                                <div class="col-5 review-username"><i class="fa-regular fa-user p-2"></i>@mhmadiab</div>
                                 <div class="col-3 review-rate">*****</div>
-                                <div class="col-2 review-like">like</div>
-                                <div class="col-2 review-cmnt">30</div>
+                                <div class="col-2 review-like"><i class="fa-solid fa-heart p-2"></i></i>330</div>
+                                <div class="col-2 review-cmnt"><i class="fa-regular fa-comment p-2"></i>30</div>
                             </div>
                             <div class="row movie-name my-3">
                                 <h2>Oppenhimer 2023</h2>
@@ -315,10 +361,32 @@
                         </div>
                         <div class="col-10 review-column">
                             <div class="row mt-1">
-                                <div class="col-5 review-username"><i class="fa-regular fa-user"></i>@mhmadiab</div>
+                                <div class="col-5 review-username"><i class="fa-regular fa-user p-2"></i>@mhmadiab</div>
                                 <div class="col-3 review-rate">*****</div>
-                                <div class="col-2 review-like">like</div>
-                                <div class="col-2 review-cmnt">30</div>
+                                <div class="col-2 review-like"><i class="fa-solid fa-heart p-2"></i></i>330</div>
+                                <div class="col-2 review-cmnt"><i class="fa-regular fa-comment p-2"></i>30</div>
+                            </div>
+                            <div class="row movie-name my-3">
+                                <h2>Oppenhimer 2023</h2>
+                            </div>
+                            <div class="row">
+                                  <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolore odio tenetur nisi, voluptates aut fugit impedit illum doloremque saepe inventore dicta debitis similique ea? Beatae, ratione sapiente minima itaque animi, porro alias quam amet distinctio, non blanditiis odio accusamus asperiores!</p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-2 poster-column mt-5">
+                            <div class="card" style="width:6rem; height: 7rem;">
+                                 <img src="../img/opPoster.jpg" alt="" class="card-img-top img-popular-poster img-fluid">
+                            </div>
+                        </div>
+                        <div class="col-10 review-column">
+                            <div class="row mt-1">
+                                <div class="col-5 review-username"><i class="fa-regular fa-user p-2"></i>@mhmadiab</div>
+                                <div class="col-3 review-rate">*****</div>
+                                <div class="col-2 review-like"><i class="fa-solid fa-heart p-2"></i></i>330</div>
+                                <div class="col-2 review-cmnt"><i class="fa-regular fa-comment p-2"></i>30</div>
                             </div>
                             <div class="row movie-name my-3">
                                 <h2>Oppenhimer 2023</h2>
@@ -334,16 +402,70 @@
             <div class="col-4 popular-lists-column">
                 <h1 class="popular-title">Popular Lists</h1>
                 <hr>
-                <div class="border rounded p-2">
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus, totam?
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Recusandae, facere?
-                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Minus quaerat deserunt temporibus iste laudantium ab, veniam saepe id similique molestias esse consectetur totam. Sequi molestias voluptate pariatur dignissimos totam cupiditate ducimus animi dolores! Corporis nam qui dicta reprehenderit possimus, consequatur, ea deserunt pariatur fugiat dolorum hic molestiae! Soluta, autem atque?
-                    </p>
+                <div class="border rounded shadow shadow-lg">
+                    <div class="card gradient-overlay2">
+                        <img src="../img/pastlivesPoster.jpg" alt="" class="popular-lists-img rounded">
+                        <div class="card1-container">
+                            <div class="card1">
+                                <img src="../img/pastlivesPoster.jpg" alt="Card 1">
+                            </div>
+                            <div class="card1">
+                                <img src="../img/pastlivesPoster.jpg" alt="Card 2">
+                            </div>
+                            <div class="card1">
+                                <img src="../img/opPoster.jpg" alt="Card 2">
+                            </div>
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<div class="container">
+        <div class="service-list-title row" style="transform: translate(0, 70%);">
+                      <div class="col-6">
+                        <h1 style="margin-bottom: 1px;">New Realeases</h1>
+                      </div>
+                      <div class="col-6 text-right" style="transform: translate(90%,0);">
+                        <h2><a href="#" style="text-decoration: none; color: inherit;">more</a></h2>
+                      </div>
+                        <hr style="margin-top: 0px;">
+        </div>
+        <div class="row">
+            <div class="col-12">
+            <div class="owl-carousel owl-theme">
+            <?php
+            // Iterate through each movie in the results array
+            foreach ($popularMoviesList->results as $movie) {
+                // Extract movie details
+                $title = $movie->title;
+                $posterPath = $movie->poster_path;
+                ?>
+                <div class="mx-1" style="width: fit-content; margin-right: -10px;">
+                        <div class="movie-wrapper" style="padding: 50px 0px">
+                            <a href="movie_page.php?movie_id=<?= $movie->id ?>" class="movie-link">
+                                <div class="item movie-list-item" style="150px">
+                                    <div class="card movie-card">
+                                        <img src="https://image.tmdb.org/t/p/original<?= $movie->poster_path ?>" alt="<?= $movie->title ?>" class="card-img-top movie-list-item-img">
+                                        <span class="movie-list-item-watched"><i class="fa-regular fa-eye"></i></span>
+                                        <span class="movie-list-item-liked"><i class="fa-solid fa-heart"></i></span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+               
+                <?php
+            }
+            ?>      
+    </div>
+            </div>
+        </div> 
+</div>
+
+
 <!-- </div> -->
 
 
@@ -372,5 +494,6 @@
     }
 })
         </script>
+       
     </body>
 </html>
