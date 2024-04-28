@@ -69,7 +69,6 @@ function updateCarousel() {
             formCloseButton= document.querySelector(".form_close"),
             signupButton= document.querySelector("#signup"),
             loginButton= document.querySelector("#login");
-             
             button.addEventListener("click", ()=> home.classList.add("show"));
             formCloseButton.addEventListener("click", ()=> home.classList.remove("show"));
             
@@ -100,6 +99,18 @@ function updateCarousel() {
                     addBlur();
                 });
 
+                signInBtn.addEventListener("click", function() {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    home.classList.add("show");
+                    addBlur();
+                });
+                
+                registerBtn.addEventListener("click", function() {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    home.classList.add("show");
+                    formContainer.classList.add("active");
+                });
+
                 formCloseButton.addEventListener("click", function() {
                     home.classList.remove("show");
                     removeBlur();
@@ -108,6 +119,7 @@ function updateCarousel() {
         });
     }, 1500); // Change text content every 15 seconds (15 * 1000 milliseconds)
 };
+
 
 // Call the function initially to start the carousel
 window.onload = function() {

@@ -1,6 +1,8 @@
 <?php
     session_start();
     require_once('../vendor/autoload.php');
+    require_once '../php/connection.php';
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -39,9 +41,7 @@
                                 </div>
                         </form>
                     <?php
-                        // $isLoggedin = false;
-                        // if ($isLoggedin) {
-                    if(isset($_SESSION['username'])){
+                        if(isset($_SESSION['username'])){
                     ?> 
                         <div class="nav-item dropdown ms-3 d-block d-lg-none">
                             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -76,9 +76,13 @@
                             <li class="nav-item menu-list-items">
                                 <a class="nav-link active" aria-current="page" href="#">Home</a>
                             </li>
+                            <?php
+                             if(!isset($_SESSION['username'])) {
+                             ?> 
                             <li class="nav-item menu-list-items">
-                                <a class="nav-link" href="#">Create Account</a>
+                                <a class="nav-link" id="registerBtn">Create Account</a>
                             </li>
+                            <?php } ?>
                             <li class="nav-item menu-list-items">
                                 <a class="nav-link" href="#">Members</a>
                             </li>
@@ -120,8 +124,6 @@
                             </div>
                     </form>
                     <?php
-                    // $isLoggedin = false;
-                    // if ($isLoggedin) {
                         if(isset($_SESSION['username'])){
                     ?> 
                     <div class="nav-item dropdown ps-3 pe-4 d-none d-lg-block">
@@ -139,8 +141,9 @@
                     <?php
                         } else{
                     ?>
-                        <a class="login-link ps-3 pe-4 d-none d-lg-block" href="../php/login.php">
-                            <i class="bi bi-person-fill me-1"></i> Sign In
+                        <!-- <a class="login-link ps-3 pe-4 d-none d-lg-block" href="../php/login.php" id="signInBtn"> -->
+                        <a class=" nav-link login-link ps-3 pe-4 d-none d-lg-block" id="signInBtn">
+                                <i class="bi bi-person-fill me-1"></i> Sign In
                         </a>
 
                     <?php
@@ -204,18 +207,18 @@
                 </div>
             </div> 
             <!-- login form -->
-             <section class="home">
+            <section class="home">
                    <div class="form-container">
                    <i class="fa-regular fa-circle-xmark form_close"></i>
                     <div class="form login-form">
-                        <form action="#">
+                        <form  method="POST" enctype="multipart/form-data" action="">
                             <h2>Login</h2>
                             <div class="input-box">
-                                <input type="email" placeholder="enter your email address." required />
+                                <input type="text" placeholder="enter your username" name="username" required />
                                 <i class="fa-regular fa-envelope email"></i>
                             </div>
                             <div class="input-box">
-                                <input type="password" placeholder="enter your password." required />
+                                <input type="password" placeholder="enter your password" name="password" required />
                                 <i class="fa-solid fa-lock password"></i>
                             </div>
                             <div class="option-field">
@@ -225,26 +228,71 @@
                                 </span> -->
                                 <a href="#" class="forgot-password">Forgot password?</a>
                             </div>
-                            <button class="button">Login Now</button>
+                            <button class="button" type="submit" name="login_button">Login</button>
                             <div class="login-signup">
                                  Don't have an account <a href="#" id="signup">Signup</a>
                             </div>
                         </form>
                     </div>
-                    <div class="form signup-form">
+                    <div class="form signup-form" style="max-width:450px!important">
                         <form action="#">
                             <h2>Signup</h2>
                             <div class="input-box">
-                                <input type="email" placeholder="enter your email address."  required />
+                                <input type="text" name="username" placeholder="enter your username"  required />
+                                <i class="fa-regular fa-user email"></i>
+                            </div>
+                            <div class="input-box">
+                                <input type="email" name="email" placeholder="enter your email address"  required />
                                 <i class="fa-regular fa-envelope email"></i>
                             </div>
                             <div class="input-box">
-                                <input type="password" placeholder="create password." required />
+                                <input type="password" name="password" placeholder="create password" required />
                                 <i class="fa-solid fa-lock password"></i>
                             </div>
                             <div class="input-box">
-                                <input type="password" placeholder="confirm password." required />
+                                <input type="password" placeholder="confirm password" required />
                                 <i class="fa-solid fa-lock password"></i>
+                            </div>
+                            <!-- <div class="input-box">
+                                <input type="date" placeholder="date of birth" required />
+                                <i class="fa-regular fa-calendar email"></i>
+                            </div> -->
+                            <!-- <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="datepicker" name="datepicker" placeholder="Select a Date" readonly>
+                                <button class="btn btn-outline-secondary" type="button" id="datePickerBtn">
+                                <i class="fas fa-calendar-alt"></i>
+                                </button>
+                            </div> -->
+                            <div class="input-box">
+                                <!-- <span class="details">Date of birth:</span> -->
+                                <div class ="inputbox">
+                                    <input id="birth" type="date" name="dob" required>
+                                    <i class="fa-regular fa-calendar email"></i>
+                                </div>
+                            </div>
+                            <!-- <div class="">
+                                <input type="radio" name="gender" id="m" value="Male" required>
+                                <input type="radio" name="gender" id="f" value="Female" required>
+                                <span class="details">Gender:</span>
+                                <div class="category">
+                                    <label for="m">
+                                        <span class="dot one"></span>
+                                        <span>Male</span>
+                                    </label>
+                                    <label for="f">
+                                        <span class="dot two"></span>
+                                        <span>Female</span>
+                                    </label>
+                                </div>
+                            </div> -->
+                            <!-- <div class="input-box">
+                                <label class="radio-inline"><input type="radio" name="optradio" checked>Male </label>
+                                <label class="radio-inline"><input type="radio" name="optradio">Female</label>
+                            </div> -->
+
+                            <div class="input-box">
+                                <input type="text"  name="security" placeholder="What is the name of your favorite teacher?"  required />
+                                <i class="fa-solid fa-key email"></i>
                             </div>
                             <button class="button">Signup Now</button>
                             <div class="login-signup">
@@ -591,3 +639,50 @@
        
     </body>
 </html>
+
+
+<?php 
+if(isset($_GET['Message'])){
+	echo '<script>alert("Registration Successful! Please login")</script>';	
+}
+
+    // Process the LOGIN form data
+if (isset($_POST['username'], $_POST['password'])) {
+    $username=$_POST['username'];
+    $password=$_POST['password'];
+	
+	$query = "SELECT `user_id`,`username`,`email`,`password`,`type` FROM `users` WHERE username='$username';";
+	$result= mysqli_query($con,$query);
+	
+	if(!$result){
+	   die("Error insert: " . mysqli_error($con) . "</br> Error number: " . mysqli_errno($con));
+                }
+
+    else {
+	     $row = mysqli_fetch_assoc($result);
+			
+		   if (mysqli_num_rows($result)==1) { 
+                if(!password_verify($password, $row['password'])){
+				  echo '<script>alert("Wrong Password! Try again")</script>';	
+			    }  
+				else{
+					  $_SESSION['useremail'] = $row['email'];
+					  $_SESSION['username'] = $row['username'];
+					  $_SESSION['user_id'] = $row['user_id'];
+
+                    if(isset($_POST['login_button'])) {
+                        // this is used to reload the page after he user logs in 
+                        echo "<meta http-equiv='refresh' content='0'>";
+                        // header("Refresh:0");
+                    }
+                    							   
+					}
+		   }
+		   else{ 
+		        echo '<script>alert("User not found! Please Register first")</script>'; }
+	 }
+	 
+mysqli_close($con);
+}
+
+?>

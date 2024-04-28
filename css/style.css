@@ -32,7 +32,14 @@ body{
 
 .navbar-nav .menu-list-items .nav-link:hover, .login-link:hover {
     color: #4dbf00;
+    cursor: pointer;
 }
+
+/* #signInBtn:hover {
+  cursor: pointer; 
+  text-decoration: underline; 
+} */
+
 
 .navbar-nav .menu-list-items .nav-link.active {
     font-weight: bold;
@@ -130,9 +137,9 @@ body{
 /* start of login form */
 .form-container{
   position: absolute;
-  max-width: 320px;
+  max-width: 420px;
   width: 100%;
-  top: 50%;
+  top: 30%;
   left: 50%;
   transform: translate(-50%,-50%) scale(1.2);
   z-index: 101;
