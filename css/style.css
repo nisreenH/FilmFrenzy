@@ -480,7 +480,8 @@ body{
   height: 250px;
   
 }
-.card-img-top {
+
+.card-img-top  {
   width: 150px; /* Ensure the image width fills the card */
   height: 250px; /* Let the height adjust proportionally */
   object-fit: cover; /* Ensure the image covers the entire card */
@@ -606,7 +607,7 @@ body{
 
 
 /* movie cast actors image */
-.card-img-top {
+#actorImage.card-img-top {
     width: 150px;
     height: 150px;
     object-fit: cover;

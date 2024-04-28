@@ -194,25 +194,6 @@
                     $voteAverageFormatted = number_format($movie->vote_average, 1);
                     //   echo $movieDetailsResponse->getBody();      
              ?>
-
-<!--              
-            <div class="card mb-3 mt-4">
-                <img src="https://image.tmdb.org/t/p/original"  class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title"> movie title</h5>
-                    <p class="card-text"> movie title</p>
-                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title"> movie title</h5>
-                    <p class="card-text">movie title</p>
-                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
-                </div>
-                <img src="https://image.tmdb.org/t/p/original"  class="card-img-bottom" alt="...">
-            </div> -->
-<!-- THIS IS THE VERSION I'LL BE USING -->
             <div class="card mb-3 mt-4 ms-2">
                 <div class="row g-0">
                     <div class="col-md-5">
@@ -281,59 +262,17 @@
         <!-- <div class="row row-cols-1 row-cols-md-3 g-4"> -->
             <div class="col">
                 <div class="card h-100 castCard">
-                <img src="https://image.tmdb.org/t/p/original<?=$actor->profile_path?>"  class="card-img-top" alt="...">
+                <img src="https://image.tmdb.org/t/p/original<?=$actor->profile_path?>" id="actorImage"  class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title text-center mb-0"> <?=$actor->name?> </h5>
                     <p class="card-text text-center" style="rgb(196 193 190 / 60%)"> <?=$actor->character?> </p>
                 </div>
                 </div>
             </div>
-        <!-- <div class="col">
-            <div class="card h-100">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a short card.</p>
-            </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card h-100">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
-            </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card h-100">
-            <img src="..." class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-            </div>
-            </div>
-        </div> -->
-      
-
 <?php } } }?>
 
   </div>
 </div>
-
-<div>
-<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-</div>
-
-
-
-
-
-
-
-
-
 
 <!-- </div> -->
 
