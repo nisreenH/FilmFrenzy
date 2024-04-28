@@ -7,6 +7,11 @@ body{
   overflow-x: hidden;
   position: relative;
 }
+
+.navbar{
+  overflow-x: hidden;
+  /* position: relative; */
+}
 /* .main-body{
     padding-top:56px;
 } */
