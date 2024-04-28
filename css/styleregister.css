@@ -1,0 +1,210 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Poppins', sans-serif;
+}
+body{
+	padding-left:252px;
+	height: 100vh;
+	justify-content: center;
+	align-items: center;
+	background: #602c2c;
+}
+.container{
+	max-width: 700px;
+	width: 100%;
+	background: #fff;
+	padding: 25px 30px;
+	border-radius: 15px;
+}
+.line{
+	border: 1px solid #3e0f0f;
+}
+.container .logo{
+	padding-left: 170px;
+}
+.terms{
+	font-size:20px;
+	margin-top:15px;
+}
+.container .title{
+	font-size: 30px;
+	position: relative;
+}
+.container .title::before{
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: 3px;
+	width: 30px;
+	background: #3e0f0f;
+}
+.container form .user-details{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin:20px 0 12px 0;
+}
+form .user-details .input-box{
+	margin-bottom: 15px;
+	width: calc(100% / 2 - 20px);
+}
+.user-details input[type=text]:focus, .user-details input[type=password]:focus, .user-details input[type=email]:focus{
+	background-color:#e6e6e6;
+}
+.user-details .input-box .details{
+	display: block;
+	font-weight: 500;
+	margin-bottom: 15px;
+}
+.user-details .input-box .question{
+	display: block;
+	font-weight: 1000;
+	margin-bottom: 15px;
+}
+.user-details .input-box .passlogo{
+	background: url(../images/password.png) 8px;
+	background-repeat: no-repeat;
+	padding-left: 50px;
+	background-size:20px;
+}
+.user-details .input-box .userlogo{
+	background: url(../images/username.png) 8px;
+	background-repeat: no-repeat;
+	padding-left: 50px;
+	background-size:15px;
+}
+.user-details .input-box .emaillogo{
+	background: url(../images/email.png) 8px;
+	background-repeat: no-repeat;
+	padding-left: 50px;
+	background-size:20px;
+}
+.user-details .input-box .questmarklogo{
+	background: url(../images/questmark.png) 8px;
+	background-repeat: no-repeat;
+	padding-left: 50px;
+	background-size:20px;
+}
+.user-details .input-box input{
+	height: 45px;
+	width: 100%;
+	border-radius: 25px;
+	border: 1px solid #ccc;
+	padding-left: 15px;
+	font-size: 16px;
+	border-bottom-width: 2px;
+}
+.btnlog{
+	text-align: center;
+}
+.btn{
+	padding: 10px 25px;
+	border: none;
+	border-radius: 25px;
+	background: #602c2c;
+	color: #fff;
+	width: 100%;
+	cursor: pointer;
+}
+.btn:hover{
+	background: #3e0f0f;
+}
+form .user-details .category{
+	display: flex;
+	width: 80%;
+	margin: 14px 0;
+	justify-content: space-around;
+}
+.user-details .category label{
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+}
+.user-details .category .dot{
+	height: 18px;
+	width: 18px;
+	background: #d9d9d9;
+	border-radius: 50%;
+	margin-right: 10px;
+	border: 5px solid transparent;
+}
+#m:hover ~ .category label .one,
+#f:hover ~ .category label .two{
+	background-color: #ccc;
+}
+#m:checked ~ .category label .one,
+#f:checked ~ .category label .two{
+	border-color: #d9d9d9;
+	background: #3e0f0f;
+}
+form input[type="radio"]{
+	display:none;
+}
+.container form .inputbox{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+.user-details .inputbox input{
+	height: 45px;
+	width: 100%;
+	border-radius: 25px;
+	border: 1px solid #ccc;
+	padding-left: 15px;
+	font-size: 16px;
+	border-bottom-width: 2px;
+}
+.containers {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 18px;
+}
+.containers input {
+  display:none;
+}
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #d9d9d9;
+}
+.containers:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+.containers input:checked ~ .checkmark {
+  background-color: #3e0f0f;
+}
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.containers input:checked ~ .checkmark:after {
+  display: block;
+}
+.containers .checkmark:after {
+  left: 6px;
+  top: 2px;
+  width: 6px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.textdeco{
+	text-decoration: none;
+}
+.term{
+	text-align: center;
+	font-size:11px;
+}
