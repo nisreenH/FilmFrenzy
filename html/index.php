@@ -19,6 +19,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <script src="../js/main.js"></script>
+        <script src="../js/registrationFunctions.js"></script>
     </head>
     <!-- The bg-dark class sets the background color of the body to dark, and data-bs-theme="dark" is a Bootstrap 5 attribute 
         that applies a dark theme to Bootstrap components. This will ensure that all Bootstrap components, including the navbar,
@@ -234,8 +235,8 @@
                             </div>
                         </form>
                     </div>
-                    <div class="form signup-form" style="max-width:450px!important">
-                        <form action="#">
+                    <div class="form signup-form">
+                        <form method="POST" enctype="multipart/form-data" action="">
                             <h2>Signup</h2>
                             <div class="input-box">
                                 <input type="text" name="username" placeholder="enter your username"  required />
@@ -246,55 +247,18 @@
                                 <i class="fa-regular fa-envelope email"></i>
                             </div>
                             <div class="input-box">
-                                <input type="password" name="password" placeholder="create password" required />
+                                <input type="password" name="password" placeholder="enter password" required />
                                 <i class="fa-solid fa-lock password"></i>
                             </div>
                             <div class="input-box">
                                 <input type="password" placeholder="confirm password" required />
                                 <i class="fa-solid fa-lock password"></i>
                             </div>
-                            <!-- <div class="input-box">
-                                <input type="date" placeholder="date of birth" required />
-                                <i class="fa-regular fa-calendar email"></i>
-                            </div> -->
-                            <!-- <div class="input-group mb-3">
-                                <input type="text" class="form-control" id="datepicker" name="datepicker" placeholder="Select a Date" readonly>
-                                <button class="btn btn-outline-secondary" type="button" id="datePickerBtn">
-                                <i class="fas fa-calendar-alt"></i>
-                                </button>
-                            </div> -->
-                            <div class="input-box">
-                                <!-- <span class="details">Date of birth:</span> -->
-                                <div class ="inputbox">
-                                    <input id="birth" type="date" name="dob" required>
-                                    <i class="fa-regular fa-calendar email"></i>
-                                </div>
-                            </div>
-                            <!-- <div class="">
-                                <input type="radio" name="gender" id="m" value="Male" required>
-                                <input type="radio" name="gender" id="f" value="Female" required>
-                                <span class="details">Gender:</span>
-                                <div class="category">
-                                    <label for="m">
-                                        <span class="dot one"></span>
-                                        <span>Male</span>
-                                    </label>
-                                    <label for="f">
-                                        <span class="dot two"></span>
-                                        <span>Female</span>
-                                    </label>
-                                </div>
-                            </div> -->
-                            <!-- <div class="input-box">
-                                <label class="radio-inline"><input type="radio" name="optradio" checked>Male </label>
-                                <label class="radio-inline"><input type="radio" name="optradio">Female</label>
-                            </div> -->
-
                             <div class="input-box">
                                 <input type="text"  name="security" placeholder="What is the name of your favorite teacher?"  required />
                                 <i class="fa-solid fa-key email"></i>
                             </div>
-                            <button class="button">Signup Now</button>
+                            <button class="button" type="submit" name="signup_button">Sign Up</button>
                             <div class="login-signup">
                                  already have an account <a href="#" id="login">Login</a>
                             </div>
@@ -642,47 +606,109 @@
 
 
 <?php 
-if(isset($_GET['Message'])){
+// if(isset($_GET['Message'])){
+// 	echo '<script>alert("Registration Successful! Please login")</script>';	
+// }
+if(isset($Message)){
 	echo '<script>alert("Registration Successful! Please login")</script>';	
 }
 
     // Process the LOGIN form data
-if (isset($_POST['username'], $_POST['password'])) {
-    $username=$_POST['username'];
-    $password=$_POST['password'];
-	
-	$query = "SELECT `user_id`,`username`,`email`,`password`,`type` FROM `users` WHERE username='$username';";
-	$result= mysqli_query($con,$query);
-	
-	if(!$result){
-	   die("Error insert: " . mysqli_error($con) . "</br> Error number: " . mysqli_errno($con));
-                }
+    if(isset($_POST['login_button'])) {   
+        if (isset($_POST['username'], $_POST['password'])) {
+            $username=$_POST['username'];
+            $password=$_POST['password'];
+            
+            $query = "SELECT `user_id`,`username`,`email`,`password`,`type` FROM `users` WHERE username='$username';";
+            $result= mysqli_query($con,$query);
+            
+            if(!$result){
+            die("Error insert: " . mysqli_error($con) . "</br> Error number: " . mysqli_errno($con));
+            } else {
+                $row = mysqli_fetch_assoc($result);       
+                if (mysqli_num_rows($result)==1) { 
+                        if(!password_verify($password, $row['password'])){
+                            echo '<script>alert("Wrong Password! Try again")</script>';	
+                        }  
+                        else {
+                            $_SESSION['useremail'] = $row['email'];
+                            $_SESSION['username'] = $row['username'];
+                            $_SESSION['user_id'] = $row['user_id'];
 
-    else {
-	     $row = mysqli_fetch_assoc($result);
-			
-		   if (mysqli_num_rows($result)==1) { 
-                if(!password_verify($password, $row['password'])){
-				  echo '<script>alert("Wrong Password! Try again")</script>';	
-			    }  
-				else{
-					  $_SESSION['useremail'] = $row['email'];
-					  $_SESSION['username'] = $row['username'];
-					  $_SESSION['user_id'] = $row['user_id'];
+                            // this is used to reload the page after he user logs in 
+                            echo "<meta http-equiv='refresh' content='0'>";                          
+                            }
+                } else{ 
+                    echo '<script>alert("User not found! Please Register first")</script>'; }
+            }
+        // mysqli_close($con);
+        }
+    }
 
-                    if(isset($_POST['login_button'])) {
-                        // this is used to reload the page after he user logs in 
-                        echo "<meta http-equiv='refresh' content='0'>";
-                        // header("Refresh:0");
-                    }
-                    							   
-					}
-		   }
-		   else{ 
-		        echo '<script>alert("User not found! Please Register first")</script>'; }
-	 }
-	 
+    // Process the SIGN UP form data
+    if(isset($_POST['signup_button'])) {   
+        if (isset($_POST['username'], $_POST['password'],$_POST['email'],$_POST['security'])) {
+             $uname=$_POST['username'];
+             $password=$_POST['password'];
+             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            //  $Gender=$_POST['gender'];
+             $mail=$_POST['email'];
+            //  $dob=$_POST['dob'];
+             $Security=$_POST['security'];
+             $userType="Member";
+             
+             
+            $query1 = "SELECT `email` FROM `users` WHERE `email`='$mail';";
+            $query_exist = mysqli_query($con,$query1);
+         
+            if(!$query_exist){
+             
+             die("Error insert: " . mysqli_error($con) . "</br> Error number: " . mysqli_errno($con));
+         
+            }
+            else{
+             
+                if (mysqli_num_rows($query_exist)==1) {
+                          echo '<script>
+                                  displayWarningMessage("Email already exist.")
+                                 </script>';
+                 }
+                 else{
+                     $usernameQuery = "SELECT `username` FROM `users` WHERE `username`='$uname';";
+                     $query_exist = mysqli_query($con,$usernameQuery);
+                  
+                     if(!$query_exist){
+                      
+                      die("Error insert: " . mysqli_error($con) . "</br> Error number: " . mysqli_errno($con));
+                  
+                     }
+                     else{
+                         if (mysqli_num_rows($query_exist)==1) {
+                             echo '<script>alert("Username not available. Please choose a new one")</script>';
+                     } else{
+                        //  $query = "INSERT INTO users(email, username, password, gender, dob, type, security_answer) VALUES('$mail','$uname','$hashed_password','$Gender','$dob','$userType','$Security')";
+                        $query = "INSERT INTO users(email, username, password, gender, dob, type, security_answer) VALUES('$mail','$uname','$hashed_password','','','$userType','$Security')";
+                        $result= mysqli_query($con,$query);
+             
+                         if(!$result){
+                           die("Error insert: " . mysqli_error($con) . "</br> Error number: " . mysqli_errno($con));
+                                     }
+             
+                         else { 
+                             $Message='Registeration Successful! Kindly Login';
+                             header("location:login.php?Message={$Message}");
+                            //  header("Location: ../php/registerationSuccess.php"); // Redirect to a success page    
+                            
+                                // this is used to reload the page after he user logs in 
+                                echo "<meta http-equiv='refresh' content='0'>";  
+                             }
+                             
+                         }     
+                     }
+                 }
+                } 
+        //  mysqli_close($con);
+        }
+    }
 mysqli_close($con);
-}
-
 ?>
