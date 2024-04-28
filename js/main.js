@@ -1,8 +1,26 @@
 /*start of navbar*/
+const NAVBAR_SCROLL_THRESHOLD = 750;
+const navEL = document.querySelector(".navbar");
+let isNavbarScrolled = false;
 
-
-
+window.addEventListener("scroll", function() {
+  if (window.innerWidth > 768) { // Apply navbar scrolling only for screens larger than 768px
+    if (window.scrollY > NAVBAR_SCROLL_THRESHOLD &&!isNavbarScrolled) {
+      navEL.classList.add('navbar-scrolled');
+      isNavbarScrolled = true;
+    } else if (window.scrollY <= NAVBAR_SCROLL_THRESHOLD && isNavbarScrolled) {
+      navEL.classList.remove('navbar-scrolled');
+      isNavbarScrolled = false;
+    }
+  }
+});
 /*end of navbar*/
+/*start login*/
+
+
+/*end login*/
+
+
 /*start of carousel*/
 var textContent = [
     { title: "Track films you’ve watched.", button: "Get started!" },
@@ -33,14 +51,56 @@ function updateCarousel() {
             var button = document.createElement('button');
             button.classList.add('featured-button');
             button.textContent = textContent[currentIndex].button;
+            button.setAttribute('id', 'form-open');
             featuredDesc.appendChild(button);
+            
+            const 
+            home=document.querySelector(".home"),
+            formContainer= document.querySelector(".form-container"),
+            formCloseButton= document.querySelector(".form_close"),
+            signupButton= document.querySelector("#signup"),
+            loginButton= document.querySelector("#login");
+             
+            button.addEventListener("click", ()=> home.classList.add("show"));
+            formCloseButton.addEventListener("click", ()=> home.classList.remove("show"));
+            
+            signupButton.addEventListener("click", (e)=>{
+                e.preventDefault();
+                formContainer.classList.add("active")
+            });
+            loginButton.addEventListener("click", (e)=>{
+                e.preventDefault();
+                formContainer.classList.remove("active")
+            });
+
+            // Function to add blur effect to carousel background
+                function addBlur() {
+                    var carousel = document.getElementById('carouselExampleAutoplaying');
+                    carousel.classList.add('blur');
+                }
+
+                // Function to remove blur effect from carousel background
+                function removeBlur() {
+                    var carousel = document.getElementById('carouselExampleAutoplaying');
+                    carousel.classList.remove('blur');
+                }
+
+                // Event listeners for form interactions
+                button.addEventListener("click", function() {
+                    home.classList.add("show");
+                    addBlur();
+                });
+
+                formCloseButton.addEventListener("click", function() {
+                    home.classList.remove("show");
+                    removeBlur();
+                });
+
         });
     }, 1500); // Change text content every 15 seconds (15 * 1000 milliseconds)
 };
 
 // Call the function initially to start the carousel
-
-
 window.onload = function() {
     updateCarousel();
    $('.carousel').carousel({ interval: 250 }); // Start cycling through images every 15 seconds
