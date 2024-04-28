@@ -21,12 +21,11 @@
     <!-- The bg-dark class sets the background color of the body to dark, and data-bs-theme="dark" is a Bootstrap 5 attribute 
         that applies a dark theme to Bootstrap components. This will ensure that all Bootstrap components, including the navbar,
          follow the dark theme. -->
-    <body class="bg-dark"  data-bs-theme="dark">
-    <header>
+         <header>
                 <!-- .navbar-expand-md sets the drop down navbar for small screens only 
                     (.navbar-expand-lg sets the drop down navbar for medium & small screens)
                     .fixed-top:  navbar remains fixed at the top of the viewport, regardless of scrolling -->
-            <nav class="navbar navbar-expand-lg fixed-top bg-dark"  data-bs-theme="dark">
+            <nav class="navbar navbar-expand-lg fixed-top"  data-bs-theme="dark">
             <!-- <nav class="navbar navbar-expand-lg fixed-top"  style="background-color: rgba(255, 255, 255, 0.7);"> -->
                 <div class="container-fluid">
                     <a class="navbar-brand logo ps-2 order-first" href="#">Film Frenzy</a>
@@ -97,14 +96,20 @@
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                         </form> -->
-                        <form class="d-flex  d-xs-block d-sm-none ps-3 pe-1" role="search">
+                        <!-- <form class="d-flex  d-xs-block d-sm-none ps-3 pe-1" role="search">
                             <div class="input-group" style="max-width:80%">
                                 <input class="form-control pe-2" type="search" placeholder="Search" aria-label="Search">
                                 <button class="btn btn-outline-secondary" type="submit">
                                     <i class="bi bi-search text-white"></i>
                                 </button>
                             </div>
-                        </form>                       
+                        </form>  -->
+                        <form class="d-flex  d-xs-block d-sm-none ps-3 pe-1" role="search">
+                            <div class="input-group" style="max-width:80%">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit" style="border: none;"><i class="fa-solid fa-magnifying-glass fa-lg"></i></button>
+                            </div>
+                        </form>                      
                     </div>
                     <form class="d-flex d-none d-lg-block" role="search">
                             <div class="input-group">
@@ -144,9 +149,11 @@
                 </div>
             </nav>
         </header>
+    <body class="bg-dark"  data-bs-theme="dark">
+
         <div class="container-fluid main-body">
             <div id="carouselExampleAutoplaying" class="carousel slide carousel-fade" data-bs-ride="carousel">
-                <div class="carousel-inner">
+                <div class="carousel-inner" id="carouselInner">
                       <!-- Dynamically generate carousel items using PHP -->
                       <?php
                         $apiKey = '90565206247f3b7768d9b25bbedf68d8';

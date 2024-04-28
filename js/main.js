@@ -1,18 +1,27 @@
 /*start of navbar*/
-const NAVBAR_SCROLL_THRESHOLD = 750;
-const navEL = document.querySelector(".navbar");
-let isNavbarScrolled = false;
+
 
 window.addEventListener("scroll", function() {
-  if (window.innerWidth > 768) { // Apply navbar scrolling only for screens larger than 768px
-    if (window.scrollY > NAVBAR_SCROLL_THRESHOLD &&!isNavbarScrolled) {
+ const NAVBAR_SCROLL_THRESHOLD = 750;
+const navEL = document.querySelector(".navbar");
+let isNavbarScrolled = false;
+   
+// Get the element by its ID
+var carouselElement = document.getElementById('carouselExampleAutoplaying');
+
+// Get the height of the element - 620
+var carouselHeight = carouselElement.clientHeight;
+//   if (window.innerWidth > 768) { // Apply navbar scrolling only for screens larger than 768px
+    // if (window.scrollY > carouselHeight &&!isNavbarScrolled) {
+        if (window.scrollY > carouselHeight) {
       navEL.classList.add('navbar-scrolled');
-      isNavbarScrolled = true;
-    } else if (window.scrollY <= NAVBAR_SCROLL_THRESHOLD && isNavbarScrolled) {
-      navEL.classList.remove('navbar-scrolled');
-      isNavbarScrolled = false;
+    //   isNavbarScrolled = true;
+    // } else if (window.scrollY <= carouselHeight && isNavbarScrolled) {
+    } else if (window.scrollY <= carouselHeight) {
+    navEL.classList.remove('navbar-scrolled');
+    //   isNavbarScrolled = false;
     }
-  }
+//   }
 });
 /*end of navbar*/
 /*start login*/
