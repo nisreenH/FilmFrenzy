@@ -60,7 +60,7 @@ body{
 }
 .carousel-item{
   height: 50vhpx;
-  position: relative; 
+  position: relative;
 }
 .carousel-item::before {
   content: ""; /* Create a pseudo-element */
@@ -77,8 +77,8 @@ body{
   height: 100%; /* Ensure images maintain aspect ratio */
   /* position: relative; */
   object-fit: cover;
-  
-  
+
+
 }
 .featured-desc {
   position: absolute;
@@ -87,7 +87,7 @@ body{
   right: 0;
   text-align: center;
   font: bold 900 32px/24px var(--popins);
-  
+
 }
 
 .featured-desc h5 {
@@ -188,12 +188,12 @@ body{
   font-size: 20px;
   color: #0f2600;
 }
-.input-box i.email, 
+.input-box i.email,
 .input-box i.password{
    left: 0;
    color: #18181b;
 }
-.input-box input:focus ~ i.email, 
+.input-box input:focus ~ i.email,
 .input-box input:focus ~ i.password{
   color: #4dbf00;
 }
@@ -250,7 +250,7 @@ body{
     font: normal 200 16px/24px var(--popins);
     /* transform: translate(0,10%); */
   }
- 
+
   .movie-list-item{
     margin-right: 10px ;
     cursor: pointer;
@@ -260,7 +260,7 @@ body{
     border-radius: 6.5px;
     width: fit-content;
     padding: 0px 0px ;
-    
+
   }
   .movie-list-item-img{
     height: 230px;
@@ -272,8 +272,8 @@ body{
     transform: scale(1.1);
     border: 1.5px solid #4dbf00;
     border-radius: 6.5px;
-    
-    
+
+
   }
   .movie-list-item:hover .movie-list-item-img{
     filter: brightness(0.15);
@@ -310,7 +310,7 @@ body{
 
 
   /* WHAT WE OFFER CARDS */
-  
+
 /* service start */
 /* .service-list-title{
   margin-bottom: 10px;
@@ -344,7 +344,7 @@ body{
   margin: 5px 5px;
   display: flex;
   flex-direction: column;
-  
+
 } */
 .notification {
   display: flex;
@@ -459,7 +459,7 @@ body{
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Example: Add a subtle shadow to the card */
   width: 150px;
   height: 250px;
-  
+
 }
 .card-img-top {
   width: 150px; /* Ensure the image width fills the card */
@@ -470,7 +470,7 @@ body{
 .owl-carousel .item {
   margin-right: 5px; /* Adjust the right margin */
   transition: transform 0.6s ease; /* Smooth transition for scaling */
-  
+
 }
 
 .owl-carousel .movie-card:hover {
@@ -604,54 +604,102 @@ body{
         z-index: -1;
     }
 
-.card {
+.popular-reviews-column .card{
         position: relative;
-        z-index: 2;
+        
         object-fit: cover;
     }
-.popular-lists-img{
-   background-size: cover;
-   position: relative;
-   z-index: -2;
-}
+
 
 /* popular-lists */
-.card1-container {
-  position: absolute;
-  /* transform: translate(50%,50%); */
-}
-
-.card1 {
-  position: absolute;
-  padding-left: 10px;
+.popular-lists-column .card{
+  position: relative;
   width: 100%;
-  transform: translateX(500%);
-  transition: transform 0.3s ease;
-}
-
-.card1 img {
-  height:200px;
-  border-bottom: 1px solid #ccc;
-  border: 1px solid;
+  height: 900px;
   border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 2;
   object-fit: cover;
-
 }
-.card1:nth-child(1) {
+
+
+.card-bg {
+  position: absolute;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../img/pastlivesPoster.jpg');
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+}
+.card-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+   background: linear-gradient(to bottom, rgba(0,0,0,0.9), rgba(255, 255, 255, 0.3)),
+   linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0.9)); 
+}
+/* .card-content {
+  position: relative; 
+  z-index: 1; 
+  padding: 20px;
+  color: #fff;
+} */
+
+/* lists-row */
+.title-lists-container .title{
+  font: normal 200 12px/24px var(--popins);
+}
+.lists-row .lists-container {
+  position: relative;
+  display: flex;
+  
+}
+
+.lists-row .card {
+  /* position: absolute; */
+  width: 150px;
+  height: 190px;
+  width: fit-content;
+  
+}
+
+.lists-row .card img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lists-row .card1 {
+  
+  right: 0;
+  z-index: 3;
+}
+
+.lists-row .card2 {
+  
+  right: 60px; 
   z-index: 2;
 }
 
-.card1:nth-child(2) {
-  top: 0; /* Adjust the distance between cards */
-  left: 0; /* Adjust the distance between cards */
+.lists-row .card3 {
+  
+  right: 120px; 
   z-index: 1;
 }
-.card1:nth-child(3) {
-  top: 0; /* Adjust the distance between cards */
-  left: -50px; /* Adjust the distance between cards */
-  z-index: 1;
+.lists-row .card4 {
+  
+  right: 180px; 
+  z-index: 0;
 }
+
+
+
 
 

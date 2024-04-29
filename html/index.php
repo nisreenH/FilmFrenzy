@@ -131,8 +131,8 @@
                         <form action="#">
                             <h2>Login</h2>
                             <div class="input-box">
-                                <input type="email" placeholder="enter your email address." required />
-                                <i class="fa-regular fa-envelope email"></i>
+                                <input type="email" placeholder="enter your username." required />
+                                <i class="fa-solid fa-user email"></i>
                             </div>
                             <div class="input-box">
                                 <input type="password" placeholder="enter your password." required />
@@ -264,8 +264,8 @@
                       <div class="col-6">
                         <h1 style="margin-bottom: 1px;">New Realeases</h1>
                       </div>
-                      <div class="col-6 text-right" style="transform: translate(90%,0);">
-                        <h2><a href="#" style="text-decoration: none; color: inherit;">more</a></h2>
+                      <div class="col-6 text-right d-flex justify-content-end">
+                        <h2><a href="#" style="text-decoration: none; color: inherit;"><i class="fa-solid fa-layer-group mx-1" style="color:#4dbf00;"></i>more</a></h2>
                       </div>
                         <hr style="margin-top: 0px;">
         </div>
@@ -302,6 +302,7 @@
         
 </div>
 <!-- end of card carousel -->
+
 <!-- start oscar section -->
 <section class="gradient-section">
     <div class="gradient-overlay"></div>
@@ -322,6 +323,7 @@
   </div>
   </section>
 <!-- end of oscar sections  -->
+
 <!-- start of popular section -->
 <section>
     <div class="container popular-container my-5">
@@ -402,34 +404,125 @@
             <div class="col-4 popular-lists-column">
                 <h1 class="popular-title">Popular Lists</h1>
                 <hr>
-                <div class="border rounded shadow shadow-lg">
-                    <div class="card gradient-overlay2">
-                        <img src="../img/pastlivesPoster.jpg" alt="" class="popular-lists-img rounded">
-                        <div class="card1-container">
-                            <div class="card1">
-                                <img src="../img/pastlivesPoster.jpg" alt="Card 1">
+                <div class="card main-card">
+                    <div class="card-bg"></div>
+                    <div class="card-content">
+                        <div class="container title-lists-container">
+                            <div class="row mt-3 mx-3 d-md-none d-sm-none d-xs-none d-lg-flex align-items-center " style="transform: translateY(50%);">
+                                <div class="col-6 title">Romance</div>
+                                <div class="col-6 title d-flex justify-content-end"><a href="#" style="text-decoration: none; color: inherit;"><i class="fa-solid fa-layer-group mx-1" style="color:#4dbf00;"></i>more</a></div>
                             </div>
-                            <div class="card1">
-                                <img src="../img/pastlivesPoster.jpg" alt="Card 2">
+                            <div class="row lists-row">
+                                <div class="container lists-container my-3 mx-4">
+                                        <div class="col-md-4">
+                                            <div class="card card1">
+                                            <img src="../img/pastlivesPoster.jpg" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card card2">
+                                            <img src="../img/pastlivesPoster.jpg" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card card3">
+                                            <img src="../img/pastlivesPoster.jpg" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card card4">
+                                            <img src="../img/pastlivesPoster.jpg" alt="">
+                                            </div>
+                                        </div>
+                                </div>
                             </div>
-                            <div class="card1">
-                                <img src="../img/opPoster.jpg" alt="Card 2">
+                            <div class=" row owner-row title d-flex mx-3 d-md-none d-sm-none d-xs-none d-lg-flex " style="transform: translateY(-50%);">
+                                <div class="col-6">@mhmad</div>
+                                <div class="col-6">66 movies</div>
                             </div>
+
+                            <div class="row mt-3 mx-3 d-md-none d-sm-none d-xs-none d-lg-flex align-items-center " style="transform: translateY(50%);">
+                                <div class="col-6 title">Romance</div>
+                                <div class="col-6 title d-flex justify-content-end"><a href="#" style="text-decoration: none; color: inherit;"><i class="fa-solid fa-layer-group mx-1" style="color:#4dbf00;"></i>more</a></div>
+                            </div>
+                            <div class="row lists-row">
+                                <div class="container lists-container my-3 mx-4">
+                                        <div class="col-md-4">
+                                            <div class="card card1">
+                                            <img src="../img/pastlivesPoster.jpg" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card card2">
+                                            <img src="../img/opPoster.jpg" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card card3">
+                                            <img src="../img/pastlivesPoster.jpg" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card card4">
+                                            <img src="../img/dune-part-2-poster.jpg" alt="">
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class=" row owner-row title d-flex mx-3 d-md-none d-sm-none d-xs-none d-lg-flex " style="transform: translateY(-50%);">
+                                <div class="col-6">@mhmad</div>
+                                <div class="col-6">66 movies</div>
+                            </div>
+
+                            <div class="row mt-3 mx-3 d-md-none d-sm-none d-xs-none d-lg-flex align-items-center " style="transform: translateY(50%);">
+                                <div class="col-6 title">Romance</div>
+                                <div class="col-6 title d-flex justify-content-end"><a href="#" style="text-decoration: none; color: inherit;"><i class="fa-solid fa-layer-group mx-1" style="color:#4dbf00;"></i>more</a></div>
+                            </div>
+                            <div class="row lists-row">
+                                <div class="container lists-container my-3 mx-4">
+                                        <div class="col-md-4">
+                                            <div class="card card1">
+                                            <img src="../img/pastlivesPoster.jpg" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card card2">
+                                            <img src="../img/opPoster.jpg" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card card3">
+                                            <img src="../img/pastlivesPoster.jpg" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card card4">
+                                            <img src="../img/dune-part-2-poster.jpg" alt="">
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                            <div class=" row owner-row title d-flex mx-3 d-md-none d-sm-none d-xs-none d-lg-flex " style="transform: translateY(-50%);">
+                                <div class="col-6">@mhmad</div>
+                                <div class="col-6">66 movies</div>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<!-- end of popular section -->
 
+<!-- start of second owl carousel -->
 <div class="container">
         <div class="service-list-title row" style="transform: translate(0, 70%);">
                       <div class="col-6">
                         <h1 style="margin-bottom: 1px;">New Realeases</h1>
                       </div>
-                      <div class="col-6 text-right" style="transform: translate(90%,0);">
-                        <h2><a href="#" style="text-decoration: none; color: inherit;">more</a></h2>
+                      <div class="col-6 text-right d-flex justify-content-end">
+                        <h2><a href="#" style="text-decoration: none; color: inherit;"><i class="fa-solid fa-layer-group mx-1" style="color:#4dbf00;"></i>more</a></h2>
                       </div>
                         <hr style="margin-top: 0px;">
         </div>
@@ -464,9 +557,13 @@
             </div>
         </div> 
 </div>
+<!-- start of second owl carousel -->
 
-
-<!-- </div> -->
+<!-- start of footer section -->
+<footer>
+    
+</footer>
+<!-- end of footer section -->
 
 
 
