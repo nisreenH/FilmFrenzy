@@ -1,5 +1,8 @@
 <?php
+    session_start();
     require_once('../vendor/autoload.php');
+    require_once '../php/connection.php';
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -10,70 +13,151 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
         <link rel="stylesheet" href="../css/bootstrap.min.css">
         <link rel="stylesheet" href="../css/style.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    </head>
+        <script src="../js/main.js"></script>
+        <script src="../js/registrationFunctions.js"></script>
     </head>
     <!-- The bg-dark class sets the background color of the body to dark, and data-bs-theme="dark" is a Bootstrap 5 attribute 
         that applies a dark theme to Bootstrap components. This will ensure that all Bootstrap components, including the navbar,
          follow the dark theme. -->
-    <body class="bg-dark"  data-bs-theme="dark">
-        <header>
-            <!-- .navbar-expand-md sets the drop down navbar for small screens only 
-                (.navbar-expand-lg sets the drop down navbar for medium & small screens)
-                .fixed-top:  navbar remains fixed at the top of the viewport, regardless of scrolling -->
-                <nav class="navbar navbar-expand-md fixed-top" data-bs-theme="dark">
-    <div class="container-fluid">
-        <a class="navbar-brand logo px-2" href="#" style="color: #4dbf00;">Film Frenzy</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item menu-list-items">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item menu-list-items">
-                    <a class="nav-link" href="#">Create Account</a>
-                </li>
-                <li class="nav-item menu-list-items">
-                    <a class="nav-link" href="#">Members</a>
-                </li>
-                <li class="nav-item menu-list-items">
-                    <a class="nav-link" href="#">Sign In</a>
-                </li>
-                <li class="nav-item menu-list-items">
-                    <a class="nav-link" href="#">Movies</a>
-                </li>
-            </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit" style="border: none;"><i class="fa-solid fa-magnifying-glass fa-lg"></i></button>
-            </form>
-            <div class="navbar-nav me-4">
-                <div class="nav-item dropdown">
-                    <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="dropdown-toggle">Profile</span>
+         <header>
+                <!-- .navbar-expand-md sets the drop down navbar for small screens only 
+                    (.navbar-expand-lg sets the drop down navbar for medium & small screens)
+                    .fixed-top:  navbar remains fixed at the top of the viewport, regardless of scrolling -->
+            <nav class="navbar navbar-expand-lg fixed-top"  data-bs-theme="dark">
+            <!-- <nav class="navbar navbar-expand-lg fixed-top"  style="background-color: rgba(255, 255, 255, 0.7);"> -->
+                <div class="container-fluid">
+                    <a class="navbar-brand logo ps-2 order-first" href="#">Film Frenzy</a>
+                    <div class="d-flex align-items-center">
+                        <form class="d-block d-none  d-sm-block d-md-block d-lg-none flex-grow-1" role="search">
+                                <div class="input-group">
+                                    <input class="form-control pe-2" type="search" placeholder="Search" aria-label="Search">
+                                    <button class="btn btn-outline-secondary" type="submit">
+                                        <i class="bi bi-search text-white"></i>
+                                    </button>
+                                </div>
+                        </form>
+                    <?php
+                        if(isset($_SESSION['username'])){
+                    ?> 
+                        <div class="nav-item dropdown ms-3 d-block d-lg-none">
+                            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span  class=" dropdown-toggle"></span>
+                            <img src="../img/user-avatar.png" alt="" class="profile-picture">
+                            </a>
+                            <ul class="dropdown-menu ">
+                            <li><a class="dropdown-item" href="#">My List</a></li>
+                            <li><a class="dropdown-item" href="#">My Favorites</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="../php/logout.php"> Sign Out </a></li>
+                            </ul>
+                        </div>
+                    <?php
+                        } else{
+                    ?>
+                        <a class="login-link  ms-3 d-block d-lg-none" href="../php/login.php">
+                            <i class="bi bi-person-fill me-1"></i> Sign In
+                        </a>
+                    <?php
+                        }
+                    ?>
+                        <div class="" style="padding-top: 11px;">
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="collapse navbar-collapse order-md-last order-sm-last order-xs-last order-xxs-last order-lg-first" id="navbarSupportedContent">
+                        <!-- <ul class="navbar-nav me-auto mb-2 mb-lg-0"> -->
+                        <ul class="navbar-nav ps-3">
+                            <li class="nav-item menu-list-items">
+                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            </li>
+                            <?php
+                             if(!isset($_SESSION['username'])) {
+                             ?> 
+                            <li class="nav-item menu-list-items">
+                                <a class="nav-link" id="registerBtn">Create Account</a>
+                            </li>
+                            <?php } ?>
+                            <li class="nav-item menu-list-items">
+                                <a class="nav-link" href="#">Members</a>
+                            </li>
+                            <!-- <li class="nav-item menu-list-items">
+                                <a class="nav-link" href="#">Sign In</a>
+                            </li> -->
+                            <li class="nav-item menu-list-items">
+                                <a class="nav-link" href="#">Movies</a>
+                            </li>
+                            <!-- <li class="nav-item">
+                                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                            </li> -->
+                        </ul>
+                        <!-- <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form> -->
+                        <!-- <form class="d-flex  d-xs-block d-sm-none ps-3 pe-1" role="search">
+                            <div class="input-group" style="max-width:80%">
+                                <input class="form-control pe-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-secondary" type="submit">
+                                    <i class="bi bi-search text-white"></i>
+                                </button>
+                            </div>
+                        </form>  -->
+                        <form class="d-flex  d-xs-block d-sm-none ps-3 pe-1" role="search">
+                            <div class="input-group" style="max-width:80%">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit" style="border: none;"><i class="fa-solid fa-magnifying-glass fa-lg"></i></button>
+                            </div>
+                        </form>                      
+                    </div>
+                    <form class="d-flex d-none d-lg-block" role="search">
+                            <div class="input-group">
+                                <input class="form-control pe-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-secondary" type="submit">
+                                    <i class="bi bi-search text-white"></i>
+                                </button>
+                            </div>
+                    </form>
+                    <?php
+                        if(isset($_SESSION['username'])){
+                    ?> 
+                    <div class="nav-item dropdown ps-3 pe-4 d-none d-lg-block">
+                        <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span  class=" dropdown-toggle"></span>
                         <img src="../img/user-avatar.png" alt="" class="profile-picture">
-                    </a>
-                    <ul class="dropdown-menu">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#">My List</a></li>
                         <li><a class="dropdown-item" href="#">My Favorites</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">Sign Out</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</nav>
+                        <li><a class="dropdown-item" href="../php/logout.php"> Sign Out </a></li>
+                        </ul>
+                    </div>
+                    <?php
+                        } else{
+                    ?>
+                        <!-- <a class="login-link ps-3 pe-4 d-none d-lg-block" href="../php/login.php" id="signInBtn"> -->
+                        <a class=" nav-link login-link ps-3 pe-4 d-none d-lg-block" id="signInBtn">
+                                <i class="bi bi-person-fill me-1"></i> Sign In
+                        </a>
 
+                    <?php
+                    }
+                    ?>
+                </div>
+            </nav>
         </header>
+    <body class="bg-dark"  data-bs-theme="dark">
+
         <div class="container-fluid main-body">
             <div id="carouselExampleAutoplaying" class="carousel slide carousel-fade" data-bs-ride="carousel">
-                <div class="carousel-inner">
+                <div class="carousel-inner" id="carouselInner">
                       <!-- Dynamically generate carousel items using PHP -->
                       <?php
                         $apiKey = '90565206247f3b7768d9b25bbedf68d8';
@@ -124,18 +208,18 @@
                 </div>
             </div> 
             <!-- login form -->
-             <section class="home">
+            <section class="home">
                    <div class="form-container">
                    <i class="fa-regular fa-circle-xmark form_close"></i>
                     <div class="form login-form">
-                        <form action="#">
+                        <form  method="POST" enctype="multipart/form-data" action="">
                             <h2>Login</h2>
                             <div class="input-box">
-                                <input type="email" placeholder="enter your username." required />
-                                <i class="fa-solid fa-user email"></i>
+                                <input type="text" placeholder="enter your username" name="username" required />
+                                <i class="fa-regular fa-envelope email"></i>
                             </div>
                             <div class="input-box">
-                                <input type="password" placeholder="enter your password." required />
+                                <input type="password" placeholder="enter your password" name="password" required />
                                 <i class="fa-solid fa-lock password"></i>
                             </div>
                             <div class="option-field">
@@ -145,28 +229,36 @@
                                 </span> -->
                                 <a href="#" class="forgot-password">Forgot password?</a>
                             </div>
-                            <button class="button">Login Now</button>
+                            <button class="button" type="submit" name="login_button">Login</button>
                             <div class="login-signup">
                                  Don't have an account <a href="#" id="signup">Signup</a>
                             </div>
                         </form>
                     </div>
                     <div class="form signup-form">
-                        <form action="#">
+                        <form method="POST" enctype="multipart/form-data" action="">
                             <h2>Signup</h2>
                             <div class="input-box">
-                                <input type="email" placeholder="enter your email address."  required />
+                                <input type="text" name="username" placeholder="enter your username"  required />
+                                <i class="fa-regular fa-user email"></i>
+                            </div>
+                            <div class="input-box">
+                                <input type="email" name="email" placeholder="enter your email address"  required />
                                 <i class="fa-regular fa-envelope email"></i>
                             </div>
                             <div class="input-box">
-                                <input type="password" placeholder="create password." required />
+                                <input type="password" name="password" placeholder="enter password" required />
                                 <i class="fa-solid fa-lock password"></i>
                             </div>
                             <div class="input-box">
-                                <input type="password" placeholder="confirm password." required />
+                                <input type="password" placeholder="confirm password" required />
                                 <i class="fa-solid fa-lock password"></i>
                             </div>
-                            <button class="button">Signup Now</button>
+                            <div class="input-box">
+                                <input type="text"  name="security" placeholder="What is the name of your favorite teacher?"  required />
+                                <i class="fa-solid fa-key email"></i>
+                            </div>
+                            <button class="button" type="submit" name="signup_button">Sign Up</button>
                             <div class="login-signup">
                                  already have an account <a href="#" id="login">Login</a>
                             </div>
@@ -259,7 +351,7 @@
     <!-- End of Service Section -->
 </div>
     <!-- start of card carousel -->
-        <div class="container">
+    <div class="container"> 
         <div class="service-list-title row" style="transform: translate(0, 70%);">
                       <div class="col-6">
                         <h1 style="margin-bottom: 1px;">New Realeases</h1>
@@ -276,21 +368,35 @@
             // Iterate through each movie in the results array
             foreach ($popularMoviesList->results as $movie) {
                 // Extract movie details
+                $movieId = $movie->id;
                 $title = $movie->title;
                 $posterPath = $movie->poster_path;
                 ?>
                 <div class="mx-1" style="width: fit-content; margin-right: -10px;">
                         <div class="movie-wrapper" style="padding: 50px 0px">
-                            <a href="movie_page.php?movie_id=<?= $movie->id ?>" class="movie-link">
+                            <a href="../php/movieDetails.php?movieId=<?= $movie->id ?>" class="movie-link">
                                 <div class="item movie-list-item" style="150px">
                                     <div class="card movie-card">
                                         <img src="https://image.tmdb.org/t/p/original<?= $movie->poster_path ?>" alt="<?= $movie->title ?>" class="card-img-top movie-list-item-img">
                                         <span class="movie-list-item-watched"><i class="fa-regular fa-eye"></i></span>
                                         <span class="movie-list-item-liked"><i class="fa-solid fa-heart"></i></span>
+                                        <!-- Button for Add to Favorites -->
+                                        <!-- <button onclick="addMovietoFavorites(<?= $movieId ?>)" class="btn btn-sm btn-outline-primary position-absolute top-0 start-0 mt-2 ms-2" style="background: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)); border-color: rgba(255, 255, 255, 0.5); color: white;">
+                                            <i class="fas fa-heart"></i> Add to Favorites
+                                        </button> -->
+                                        <!-- <button onclick="addMovietoFavorites(<?= $movieId ?>)"  class="btn btn-sm btn-outline-primary position-absolute top-0 start-0 mt-2 ms-2 add-to-favorites" data-movie-id="<?= $movie->id ?>" style="background: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)); border-color: rgba(255, 255, 255, 0.5); color: white;">
+                                            <i class="fas fa-heart"></i> Add to Favorites
+                                        </button> -->
                                     </div>
                                 </div>
                             </a>
                         </div>
+                        <!-- <button onclick="addMovietoFavorites(<?= $movieId ?>)" data-movie-id="<?= $movie->id ?>" style="background: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)); border-color: rgba(255, 255, 255, 0.5); color: white;">
+                                            <i class="fas fa-heart"></i> Add to Favorites
+                        </button> -->
+                        <button  class="btn btn-sm btn-outline-primary position-absolute top-0 start-0 mt-2 ms-2 add-to-favorites" data-movie-id="<?= $movie->id ?>" style="background: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)); border-color: rgba(255, 255, 255, 0.5); color: white;">
+                                            <i class="fas fa-heart"></i> Add to Favorites
+                        </button>
                     </div>
                
                 <?php
@@ -326,7 +432,7 @@
 
 <!-- start of popular section -->
 <section>
-    <div class="container popular-container my-5">
+    <div class=" popular-container container">
         <div class="row">
             <div class="col-8 popular-reviews-column">
                 <h1 class="popular-title">Popular Reviews</h1>
@@ -594,3 +700,112 @@
        
     </body>
 </html>
+
+
+<?php 
+// if(isset($_GET['Message'])){
+// 	echo '<script>alert("Registration Successful! Please login")</script>';	
+// }
+if(isset($Message)){
+	echo '<script>alert("Registration Successful! Please login")</script>';	
+}
+
+    // Process the LOGIN form data
+    if(isset($_POST['login_button'])) {   
+        if (isset($_POST['username'], $_POST['password'])) {
+            $username=$_POST['username'];
+            $password=$_POST['password'];
+            
+            $query = "SELECT `user_id`,`username`,`email`,`password`,`type` FROM `users` WHERE username='$username';";
+            $result= mysqli_query($con,$query);
+            
+            if(!$result){
+            die("Error insert: " . mysqli_error($con) . "</br> Error number: " . mysqli_errno($con));
+            } else {
+                $row = mysqli_fetch_assoc($result);       
+                if (mysqli_num_rows($result)==1) { 
+                        if(!password_verify($password, $row['password'])){
+                            echo '<script>alert("Wrong Password! Try again")</script>';	
+                        }  
+                        else {
+                            $_SESSION['useremail'] = $row['email'];
+                            $_SESSION['username'] = $row['username'];
+                            $_SESSION['user_id'] = $row['user_id'];
+
+                            // this is used to reload the page after he user logs in 
+                            echo "<meta http-equiv='refresh' content='0'>";                          
+                            }
+                } else{ 
+                    echo '<script>alert("User not found! Please Register first")</script>'; }
+            }
+        // mysqli_close($con);
+        }
+    }
+
+    // Process the SIGN UP form data
+    if(isset($_POST['signup_button'])) {   
+        if (isset($_POST['username'], $_POST['password'],$_POST['email'],$_POST['security'])) {
+             $uname=$_POST['username'];
+             $password=$_POST['password'];
+             $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            //  $Gender=$_POST['gender'];
+             $mail=$_POST['email'];
+            //  $dob=$_POST['dob'];
+             $Security=$_POST['security'];
+             $userType="Member";
+             
+             
+            $query1 = "SELECT `email` FROM `users` WHERE `email`='$mail';";
+            $query_exist = mysqli_query($con,$query1);
+         
+            if(!$query_exist){
+             
+             die("Error insert: " . mysqli_error($con) . "</br> Error number: " . mysqli_errno($con));
+         
+            }
+            else{
+             
+                if (mysqli_num_rows($query_exist)==1) {
+                          echo '<script>
+                                  displayWarningMessage("Email already exist.")
+                                 </script>';
+                 }
+                 else{
+                     $usernameQuery = "SELECT `username` FROM `users` WHERE `username`='$uname';";
+                     $query_exist = mysqli_query($con,$usernameQuery);
+                  
+                     if(!$query_exist){
+                      
+                      die("Error insert: " . mysqli_error($con) . "</br> Error number: " . mysqli_errno($con));
+                  
+                     }
+                     else{
+                         if (mysqli_num_rows($query_exist)==1) {
+                             echo '<script>alert("Username not available. Please choose a new one")</script>';
+                     } else{
+                        //  $query = "INSERT INTO users(email, username, password, gender, dob, type, security_answer) VALUES('$mail','$uname','$hashed_password','$Gender','$dob','$userType','$Security')";
+                        $query = "INSERT INTO users(email, username, password, gender, dob, type, security_answer) VALUES('$mail','$uname','$hashed_password','','','$userType','$Security')";
+                        $result= mysqli_query($con,$query);
+             
+                         if(!$result){
+                           die("Error insert: " . mysqli_error($con) . "</br> Error number: " . mysqli_errno($con));
+                                     }
+             
+                         else { 
+                             $Message='Registeration Successful! Kindly Login';
+                             header("location:login.php?Message={$Message}");
+                            //  header("Location: ../php/registerationSuccess.php"); // Redirect to a success page    
+                            
+                                // this is used to reload the page after he user logs in 
+                                echo "<meta http-equiv='refresh' content='0'>";  
+                             }
+                             
+                         }     
+                     }
+                 }
+                } 
+        //  mysqli_close($con);
+        }
+    }
+mysqli_close($con);
+?>

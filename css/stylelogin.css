@@ -1,0 +1,99 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Poppins', sans-serif;
+}
+body{
+	display: flex;
+	height: 100vh;
+	justify-content: center;
+	align-items: center;
+	background: #602c2c;
+}
+.terms{
+	font-size:20px;
+	margin-top:15px;
+}
+.container{
+	max-width: 600px;
+	width: 100%;
+	background: #ffffff;
+	padding: 25px 30px;
+	border-radius: 15px;
+}
+.container .logo{
+	padding-left: 110px;
+}
+.container .title{
+	font-size: 30px;
+	position: relative;
+}
+.container .title::before{
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	height: 3px;
+	width: 30px;
+	background: #3e0f0f;
+}
+.line{
+	border: 1px solid #3e0f0f;
+}
+.container form .user-details{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	margin:20px 0 12px 0;
+}
+form .user-details .input-box{
+	margin-bottom: 15px;
+	width: calc(100% - 20px);
+}
+.user-details .input-box .details{
+	display: block;
+	font-weight: 500;
+	margin-bottom: 15px;
+}
+.user-details .input-box input{
+	height: 45px;
+	width: 100%;
+	border-radius: 20px;
+	border: 1px solid #ccc;
+	font-size: 16px;
+	border-bottom-width: 2px;
+}
+.user-details input[type=password]:focus, .user-details input[type=email]:focus{
+	background-color:#e6e6e6;
+}
+.user-details .input-box .passlogo{
+	background: url(../images/password.png) 8px;
+	background-repeat: no-repeat;
+	padding-left: 50px;
+	background-size:20px;
+}
+.user-details .input-box .emaillogo{
+	background: url(../images/email.png) 8px;
+	background-repeat: no-repeat;
+	padding-left: 50px;
+	background-size:15px;
+}
+.btn{
+	padding: 10px 25px;
+	border: none;
+	border-radius: 25px;
+	background: #602c2c;
+	color: #fff;
+	width: 100%;
+	cursor: pointer;
+}
+.btn:hover{
+	background: #3e0f0f;
+}
+.btnlog{
+	text-align: center;
+}
+.textdec{
+	text-decoration: none;
+}
