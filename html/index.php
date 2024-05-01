@@ -216,7 +216,7 @@
                             <h2>Login</h2>
                             <div class="input-box">
                                 <input type="text" placeholder="enter your username" name="username" required />
-                                <i class="fa-regular fa-envelope email"></i>
+                                <i class="fa-solid fa-user email"></i>
                             </div>
                             <div class="input-box">
                                 <input type="password" placeholder="enter your password" name="password" required />
@@ -350,7 +350,7 @@
     </div>
     <!-- End of Service Section -->
 </div>
-    <!-- start of card carousel -->
+    <!-- start of card carousel (new releases movies) -->
     <div class="container"> 
         <div class="service-list-title row" style="transform: translate(0, 70%);">
                       <div class="col-6">
@@ -621,11 +621,11 @@
 </section>
 <!-- end of popular section -->
 
-<!-- start of second owl carousel -->
+<!-- start of second owl carousel (top rated movies) -->
 <div class="container">
         <div class="service-list-title row" style="transform: translate(0, 70%);">
                       <div class="col-6">
-                        <h1 style="margin-bottom: 1px;">New Realeases</h1>
+                        <h1 style="margin-bottom: 1px;">Top Rated</h1>
                       </div>
                       <div class="col-6 text-right d-flex justify-content-end">
                         <h2><a href="#" style="text-decoration: none; color: inherit;"><i class="fa-solid fa-layer-group mx-1" style="color:#4dbf00;"></i>more</a></h2>
@@ -636,6 +636,23 @@
             <div class="col-12">
             <div class="owl-carousel owl-theme">
             <?php
+                        $apiKey = '90565206247f3b7768d9b25bbedf68d8';
+                        $client = new \GuzzleHttp\Client();
+                        $response = $client->request('GET', 'https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=vote_average.desc&without_genres=99,10755&vote_count.gte=200', [
+                        'headers' => [
+                            'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MDU2NTIwNjI0N2YzYjc3NjhkOWIyNWJiZWRmNjhkOCIsInN1YiI6IjY1ZmVkNzU0MDkyOWY2MDE3ZTliZGUyMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.DW9RlEQ4PPwEzMPv8vutOwT8SAD1j47bBX7F1_RIANk',
+                            'accept' => 'application/json',
+                        ],
+                        ]);
+                    
+                    // Get the response body as a string
+                    $responseBody = $response->getBody()->getContents();
+                    
+                    // Decode the JSON string into an object
+                    $popularMoviesList = json_decode($responseBody);
+                    ?>
+                  
+            <?php
             // Iterate through each movie in the results array
             foreach ($popularMoviesList->results as $movie) {
                 // Extract movie details
@@ -644,7 +661,7 @@
                 ?>
                 <div class="mx-1" style="width: fit-content; margin-right: -10px;">
                         <div class="movie-wrapper" style="padding: 50px 0px">
-                            <a href="movie_page.php?movie_id=<?= $movie->id ?>" class="movie-link">
+                        <a href="../php/movieDetails.php?movieId=<?= $movie->id ?>" class="movie-link">
                                 <div class="item movie-list-item" style="150px">
                                     <div class="card movie-card">
                                         <img src="https://image.tmdb.org/t/p/original<?= $movie->poster_path ?>" alt="<?= $movie->title ?>" class="card-img-top movie-list-item-img">
@@ -667,7 +684,57 @@
 
 <!-- start of footer section -->
 <footer>
-    
+    <div class="footer-section mt-5">
+        <div class="container footer-container p-5">
+            <div class="row footer-row">
+                <div class="col-lg-5 col-sm-6">
+                    <div class="single-box">
+                         <h1><a class="navbar-brand logo ps-2 order-first" href="#">Film Frenzy</a></h1>
+                         <p class="footer-message my-2">Lights, camera, action! Thanks for being part of our blockbuster journey through the world of cinema.
+                            And remember to always be a FILMER.
+                         </p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                     <div class="single-box">
+                        <h3>Helpful links</h3>
+                        <ul>
+                            <li><a href="">Home</a></li>
+                            <li><a href="">News</a></li>
+                            <li><a href="">Movies</a></li>
+                            <li><a href="">Profile</a></li>
+                        </ul>
+                     </div>
+                </div>
+                <div class="col-lg-3 col-md-2 ">
+                    <div class="single-box">
+                            <h3>References</h3>
+                            <ul>
+                                <li><a href="">TMDB</a></li>
+                                <li><a href="">GitHub</a></li>
+                                <li><a href="">IMDB</a></li>
+                                <li><a href="">Letterboxd</a></li>
+                                <li><a href="">UIVERSE</a></li>
+                                <li><a href="">Bootstrap</a></li>
+                                <li><a href="">W3schools</a></li>
+                            </ul>
+                    </div>
+                </div>
+            </div>
+            <hr>
+             <div class="container">
+                <div class="row d-flex jutsify-content-center text-center">
+                    <div class="col-lg-3 col-sm-6 socials"><a href="#"><i class="fa-brands fa-instagram"></i></a></div>
+                    <div class="col-lg-3 col-sm-6 socials "><a href="#"><i class="fa-brands fa-github"></i></a></div>
+                    <div class="col-lg-3 col-sm-6 socials"><a href="#"><i class="fa-brands fa-facebook"></i></a></div>
+                    <div class="col-lg-3 col-sm-6 socials "><a href="#"><i class="fa-brands fa-discord"></i></a></div>
+                </div>
+                <div class="row">
+                    <h4 class="copyrights">@2024 All rights reserved</h4>
+                </div>
+             </div>
+        </div>
+    </div>
 </footer>
 <!-- end of footer section -->
 
@@ -809,3 +876,4 @@ if(isset($Message)){
     }
 mysqli_close($con);
 ?>
+
