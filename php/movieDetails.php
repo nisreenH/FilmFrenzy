@@ -19,9 +19,11 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
         <link rel="stylesheet" href="../css/bootstrap.min.css">
         <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/movieDetails.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <script src="../js/main.js"></script>
+        <script src="../js/movieDetails.js" defer></script>
     </head>
     <!-- The bg-dark class sets the background color of the body to dark, and data-bs-theme="dark" is a Bootstrap 5 attribute 
         that applies a dark theme to Bootstrap components. This will ensure that all Bootstrap components, including the navbar,
@@ -31,7 +33,7 @@
                 <!-- .navbar-expand-md sets the drop down navbar for small screens only 
                     (.navbar-expand-lg sets the drop down navbar for medium & small screens)
                     .fixed-top:  navbar remains fixed at the top of the viewport, regardless of scrolling -->
-            <nav class="navbar navbar-expand-lg fixed-top bg-dark"  data-bs-theme="dark">
+            <nav class="navbar navbar-expand-lg fixed-top"  data-bs-theme="dark">
             <!-- <nav class="navbar navbar-expand-lg fixed-top"  style="background-color: rgba(255, 255, 255, 0.7);"> -->
                 <div class="container-fluid">
                     <a class="navbar-brand logo ps-2 order-first" href="#">Film Frenzy</a>
@@ -192,90 +194,163 @@
 
                     // Format vote average to display only one digit after the decimal point
                     $voteAverageFormatted = number_format($movie->vote_average, 1);
-                    //   echo $movieDetailsResponse->getBody();      
+                    //   echo $movieDetailsResponse->getBody();  
+                    
+                    $posterBaseUrl = 'https://image.tmdb.org/t/p/w500';
+                    $posterPath = $movie->poster_path;
+                    $posterUrl = $posterBaseUrl . $posterPath;
+
+                    $crewResponse = $client->request('GET', "https://api.themoviedb.org/3/movie/{$movieId}/credits?language=en-US", [
+                        'headers' => [
+                            'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MDU2NTIwNjI0N2YzYjc3NjhkOWIyNWJiZWRmNjhkOCIsInN1YiI6IjY1ZmVkNzU0MDkyOWY2MDE3ZTliZGUyMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.DW9RlEQ4PPwEzMPv8vutOwT8SAD1j47bBX7F1_RIANk',
+                            'accept' => 'application/json',
+                        ],
+                    ]);
+                
+                    // Get the response body as a string
+                    $crewResponseBody = $crewResponse->getBody()->getContents();
+                
+                    // Decode the JSON response into a PHP object
+                    $credits = json_decode($crewResponseBody);
+                
+                    // Look for the director in the crew list
+                    $director = "";
+                    foreach ($credits->crew as $member) {
+                        if ($member->job == "Director") {
+                            $director = $member->name;
+                            break;
+                        }
+                    }
              ?>
-            <div class="card mb-3 mt-4 ms-2">
-                <div class="row g-0">
-                    <div class="col-md-5">
-                    <img src="https://image.tmdb.org/t/p/original<?=$backdropPath?>"  class="img-fluid rounded-start" style="height:100%" alt="...">
-                    </div>
-                    <div class="col-md-7">
-                    <div class="card-body">
-                        <h5 class="card-title fw-bold"><?=$movie->title?></h5>
-                        <p class="card-text"><small class="text-body-secondary">Runtime: <?=$movie->runtime?>min</small></p>
-                        <p class="card-text"><small class="text-body-secondary">Release Date: <?=$releaseDateFormatted?></small></p>
-                        <p class="card-text"><small class="text-body-secondary"> Genre: <?=$genreNames?></small></p>
-                        <p class="card-text"><small class="text-body-secondary"> Boxoffice Revenue: <?=$revenueFormatted?></small></p>
-                        <p class="card-text"><?=$movie->overview?></p>
-                        <p class="card-text"><small class="text-body-secondary"><i class="bi  bi-star-fill text-warning"></i> <?=$voteAverageFormatted?>/10</small></p>
-                    </div>
-                    </div>
+            <div class="container ">
+              <div class="row g-0">
+                <div class="col-lg-12 col-md-12">
+                        <div class="image-container-movie-details-card">
+                            <img src="https://image.tmdb.org/t/p/original<?=$backdropPath?>" class="img-fluid rounded-start movie-bg-img" alt="...">
+                        </div>
                 </div>
+              </div>
+              <div class="row">
+                 <div class="col-lg-7 col-md-7">
+                    <div class="card-body">
+                        <h5 class="movie-details-title"><?=$movie->title?> <a href="#" class="movie-details-director">by <?=$director?></a></h5>
+                        <p class="card-text movie-details-overview my-4"><?=$movie->overview?></p>
+                        <button class="btn btn-primary my-5"><a href="#review-section"><i class="fa-solid fa-arrow-down p-1"></i>Review</a></button>
+                    </div>
+                  </div>
+                  <div class="col-lg-5 col-md-5 text-center">
+                    <div class=" card movie-details-poster-card">
+                        <?php if (!empty($posterUrl)) { ?>
+                            <img src="<?php echo $posterUrl; ?>" alt="<?php echo $title; ?> Poster" class="movie-details-poster-img">
+                        <?php } else { ?>
+                            <img src="placeholder_image_url" alt="Placeholder" >
+                        <?php } ?>
+                    </div>
+                    <div class="border my-4 rounded service-wrapper" id="service-wrapper">
+                        <div class="row my-3 ">
+                            <div class="col-4 services-text"><i class="fa-solid fa-heart p-1"></i>Like</div>
+                            <div class="col-4 services-text"><i class="fa-solid fa-bookmark p-1"></i>Watchlist</div>
+                            <div class="col-4 services-text"><i class="fa-solid fa-list p-1"></i>List</div>
+                        </div>
+                        <hr>
+                        <div class="row rating-stars-box mb-3">
+                            <div class="stars">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+              </div>
             </div>
-          
             <?php }?>
 
-<!-- MOVIE CREDITS -->
-<!-- <h2>Top Cast: </h2> -->
-<div class="container mt-3">
-    <div class="">
-        <h3 class="text-center">
-            <span class="border border-dark p-2 bg-dark" style="color:rgb(77 191 0 / 70%);">Top Cast</span>
-        </h3>
-    </div>
-<div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 g-4 ms-2 border border-3">
-<!-- <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 g-4 ms-5 border border-3 rounded p-3"> -->
-        <?php
-            $movieCreditsResponse = $client->request('GET', "https://api.themoviedb.org/3/movie/{$movieId}/credits?language=en-US", [
-            'headers' => [
-                'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MDU2NTIwNjI0N2YzYjc3NjhkOWIyNWJiZWRmNjhkOCIsInN1YiI6IjY1ZmVkNzU0MDkyOWY2MDE3ZTliZGUyMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.DW9RlEQ4PPwEzMPv8vutOwT8SAD1j47bBX7F1_RIANk',
-                'accept' => 'application/json',
-            ],
-            ]);
-
-            // echo $movieCreditsResponse->getBody();
-
-            $movieCreditsResponseBody = $movieCreditsResponse->getBody()->getContents();
-                    
-            // Decode the JSON response into a PHP object
-            $movieCredits = json_decode($movieCreditsResponseBody);
-
-            if ($movieCredits !== null) {
-                // cast is an array
-                $castActors = $movieCredits->cast;
-                foreach ($castActors as $key => $actor) {
-                    $actorName = $actor->name; // Append the current genre name
-                    // echo  $actorName ." cast Id ".$actor->cast_id ." ORDER ".$actor->order ."<br>";
-         
-                    // Append a comma if it's not the last genre
-                    // if ($key < count($genres) - 1) {
-                    //     $genreNames .= ", ";
-                    // }
-
-                    if($actor->order < 12){
-                        // echo  $actorName ." cast Id ".$actor->cast_id ." ORDER ".$actor->order ."<br>";
-            //         }
-            //     }
-            // }
-        ?>
-<!-- CAST CARDS -->
-        <!-- <div class="row row-cols-1 row-cols-md-3 g-4"> -->
-            <div class="col">
-                <div class="card h-100 castCard">
-                <img src="https://image.tmdb.org/t/p/original<?=$actor->profile_path?>" id="actorImage"  class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title text-center mb-0"> <?=$actor->name?> </h5>
-                    <p class="card-text text-center" style="rgb(196 193 190 / 60%)"> <?=$actor->character?> </p>
-                </div>
-                </div>
+<!-- filter-menu -->
+<section class="filter-menu my-5">
+        <div class="container">
+            <div class="row">
+                <!-- <h1 class="uppercase text-center">menu</h1> -->
+                <ul id="filter-menu">
+                    <li class="current filter-menu-element" data-filter="cast">CAST</li>
+                    <li class="filter-menu-element" data-filter="details">DETAILS</li>
+                    <li class="filter-menu-element" data-filter="review">REVIEW</li>
+                    <li class="filter-menu-element" data-filter="rating">RATING</li>
+                </ul>
             </div>
-<?php } } }?>
+        </div>
+        <div class="row displayed-items">
+            <div class="items text-center">
+                <p class="card-text details"><b>Runtime:</b> <?=$movie->runtime?>min</p>
+                <p class="card-text details"><b>Release Date:</b> <?=$releaseDateFormatted?></p>
+                <p class="card-text details"><b> Genre:</b> <?=$genreNames?></p>
+                <p class="card-text details"> <b>Boxoffice Revenue:</b> <?=$revenueFormatted?></p>
+                <p class="card-text rating hidden"><i class="bi bi-star-fill text-warning"></i> <?=$voteAverageFormatted?>/10</p>
+                <!-- <p class="card-text rating hidden" id="user-rating"><i class="fa-solid fa-star"></i>your rating : </p> -->
+                <div class="container mt-3 card-text cast hidden">
+                    <div class="row row-cols-2  row-cols-md-3 row-cols-sm-3 g-4 ms-5">
+                    <!-- <div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 g-4 ms-5 border border-3 rounded p-3"> -->
+                            <?php
+                                $movieCreditsResponse = $client->request('GET', "https://api.themoviedb.org/3/movie/{$movieId}/credits?language=en-US", [
+                                'headers' => [
+                                    'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MDU2NTIwNjI0N2YzYjc3NjhkOWIyNWJiZWRmNjhkOCIsInN1YiI6IjY1ZmVkNzU0MDkyOWY2MDE3ZTliZGUyMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.DW9RlEQ4PPwEzMPv8vutOwT8SAD1j47bBX7F1_RIANk',
+                                    'accept' => 'application/json',
+                                ],
+                                ]);
 
-  </div>
-</div>
+                                // echo $movieCreditsResponse->getBody();
 
-<!-- </div> -->
+                                $movieCreditsResponseBody = $movieCreditsResponse->getBody()->getContents();
+                                        
+                                // Decode the JSON response into a PHP object
+                                $movieCredits = json_decode($movieCreditsResponseBody);
 
+                                if ($movieCredits !== null) {
+                                    // cast is an array
+                                    $castActors = $movieCredits->cast;
+                                    foreach ($castActors as $key => $actor) {
+                                        $actorName = $actor->name; // Append the current genre name
+                                        // echo  $actorName ." cast Id ".$actor->cast_id ." ORDER ".$actor->order ."<br>";
+                            
+                                        // Append a comma if it's not the last genre
+                                        // if ($key < count($genres) - 1) {
+                                        //     $genreNames .= ", ";
+                                        // }
+
+                                        if($actor->order < 12){
+                                            // echo  $actorName ." cast Id ".$actor->cast_id ." ORDER ".$actor->order ."<br>";
+                                //         }
+                                //     }
+                                // }
+                            ?>
+                    <!-- CAST CARDS -->
+                            <!-- <div class="row row-cols-1 row-cols-md-3 g-4"> -->
+                                <div class="col-6">
+                                    <div class="card h-100 castCard">
+                                    <img src="https://image.tmdb.org/t/p/original<?=$actor->profile_path?>" id="actorImage"  class="card-img-top" alt="Actor Image">
+                                    <div class="card-body">
+                                        <h5 class="card-title text-center mb-0 actor-name"> <a href="#"><?=$actor->name?></a> </h5>
+                                        <p class="card-title text-center mt-2 character-name"><?=$actor->character?></p>
+                                    </div>
+                                    </div>
+                                </div>
+                                
+                    <?php } } }?>
+
+                    </div>
+                    </div>
+            </div>
+        </div>
+</section>
+<!-- filter menu end   -->
+
+<!-- review section  -->
+<section class="review-section" id="review-section">
+
+</section>
+<!-- review section end  -->
 
 
 
