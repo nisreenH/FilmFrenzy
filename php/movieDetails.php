@@ -33,10 +33,10 @@
                 <!-- .navbar-expand-md sets the drop down navbar for small screens only 
                     (.navbar-expand-lg sets the drop down navbar for medium & small screens)
                     .fixed-top:  navbar remains fixed at the top of the viewport, regardless of scrolling -->
-            <nav class="navbar navbar-expand-lg fixed-top"  data-bs-theme="dark">
+                    <nav class="navbar navbar-expand-lg fixed-top"  data-bs-theme="dark">
             <!-- <nav class="navbar navbar-expand-lg fixed-top"  style="background-color: rgba(255, 255, 255, 0.7);"> -->
                 <div class="container-fluid">
-                    <a class="navbar-brand logo ps-2 order-first" href="#">Film Frenzy</a>
+                    <a class="navbar-brand logo ps-2 order-first" href="../php/index.php">Film Frenzy</a>
                     <div class="d-flex align-items-center">
                         <form class="d-block d-none  d-sm-block d-md-block d-lg-none flex-grow-1" role="search">
                                 <div class="input-group">
@@ -46,10 +46,8 @@
                                     </button>
                                 </div>
                         </form>
-                    <?php
-                        // $isLoggedin = false;
-                        // if ($isLoggedin) {
-                    if(isset($_SESSION['username'])){
+                        <?php
+                        if(isset($_SESSION['username'])){
                     ?> 
                         <div class="nav-item dropdown ms-3 d-block d-lg-none">
                             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -82,11 +80,15 @@
                         <!-- <ul class="navbar-nav me-auto mb-2 mb-lg-0"> -->
                         <ul class="navbar-nav ps-3">
                             <li class="nav-item menu-list-items">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                <a class="nav-link active" aria-current="page" href="../php/index.php">Home</a>
                             </li>
+                            <?php
+                             if(!isset($_SESSION['username'])) {
+                             ?> 
                             <li class="nav-item menu-list-items">
-                                <a class="nav-link" href="#">Create Account</a>
+                                <a class="nav-link" id="registerBtn">Create Account</a>
                             </li>
+                            <?php } ?>
                             <li class="nav-item menu-list-items">
                                 <a class="nav-link" href="#">Members</a>
                             </li>
@@ -104,14 +106,20 @@
                         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                         <button class="btn btn-outline-success" type="submit">Search</button>
                         </form> -->
-                        <form class="d-flex  d-xs-block d-sm-none ps-3 pe-1" role="search">
+                        <!-- <form class="d-flex  d-xs-block d-sm-none ps-3 pe-1" role="search">
                             <div class="input-group" style="max-width:80%">
                                 <input class="form-control pe-2" type="search" placeholder="Search" aria-label="Search">
                                 <button class="btn btn-outline-secondary" type="submit">
                                     <i class="bi bi-search text-white"></i>
                                 </button>
                             </div>
-                        </form>                       
+                        </form>  -->
+                        <form class="d-flex  d-xs-block d-sm-none ps-3 pe-1" role="search">
+                            <div class="input-group" style="max-width:80%">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success" type="submit" style="border: none;"><i class="fa-solid fa-magnifying-glass fa-lg"></i></button>
+                            </div>
+                        </form>                      
                     </div>
                     <form class="d-flex d-none d-lg-block" role="search">
                             <div class="input-group">
@@ -122,8 +130,6 @@
                             </div>
                     </form>
                     <?php
-                    // $isLoggedin = false;
-                    // if ($isLoggedin) {
                         if(isset($_SESSION['username'])){
                     ?> 
                     <div class="nav-item dropdown ps-3 pe-4 d-none d-lg-block">
@@ -141,8 +147,9 @@
                     <?php
                         } else{
                     ?>
-                        <a class="login-link ps-3 pe-4 d-none d-lg-block" href="../php/login.php">
-                            <i class="bi bi-person-fill me-1"></i> Sign In
+                        <!-- <a class="login-link ps-3 pe-4 d-none d-lg-block" href="../php/login.php" id="signInBtn"> -->
+                        <a class=" nav-link login-link ps-3 pe-4 d-none d-lg-block" id="signInBtn">
+                                <i class="bi bi-person-fill me-1"></i> Sign In
                         </a>
 
                     <?php
