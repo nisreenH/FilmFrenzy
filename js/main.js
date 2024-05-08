@@ -182,3 +182,5 @@ window.onload = function() {
 //               xhr.send('movie_id=' + encodeURIComponent(movieId));
 //     };
 
+
+/*news section*/

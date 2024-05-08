@@ -39,15 +39,18 @@ document.addEventListener("DOMContentLoaded", function() {
 /*end filter-menu*/
 /* rating stars*/
 const stars = document.querySelectorAll(".stars i");
-console.log(stars)
+console.log(stars);
 //index1 is where the number of stars are saved
 stars.forEach((star, index1)=>{
            star.addEventListener("click", ()=>{
                 stars.forEach((star, index2)=>{
                     console.log(index1);
                     index1 >= index2 ? star.classList.add("active-star") : star.classList.remove("active-star") ;
+                    // const starsCount = document.querySelectorAll(".stars i .active-star");
+console.log("star count ");
                 });
            });
 });
+
 
 /*end rating stars*/

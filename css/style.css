@@ -500,12 +500,37 @@ body{
 }
 
 
-/* oscars section */
-.gradient-section {
+/* news section */
+.news-slide {
+  transition: transform 0.7s ease-in;
+}
+.news-section {
   position: relative;
   width: 100%;
-  height: 350px;
-  margin: 60px 0;
+  height: 550px;
+  margin-bottom: 120px!important;
+  overflow-y: auto;
+  background-image: url('../img/Untitled-d2.png');
+  background-size: cover;
+
+}
+.news-section .card{
+  /* width: 100% !important; */
+  height: 450px !important;
+  object-fit: cover ;
+  position: relative;
+}
+#news-title{
+  font-size:36px;
+  font-family: var(--popins);
+  margin-bottom: 20px;
+}
+#article-title{
+  font-size: 26px;
+  font-family: "Abril Fatface", serif;
+  font-weight: 400;
+  font-style: bold;
+  color: #4dbf00;
 }
 
 .gradient-overlay {
@@ -514,9 +539,7 @@ body{
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(45deg,  #4dbf00, #45ac00,#3e9900, #368600, #2e7300, #276000, #1f4c00, #173900, #0f2600,#212429 );
-  background-size: 200% 200%;
-  animation: gradientAnimation 10s ease infinite;
+  background: linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0.1)); /* Adjust gradient colors and direction as needed */
 }
 
 @keyframes gradientAnimation {
@@ -535,53 +558,7 @@ body{
   position: relative;
   z-index: 1;
 }
-
-
-.ring-container {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.ring {
-  position: absolute;
-  bottom: -100px; /* Adjust to position the semi-rings properly */
-  left: -200px; /* Adjust to position the semi-rings properly */
-  width: 400px; /* Adjust the width for bigger rings */
-  height: 200px; /* Half the width to create semi-circles */
-  border: 8px solid rgba(255, 255, 255, 0.5); /* Adjust the border thickness */
-  border-radius: 100px; /* Adjust the border radius to create semi-circles */
-  opacity: 0; /* Initial opacity */
-  animation: animateRing 3s linear infinite; /* Faster speed */
-}
-
-@keyframes animateRing {
-  0% {
-    transform: scale(0); /* Initial transform */
-    opacity: 0.5;
-  }
-  50% {
-    transform: scale(1.2); /* Scale up */
-    opacity: 0;
-  }
-  100% {
-    transform: scale(2); /* Scale up further */
-    opacity: 0;
-  }
-}
-
-/* Apply animation delays to each ring to make them move successively */
-.ring:nth-child(2) {
-  animation-delay: 0.5s; /* Delay the start of animation for the second ring */
-}
-
-.ring:nth-child(3) {
-  animation-delay: 1s; /* Delay the start of animation for the third ring */
-}
-/* end of oscar section  */
+/* end of news section  */
 
 /* start of popular section */
 /* .popular-container{

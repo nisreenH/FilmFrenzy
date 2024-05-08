@@ -13,6 +13,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&display=swap" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
         <link rel="stylesheet" href="../css/bootstrap.min.css">
         <link rel="stylesheet" href="../css/style.css">
@@ -409,26 +410,120 @@
 </div>
 <!-- end of card carousel -->
 
-<!-- start oscar section -->
-<section class="gradient-section">
-    <div class="gradient-overlay"></div>
-    <div class="container-fluid content">
-      <div class="row">
-        <div class="col-6">
-          <!-- <img src="../img/pngwing.com (1).png" alt=""> -->
+<!-- start news section -->
+<?php
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+
+// Function to fetch news from the API
+function fetchNews() {
+    $client = new Client();
+    $limit = 3;
+    try {
+        $response = $client->request('GET', 'https://imdb8.p.rapidapi.com/news/v2/get-by-category?category=MOVIE&first=' . $limit, [
+            'headers' => [
+                'X-RapidAPI-Host' => 'imdb8.p.rapidapi.com',
+                'X-RapidAPI-Key' => 'f99bdd951cmsh34d1f532f613152p11b581jsn2c3e240b89fb',
+            ],
+        ]);
+
+        $statusCode = $response->getStatusCode();
+        if ($statusCode == 200) {
+            $body = $response->getBody(); // Get the response body
+            $data = json_decode($body, true); // Decode the JSON response as an associative array
+            
+            $articles = [];
+            if (isset($data['data']['news']['edges']) && is_array($data['data']['news']['edges'])) {
+                // Extract title and plain text from each article
+                foreach ($data['data']['news']['edges'] as $edge) {
+                    $node = $edge['node'];
+                    $title = $node['articleTitle']['plainText'] ?? 'Title not available';
+                    $plainText = $node['text']['plainText'] ?? 'Plain text not available';
+                    $imageUrl = $node['image']['url'] ?? 'Image not available';
+                    
+                    $articles[] = [
+                        'title' => $title,
+                        'plainText' => $plainText,
+                        'imageUrl' => $imageUrl,
+                    ];
+                }
+            } else {
+                echo 'No articles found.';
+            }
+            return $articles;
+        } else {
+            echo 'Failed to fetch data. Status code: ' . $statusCode;
+        }
+    } catch (RequestException $e) {
+        echo 'Error: ' . $e->getMessage();
+    }
+    return [];
+}
+
+// Fetch news
+$articles = fetchNews();
+?>
+<section class="news-section" style="background-image: url('../img/Untitled-d5.png');">
+        <!-- <div class="gradient-overlay"></div> -->
+        <div class="container-fluid my-4">
+            <div class="container">
+                <div class="row my-4">
+                    <div class="col-lg-7 col-md-6 mt-5">
+                        <h1 id="news-title">TOP NEWS</h1><span><hr></span>
+                        <!-- Wrap articles in a container for sliding -->
+                        <div id="article-container" class="news-slide">
+                            <div class="card-title"><h4 id="article-title"></h4></div>
+                            <div class="card-text"><p id="article-text"></p></div>
+                        </div>
+                        <button class="featured-button" id="news-button" onclick= "window.location.href = '../php/newsPage.php';">More <i class="fa-solid fa-arrow-right p-1"></i></button>
+                    </div>
+                    <div class="col-lg-5 col-md-6 mt-5">
+                        <div class="card shadow-lg shadow-light">
+                        <div class="gradient-overlay"></div>
+                            <img id="article-image" src="" alt="Article Image" class="card-img-top" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-       
-    </div>
-    <div class="ring-container">
-    <div class="ring"></div>
-    <div class="ring"></div>
-    <div class="ring"></div>
-    <div class="ring"></div>
-    <div class="ring"></div>
-    <div class="ring"></div>
-  </div>
-  </section>
-<!-- end of oscar sections  -->
+    </section>
+    <!-- JavaScript to handle article switching -->
+     <script>
+        var articles = <?php echo json_encode($articles); ?>;
+        var currentIndex = 0;
+        var slideInterval;
+
+        function displayArticle(index) {
+            var article = articles[index];
+            document.getElementById("article-title").textContent = article.title;
+            document.getElementById("article-text").textContent = article.plainText;
+            document.getElementById("article-image").src = article.imageUrl;
+        }
+
+        function showNextArticle() {
+            currentIndex = (currentIndex + 1) % articles.length;
+            displayArticle(currentIndex);
+            // Reset slide position to top
+            document.getElementById("article-container").style.transform = "translateY(0)";
+        }
+
+        // Show the initial article
+        displayArticle(currentIndex);
+
+        // Start automatic sliding
+        slideInterval = setInterval(showNextArticle, 5000); // 10 seconds
+
+        // Pause sliding on mouse over
+        document.getElementById("article-container").addEventListener("mouseover", function() {
+            clearInterval(slideInterval);
+        });
+
+        // Resume sliding on mouse leave
+        document.getElementById("article-container").addEventListener("mouseleave", function() {
+            slideInterval = setInterval(showNextArticle, 5000); // 10 seconds
+        });
+    </script>
+<!-- end of news sections  -->
 
 <!-- start of popular section -->
 <section>
