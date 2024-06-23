@@ -33,4 +33,6 @@ if(!$result){
 
 // Respond with a success message
 echo 'Movie added to favorites successfully';
+$stmt->close();
+$con->close();
 ?>

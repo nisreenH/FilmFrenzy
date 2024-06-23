@@ -1,0 +1,167 @@
+
+
+.container .user-avatar{
+    margin-top: 100px;
+}
+
+
+  
+ 
+.avatar-frame img{
+    width: 150px; /* Adjust according to your design */
+    height: 150px; /* Adjust according to your design */
+    background: linear-gradient(#212121, #212121) padding-box,
+                linear-gradient(145deg, transparent 35%, #4dbf00, #5ef17b) border-box;
+    border: 5px solid transparent;
+    /* padding: 10px; */
+    display: inline-flex; /* Ensures the frame wraps around the image */
+    align-items: center; /* Center align the image */
+    justify-content: center; /* Center align the image */
+    box-sizing: border-box;
+    border-radius: 50%; /* Makes it circular */
+    background-size: 200% 100%;
+    animation: gradient 5s ease infinite;
+    border-radius: 50%; 
+    overflow: hidden; 
+    display: inline-block; 
+    object-fit: cover;
+    transition: border ease-in;
+}
+
+@keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+/* popup */
+label[for="input-file"]{
+    display: block;
+    width: 160px;
+    background: #4dbf00;
+    color: #fff;
+    padding: 12px;
+    margin: 10px auto;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bolder;
+}
+
+label[for="username"], 
+label[for="password"]{
+    font-size: large;
+    font-family: var(--popins);
+    color: black;
+}
+
+
+.form-control-file {
+  display: none;
+}
+
+.close {
+    color: #aaa;
+    float: right; /* Float close button to the right */
+    font-size: 20px; /* Increase font size */
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+}
+
+.form-control{
+    width: 150px;
+}
+
+.popup-card {
+    width: 90%; /* Adjusted to be 90% of the viewport width */
+    max-width: 500px; /* Maximum width to maintain readability */
+    height: auto; /* Allow height to adjust based on content */
+    transition: all 0.2s;
+    cursor: pointer;
+    position: fixed; /* Fixed position to overlay */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Centering trick */
+    z-index: 1000; /* Ensure it appears on top of other content */
+}
+
+.card-inner {
+    width: 100%; /* Full width of the .card */
+    height: 100%; /* Full height of the .card */
+    background: rgba(255,255,255,.05);
+    box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 768px) {
+    .card {
+        width: 90%; /* Adjusted width for smaller screens */
+    }
+}
+  
+  /* .card:hover {
+    transform: scale(1.04) rotate(1deg);
+  } */
+  
+  .circle {
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(#b0e633, #53ef7d);
+    border-radius: 50%;
+    position: absolute;
+    animation: move-up6 2s ease-in infinite alternate-reverse;
+  }
+  
+  .circle:nth-child(1) {
+    top: -25px;
+    left: -25px;
+  }
+  
+  .circle:nth-child(2) {
+    bottom: -25px;
+    right: -25px;
+    animation-name: move-down1;
+  }
+  
+  @keyframes move-up6 {
+    to {
+      transform: translateY(-10px);
+    }
+  }
+  
+  @keyframes move-down1 {
+    to {
+      transform: translateY(10px);
+    }
+  }
+
+/* end popup */
+
+/* start movies you liked */
+
+.poster-img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+}

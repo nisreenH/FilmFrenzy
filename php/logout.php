@@ -5,5 +5,5 @@ session_start();
     //unset($_SESSION['islogin']);
     session_destroy();
     }
-    header("location:../html/index.php"); 
+    header("location:../php/index.php"); 
 ?>
