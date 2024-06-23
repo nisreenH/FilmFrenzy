@@ -3,6 +3,8 @@
     require_once('../vendor/autoload.php');
     require_once '../php/connection.php';
 
+    
+    
 ?>
 <!DOCTYPE html>
 <html>
@@ -44,6 +46,15 @@
                         </form>
                     <?php
                         if(isset($_SESSION['username'])){
+                            $username = $_SESSION['username'];
+                            $query = "SELECT username, avatar FROM users WHERE username = ?";
+                            $stmt = $con->prepare($query);
+                            $stmt->bind_param('s', $username);
+                            $stmt->execute();
+                            $stmt->bind_result($fetched_username, $avatar);
+                            $stmt->fetch();
+                            $_SESSION['avatar'] = $avatar;
+                            $stmt->close();
                     ?> 
                         <div class="nav-item dropdown ms-3 d-block d-lg-none">
                             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -131,7 +142,7 @@
                     <div class="nav-item dropdown ps-3 pe-4 d-none d-lg-block">
                         <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <span  class=" dropdown-toggle"></span>
-                        <img src="../img/user-avatar.png" alt="" class="profile-picture">
+                        <img src="<?php echo isset($_SESSION['avatar']) ? $_SESSION['avatar'] : '../img/user-avatar.png'; ?>" alt="" class="profile-picture navbar-profile-picture" onclick= "window.location.href = 'Profile.php';">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#">My List</a></li>
@@ -193,11 +204,24 @@
                         <img src="https://image.tmdb.org/t/p/original<?=$backdropPath?>" class="d-block w-100" alt="<?=$title?>">
                         <div class="carousel-caption d-none d-md-block mb-4" style="color:white; font-weight:600;">
                            <h5 style="font-size:30px">
+                           <?php
+                        if(isset($_SESSION['username'])){
+                            ?> 
+                            <h5 class="welcome">Welcome <b><?php echo  $_SESSION['username'];?>!<b></h5>
+
+
+                            <?php
+                          } else{
+                       ?>
                                <div class="featured-content" id="carousel">
                                  <div class="featured-desc">
-                                    <!-- <button class="featured-button">Get started!</button> -->
+                                    
                                  </div>
                                </div>
+                        <?php
+                          }
+                          ?>
+
                            </h5>
                         </div>
                     </div>
@@ -766,8 +790,10 @@ $articles = fetchNews();
                                 </div>
                             </a>
                         </div>
+                        <button  class="btn btn-sm btn-outline-primary position-absolute top-0 start-0 mt-2 ms-2 add-to-favorites" data-movie-id="<?= $movie->id ?>" style="background: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)); border-color: rgba(255, 255, 255, 0.5); color: white;">
+                                            <i class="fas fa-heart"></i> Add to Favorites
+                        </button>
                     </div>
-               
                 <?php
             }
             ?>      
@@ -797,7 +823,7 @@ $articles = fetchNews();
                             <li><a href="">Home</a></li>
                             <li><a href="">News</a></li>
                             <li><a href="">Movies</a></li>
-                            <li><a href="">Profile</a></li>
+                            <li><a href="Profile.php">Profile</a></li>
                         </ul>
                      </div>
                 </div>
@@ -843,21 +869,21 @@ $articles = fetchNews();
         <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         <script>
                  $('.owl-carousel').owlCarousel({
-    loop:true,
-    margin:10,
-    nav:true,
-    responsive:{
-        0:{
-            items:1
-        },
-        600:{
-            items:3
-        },
-        1000:{
-            items:5
-        }
-    }
-})
+                    loop:true,
+                    margin:10,
+                    nav:true,
+                    responsive:{
+                        0:{
+                            items:1
+                        },
+                        600:{
+                            items:3
+                        },
+                        1000:{
+                            items:5
+                        }
+                    }
+                })
         </script>
        
     </body>

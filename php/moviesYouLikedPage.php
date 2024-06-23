@@ -6,7 +6,17 @@
     // if(isset($_GET['movieId'])){
     //     $movieId = $_GET['movieId'];
     //}
-?>
+    // Fetch user details
+    $username = $_SESSION['username'];
+    $query = "SELECT username, avatar FROM users WHERE username = ?";
+    $stmt = $con->prepare($query);
+    $stmt->bind_param('s', $username);
+    $stmt->execute();
+    $stmt->bind_result($fetched_username, $avatar);
+    $stmt->fetch();
+    $_SESSION['avatar'] = $avatar;
+    $stmt->close();
+    ?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,48 +30,19 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
         <link rel="stylesheet" href="../css/bootstrap.min.css">
         <link rel="stylesheet" href="../css/style.css">
-        <link rel="stylesheet" href="../css/movieDetails.css">
+        <!-- <link rel="stylesheet" href="../css/movieDetails.css"> -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <script src="../js/main.js"></script>
-        <script src="../js/movieDetails.js" defer></script>
-        <style>
-        /* Custom styles */
-         .header{
-            margin-top: 85px;
-         }
-         .card{
-            object-fit: cover;
-            margin: 20px; 
-            box-shadow: 0 3px 10px #8b8585;
-         }
-         #article-title{
-                font-size: 30px;
-                font-family: "Abril Fatface", serif;
-                font-weight: 400;
-                font-style: bold;
-                color: #4dbf00;
-                }
-        #article-text{
-            font-size: 15px;
-            font-family: var(--roboto);
-        }
-        .navbar{
-            box-shadow: 0 3px 10px #8b8585;
-        }
-        #scrollToTopBtn{
-            display: none;
-            position:fixed;
-            bottom: 20px; right: 20px;
-            color: #4dbf00;
-        }
-        </style>
+        <!-- <script src="../js/movieDetails.js" defer></script> -->
+        <script src="../js/userProfile.js"></script>
+        <link rel="stylesheet" href="../css/userProfile.css">
     </head>
     <!-- The bg-dark class sets the background color of the body to dark, and data-bs-theme="dark" is a Bootstrap 5 attribute 
         that applies a dark theme to Bootstrap components. This will ensure that all Bootstrap components, including the navbar,
          follow the dark theme. -->
 <body class="bg-dark"  data-bs-theme="dark">
-    <header>
+<header>
                 <!-- .navbar-expand-md sets the drop down navbar for small screens only 
                     (.navbar-expand-lg sets the drop down navbar for medium & small screens)
                     .fixed-top:  navbar remains fixed at the top of the viewport, regardless of scrolling -->
@@ -80,15 +61,6 @@
                         </form>
                         <?php
                         if(isset($_SESSION['username'])){
-                            $username = $_SESSION['username'];
-                            $query = "SELECT username, avatar FROM users WHERE username = ?";
-                            $stmt = $con->prepare($query);
-                            $stmt->bind_param('s', $username);
-                            $stmt->execute();
-                            $stmt->bind_result($fetched_username, $avatar);
-                            $stmt->fetch();
-                            $_SESSION['avatar'] = $avatar;
-                            $stmt->close();
                     ?> 
                         <div class="nav-item dropdown ms-3 d-block d-lg-none">
                             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -176,7 +148,7 @@
                     <div class="nav-item dropdown ps-3 pe-4 d-none d-lg-block">
                         <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <span  class=" dropdown-toggle"></span>
-                        <img src="<?php echo isset($_SESSION['avatar']) ? $_SESSION['avatar'] : '../img/user-avatar.png'; ?>" alt="" class="profile-picture navbar-profile-picture" onclick= "window.location.href = 'Profile.php';">
+                        <img src="<?php echo isset($_SESSION['avatar']) ? $_SESSION['avatar'] : '../img/user-avatar.png'; ?>" alt="" class="profile-picture navbar-profile-picture" >
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#">My List</a></li>
@@ -198,89 +170,58 @@
                     ?>
                 </div>
             </nav>
-    </header>
-    <section class="header" style="background-image: url('../img/Untitled-d5.png');">
+</header>
+    <div class="container mt-5">
+         <div class="row"><h1 class="display-4" style="font-family:var(--popins); margin-top 70px;;"> Movies You Liked</h1></div>
+         <div class="row" id="poster-container">
         <?php
-            use GuzzleHttp\Client;
-            use GuzzleHttp\Exception\RequestException;
-
-            // Function to fetch news from the API
-            function fetchNews() {
-                $client = new Client();
-                
-                try {
-                    $response = $client->request('GET', 'https://imdb8.p.rapidapi.com/news/v2/get-by-category?category=MOVIE&first=50', [
-                        'headers' => [
-                            'X-RapidAPI-Host' => 'imdb8.p.rapidapi.com',
-                            'X-RapidAPI-Key' => 'f99bdd951cmsh34d1f532f613152p11b581jsn2c3e240b89fb',
-                        ],
-                    ]);
-
-                    $statusCode = $response->getStatusCode();
-                    if ($statusCode == 200) {
-                        $body = $response->getBody(); // Get the response body
-                        $data = json_decode($body, true); // Decode the JSON response as an associative array
-                        
-                        $articles = [];
-                        if (isset($data['data']['news']['edges']) && is_array($data['data']['news']['edges'])) {
-                            // Extract title and plain text from each article
-                            foreach ($data['data']['news']['edges'] as $edge) {
-                                $node = $edge['node'];
-                                $title = $node['articleTitle']['plainText'] ?? 'Title not available';
-                                $plainText = $node['text']['plainText'] ?? 'Plain text not available';
-                                $imageUrl = $node['image']['url'] ?? 'Image not available';
-                                
-                                $articles[] = [
-                                    'title' => $title,
-                                    'plainText' => $plainText,
-                                    'imageUrl' => $imageUrl,
-                                ];
-                            }
-                        } else {
-                            echo 'No articles found.';
-                        }
-                        return $articles;
-                    } else {
-                        echo 'Failed to fetch data. Status code: ' . $statusCode;
-                    }
-                } catch (RequestException $e) {
-                    echo 'Error: ' . $e->getMessage();
-                }
-                return [];
+        $movies = [];
+        require_once 'getfavorites.php'; // Replace with the actual path
+        
+        $counter = 0;
+        foreach ($movies as $movie):
+            $posterPath = $movie['poster_path'];
+            $movieId = $movie['id'];
+            
+            // Start a new row for every 4 posters
+            if ($counter % 4 == 0 && $counter != 0) {
+                echo '</div><div class="row">';
             }
-            // Fetch news
-            $articles = fetchNews();
-            ?>
-      <div class="container mt-5">
-            <div class="row w-100 h-100 text-center">
-                 <p class="display-4 mt-3" style="font-family: var(--popins);">News Page by FilmFrenzy</p>
-            </div>
-            <button id="scrollToTopBtn" class="btn btn-success btn-floating"  onclick="scrollToTop()" title="Go to top">
-                <i class="fas fa-arrow-up"></i>
-            </button>
-            <?php foreach ($articles as $article): ?>
-                <div class="row my-4" style="border-bottom: 1.2px solid #ffff;">
-                    <div class="col-lg-7">
-                        <h1 id="article-title"><?php echo $article['title']; ?></h1>
-                        <p id="article-text"><?php echo $article['plainText']; ?></p>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="card">
-                            <img src="<?php echo $article['imageUrl']; ?>" alt="Article Image" >
-                        </div>
+        ?>
+            <div class="col-lg-3 col-md-4 mb-4">
+              <div class="card poster-liked-card">
+                <a href="movieDetails.php?movieId=<?php echo $movieId; ?>">
+                    <img src="https://image.tmdb.org/t/p/w500/<?php echo $posterPath; ?>" class="poster-img img-fluid" alt="Movie Poster">
+                </a>
+                <div class="card-body text-center">
+                    <div class="stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
                     </div>
                 </div>
-            <?php endforeach; ?>
-        </div>
-    </section>
-    <footer>
+               </div>
+            </div>
+        <?php
+            $counter++;
+        endforeach;
+        ?>
+    </div>
+    </div>
+
+
+
+<footer>
     <div class="footer-section mt-5">
         <div class="container footer-container p-5">
             <div class="row footer-row">
                 <div class="col-lg-5 col-sm-6">
                     <div class="single-box">
-                         <h1><a class="navbar-brand logo ps-2 order-first" href="#">News Page by FilmFrenzy</a></h1>
-                         <p class="footer-message my-2">"Stay tuned for the latest updates and exclusive insights into the world of cinema. Explore captivating stories, behind-the-scenes glimpses, and breaking news about your favorite movies and stars on our dedicated news page."
+                         <h1><a class="navbar-brand logo ps-2 order-first" href="#">Film Frenzy</a></h1>
+                         <p class="footer-message my-2">Lights, camera, action! Thanks for being part of our blockbuster journey through the world of cinema.
+                            And remember to always be a FILMER.
                          </p>
                     </div>
                 </div>
@@ -325,30 +266,15 @@
         </div>
     </div>
 </footer>
+
 </body>
-<script>
-    window.addEventListener('scroll', function() {
-    var newsSection = document.querySelector('.header'); // Get the news section element
-    var newsRowHeight = document.querySelector('.row.my-4') ? document.querySelector('.row.my-4').offsetHeight : 0; // Get the height of a single news row
-    var scrollToTopBtn = document.getElementById('scrollToTopBtn');
-    var scrollPosition = window.scrollY;
+</html>
 
-    // Calculate the scroll position threshold (10 rows of news)
-    var scrollThreshold = 10 * newsRowHeight;
 
-    // Show scroll-to-top button if scroll position is greater than the threshold
-    if (scrollPosition > scrollThreshold) {
-        scrollToTopBtn.style.display = 'block';
-    } else {
-        scrollToTopBtn.style.display = 'none';
-    }
-});
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="../js/main.js"></script>
+<script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-        // Function to scroll back to top
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth' // Smooth scroll behavior
-            });
-        }
-</script>

@@ -6,6 +6,7 @@
     if(isset($_GET['movieId'])){
         $movieId = $_GET['movieId'];
     }
+    require_once '../php/connection.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -48,6 +49,15 @@
                         </form>
                         <?php
                         if(isset($_SESSION['username'])){
+                            $username = $_SESSION['username'];
+                            $query = "SELECT username, avatar FROM users WHERE username = ?";
+                            $stmt = $con->prepare($query);
+                            $stmt->bind_param('s', $username);
+                            $stmt->execute();
+                            $stmt->bind_result($fetched_username, $avatar);
+                            $stmt->fetch();
+                            $_SESSION['avatar'] = $avatar;
+                            $stmt->close();
                     ?> 
                         <div class="nav-item dropdown ms-3 d-block d-lg-none">
                             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -135,7 +145,7 @@
                     <div class="nav-item dropdown ps-3 pe-4 d-none d-lg-block">
                         <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <span  class=" dropdown-toggle"></span>
-                        <img src="../img/user-avatar.png" alt="" class="profile-picture">
+                        <img src="<?php echo isset($_SESSION['avatar']) ? $_SESSION['avatar'] : '../img/user-avatar.png'; ?>" alt="" class="profile-picture navbar-profile-picture" onclick= "window.location.href = 'Profile.php';">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#">My List</a></li>
