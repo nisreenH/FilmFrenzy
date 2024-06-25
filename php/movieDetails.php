@@ -194,19 +194,19 @@
                     $genres = $movie->genres;
                     $genreNames = "";
                     foreach ($genres as $key => $genre) {
-                        $genreNames .= $genre->name; // Append the current genre name
+                        $genreNames .= $genre->name; 
 
-                        // Append a comma if it's not the last genre
+                        
                         if ($key < count($genres) - 1) {
                             $genreNames .= ", ";
                         }
                     }
 
-                    //Format revenue with commas and add currency symbol
+                    
                     $revenueFormatted = number_format($movie->revenue, 0, '.', ',');
                     $revenueFormatted = '$' . $revenueFormatted;
 
-                    // Format release date
+                    
                     $releaseDateFormatted = date('F j, Y', strtotime($movie->release_date));
 
                     // Format vote average to display only one digit after the decimal point
@@ -224,13 +224,13 @@
                         ],
                     ]);
                 
-                    // Get the response body as a string
+                    
                     $crewResponseBody = $crewResponse->getBody()->getContents();
                 
-                    // Decode the JSON response into a PHP object
+                 
                     $credits = json_decode($crewResponseBody);
                 
-                    // Look for the director in the crew list
+                    
                     $director = "";
                     foreach ($credits->crew as $member) {
                         if ($member->job == "Director") {
@@ -239,52 +239,87 @@
                         }
                     }
              ?>
-            <div class="container ">
-              <div class="row g-0">
-                <div class="col-lg-12 col-md-12">
-                        <div class="image-container-movie-details-card">
-                            <img src="https://image.tmdb.org/t/p/original<?=$backdropPath?>" class="img-fluid rounded-start movie-bg-img" alt="...">
-                        </div>
-                </div>
-              </div>
-              <div class="row">
-                 <div class="col-lg-7 col-md-7">
-                    <div class="card-body">
-                        <h5 class="movie-details-title"><?=$movie->title?> <a href="#" class="movie-details-director">by <?=$director?></a></h5>
-                        <p class="card-text movie-details-overview my-4"><?=$movie->overview?></p>
-                        <button class="btn btn-primary my-5"><a href="#review-section"><i class="fa-solid fa-arrow-down p-1"></i>Review</a></button>
+            <div class="container">
+                <div class="row g-0">
+                    <div class="col-lg-12 col-md-12">
+                    <div class="image-container-movie-details-card">
+                        <img src="https://image.tmdb.org/t/p/original<?=$backdropPath?>" class="img-fluid rounded-start movie-bg-img" alt="...">
                     </div>
-                  </div>
-                  <div class="col-lg-5 col-md-5 text-center">
-                    <div class=" card movie-details-poster-card">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-7 col-md-7">
+                    <div class="card-body">
+                        <h5 class="movie-details-title">
+                        <?=$movie->title?> 
+                        <a href="#" class="movie-details-director">by <?=$director?></a>
+                        </h5>
+                        <p class="card-text movie-details-overview my-4"><?=$movie->overview?></p>
+                        <button class="btn btn-primary my-5">
+                        <a href="#review-section"><i class="fa-solid fa-arrow-down p-1"></i>Review</a>
+                        </button>
+                    </div>
+                    </div>
+                    <div class="col-lg-5 col-md-5 text-center">
+                    <div class="card movie-details-poster-card">
                         <?php if (!empty($posterUrl)) { ?>
-                            <img src="<?php echo $posterUrl; ?>" alt="<?php echo $title; ?> Poster" class="movie-details-poster-img">
+                        <img src="<?php echo $posterUrl; ?>" alt="<?php echo $title; ?> Poster" class="movie-details-poster-img">
                         <?php } else { ?>
-                            <img src="placeholder_image_url" alt="Placeholder" >
+                        <img src="placeholder_image_url" alt="Placeholder">
                         <?php } ?>
                     </div>
+                    <?php
+                        if (isset($_SESSION['username'])) {
+                        $username = $_SESSION['username'];
+                        $query = "SELECT username, avatar FROM users WHERE username = ?";
+                        $stmt = $con->prepare($query);
+                        $stmt->bind_param('s', $username);
+                        $stmt->execute();
+                        $stmt->bind_result($fetched_username, $avatar);
+                        $stmt->fetch();
+                        $_SESSION['avatar'] = $avatar;
+                        $stmt->close();
+                    ?>
                     <div class="border my-4 rounded service-wrapper" id="service-wrapper">
-                        <div class="row my-3 ">
-                            <div class="col-4 services-text"><i class="fa-solid fa-heart p-1"></i>Like</div>
-                            <div class="col-4 services-text"><i class="fa-solid fa-bookmark p-1"></i>Watchlist</div>
-                            <div class="col-4 services-text"><i class="fa-solid fa-list p-1"></i>List</div>
+                        <div class="row my-3">
+                        <div class="col-4 services-text">
+                            <i class="fa-solid fa-heart p-1 add-to-favorites" data-movie-id="<?= $movie->id ?>"></i>Like
+                        </div>
+                        <div class="col-4 services-text">
+                        <i class="fa-solid fa-bookmark p-1 add-to-watchlist" data-movie-id="<?= $movie->id ?>"></i>Watchlist
+                        </div>
+                        <div class="col-4 services-text">
+                            <i class="fa-solid fa-list p-1"></i>List
+                        </div>
                         </div>
                         <hr>
                         <div class="row rating-stars-box mb-3">
-                            <div class="stars">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
+                        <div class="container stars-container">
+                            <div class="stars text-center col-lg-12" data-rating="0" data-movie-id="<?= $movie->id ?>">
+                            <i class="fa-solid fa-star" data-value="1"></i>
+                            <i class="fa-solid fa-star" data-value="2"></i>
+                            <i class="fa-solid fa-star" data-value="3"></i>
+                            <i class="fa-solid fa-star" data-value="4"></i>
+                            <i class="fa-solid fa-star" data-value="5"></i>
+                            <span class="cancel-rating col-lg-2">&times;</span>
                             </div>
                         </div>
+                        </div>
+                        <div id="star-count-display"></div>
+                        
                     </div>
-                  </div>
-              </div>
+                    </div>
+                    <?php } else { ?>
+                    <div class="row not-logged alert alert-warning mt-3">
+                    <h4 class="text-center my-4 not-logged-text" style="font-family:var(--popins);">
+                        <i class="fa-solid fa-triangle-exclamation"></i>Login to use FilmFrenzy Features!
+                    </h4>
+                    </div>
+                    <?php } ?>
+                </div>
             </div>
-            <?php }?>
-
+            <?php } ?>
+             
 <!-- filter-menu -->
 <section class="filter-menu my-5">
         <div class="container">
@@ -376,6 +411,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="../js/main.js"></script>
         <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
                  $('.owl-carousel').owlCarousel({
     loop:true,
