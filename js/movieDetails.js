@@ -216,3 +216,61 @@ function addMovieToWatchlist(movieId) {
 }
 
 /*end of add to watchlist*/
+
+/*start reviews*/
+document.addEventListener('DOMContentLoaded', function() {
+    const reviewForm = document.getElementById('review-form');
+    if (!reviewForm) {
+        console.error('Review form not found');
+        return;
+    }
+
+    const submitButton = reviewForm.querySelector('button[type="submit"]');
+    if (!submitButton) {
+        console.error('Submit button not found');
+        return;
+    }
+
+    const movieId = submitButton.getAttribute('data-movie-id');
+    if (!movieId) {
+        console.error('Movie ID not found');
+        return;
+    }
+
+    reviewForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const reviewText = document.getElementById('floatingTextarea2').value;
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'submitReview.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                const messageDiv = document.getElementById('review-message');
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        messageDiv.innerHTML = '<p class="text-success">Review submitted successfully!</p>';
+                        reviewForm.reset();
+                    } else {
+                        messageDiv.innerHTML = `<p class="text-danger">${response.error}</p>`;
+                    }
+                } else {
+                    console.error('Error:', xhr.statusText);
+                }
+            }
+        };
+
+        const data = JSON.stringify({
+            movie_id: movieId,
+            review_text: reviewText
+        });
+
+        xhr.send(data);
+    });
+});
+
+ 
+/*end reviews*/
