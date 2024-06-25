@@ -328,17 +328,111 @@
                 <ul id="filter-menu">
                     <li class="current filter-menu-element" data-filter="cast">CAST</li>
                     <li class="filter-menu-element" data-filter="details">DETAILS</li>
-                    <li class="filter-menu-element" data-filter="review">REVIEW</li>
+                    <li class="filter-menu-element" data-filter="review">REVIEWS</li>
                     <li class="filter-menu-element" data-filter="rating">RATING</li>
                 </ul>
             </div>
         </div>
         <div class="row displayed-items">
             <div class="items text-center">
+            <?php
+
+                require_once('../vendor/autoload.php');
+                require_once '../php/connection.php';
+
+                if (isset($_GET['movieId'])) {
+                    $movieId = $_GET['movieId'];
+
+                } else {
+                    die("Error: Movie ID parameter missing.");
+                }
+
+                // Fetch user details
+                $username = $_SESSION['username'];
+                $query = "SELECT username, avatar FROM users WHERE username = ?";
+                $stmt = $con->prepare($query);
+                $stmt->bind_param('s', $username);
+                $stmt->execute();
+                $stmt->bind_result($fetched_username, $avatar);
+                $stmt->fetch();
+                $_SESSION['avatar'] = $avatar;
+                $stmt->close();
+
+                // Fetch reviews
+                $query = "SELECT reviews.review_text, reviews.timestamp, users.username, users.avatar, ratings.rating
+                            FROM reviews
+                            JOIN users ON reviews.user_id = users.user_id
+                            LEFT JOIN ratings ON reviews.user_id = ratings.user_id AND reviews.movie_id = ratings.movie_id
+                            WHERE reviews.movie_id = ?";
+                $stmt = $con->prepare($query);
+
+                if (!$stmt) {
+                    die("Prepare failed: (" . $con->errno . ") " . $con->error);
+                }
+
+                $stmt->bind_param("i", $movieId);
+                if (!$stmt->execute()) {
+                    die("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
+                }
+
+                $result = $stmt->get_result();
+
+                if (!$result) {
+                    die("Getting result set failed: (" . $stmt->errno . ") " . $stmt->error);
+                }
+
+                $reviews = [];
+                while ($row = $result->fetch_assoc()) {
+                    $reviews[] = [
+                        'review_text' => $row['review_text'],
+                        'timestamp' => $row['timestamp'],
+                        'username' => $row['username'],
+                        'avatar' => $row['avatar'],
+                        'rating' => $row['rating']
+                    ];
+                }
+
+                $stmt->close();
+                $con->close();
+                ?>
+
+                <div class="container mt-5">
+                        <div class="row">
+                            <div class="col-12 card-text review hidden">
+                                <h3>Popular Reviews <hr style="postion:relative;"></h3>
+                                <?php foreach ($reviews as $review): ?>
+                                    <div class="row my-3">
+                                        <div class="col-lg-3"><img src="<?= htmlspecialchars($review['avatar']) ?>" alt="Avatar" class="review-avatar"></div>
+                                        <div class="col-lg-9 justify-content-start">
+                                            <p class="username">Review by <b style="font-family:var(--popins); color:#4dbf00;"><?= htmlspecialchars($review['username']) ?></b>
+                                            <?php if (!empty($review['rating'])): ?>
+                                                
+                                                    <?php for ($i = 0; $i < floor($review['rating']); $i++): ?>
+                                                        <i class="bi bi-star-fill review-stars"></i>
+                                                    <?php endfor; ?>
+                                                    <?php if ($review['rating'] - floor($review['rating']) > 0): ?>
+                                                        <i class="bi bi-star-half"></i>
+                                                    <?php endif; ?>
+                                            <?php endif; ?>
+                                            </p>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                              <p class="review-text mt-2 " style="font-family:var(--roboto);"><?= htmlspecialchars($review['review_text']) ?></p>
+                                            </div>
+                                        </div>
+                                        <p class="row justify-content-end timestamp"><?= htmlspecialchars($review['timestamp']) ?></p>
+                                        <hr style="postion:relative;">
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    </div>
                 <p class="card-text details"><b>Runtime:</b> <?=$movie->runtime?>min</p>
                 <p class="card-text details"><b>Release Date:</b> <?=$releaseDateFormatted?></p>
                 <p class="card-text details"><b> Genre:</b> <?=$genreNames?></p>
                 <p class="card-text details"> <b>Boxoffice Revenue:</b> <?=$revenueFormatted?></p>
+                
                 <p class="card-text rating hidden"><i class="bi bi-star-fill text-warning"></i> <?=$voteAverageFormatted?>/10</p>
                 <!-- <p class="card-text rating hidden" id="user-rating"><i class="fa-solid fa-star"></i>your rating : </p> -->
                 <div class="container mt-3 card-text cast hidden">
@@ -393,14 +487,24 @@
 
                     </div>
                     </div>
-            </div>
-        </div>
+                </div>
+
+                
 </section>
 <!-- filter menu end   -->
-
+<hr>
 <!-- review section  -->
-<section class="review-section" id="review-section">
-
+<section class="review-section text-center my-4" id="review-section">
+    <form id="review-form">
+      <div class="container review-container">
+        <div class="form-floating row textarea-row">
+                <textarea class="form-control bg-light textarea-row-text " placeholder="Leave a comment here" id="floatingTextarea2" style="height: 350px; "></textarea>
+                <label for="floatingTextarea2" class="label-textarea" style="width:180px;">Write your review</label>
+            </div>
+            <button type="submit" class="featured-button row submit-row my-2 text-center" data-movie-id="<?= $movie->id ?>">Submit Review</button>
+      </div>
+    </form>
+    <div id="review-message"></div>
 </section>
 <!-- review section end  -->
 

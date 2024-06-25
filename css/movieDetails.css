@@ -196,3 +196,36 @@ ul .filter-menu-element{
     color: #ff4d4d;
 }
 /* end rating stars */
+
+/* reviews */
+.form-floating .form-control.textarea-row-text {
+ 
+    color: #212429;
+    font-size: 24px;
+    font-family: var(--ptSerif);
+}
+.label-textarea{
+    color: #4dbf00;
+    font-weight: bolder;
+}
+.review-stars{
+    color: #ffd700;
+    font-size: 10px; /* Adjust the size of the stars here */
+}
+.timestamp{
+    font-size: 10px;
+}
+/* .review-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+} */
+.review-avatar{
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 50% !important;
+    margin-right: 15px;
+}
+.review-content {
+    flex: 1;
+}
