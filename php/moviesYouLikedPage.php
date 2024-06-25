@@ -172,7 +172,7 @@
             </nav>
 </header>
     <div class="container mt-5">
-         <div class="row"><h1 class="display-4" style="font-family:var(--popins); margin-top 70px;;"> Movies You Liked</h1></div>
+         <div class="row"><h1 class="display-4 mt-5 text-center" style="font-family:var(--popins); margin-top 70px;;"> Movies You Liked</h1></div>
          <div class="row" id="poster-container">
         <?php
         $movies = [];

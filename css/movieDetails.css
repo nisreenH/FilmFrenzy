@@ -137,6 +137,21 @@ ul .filter-menu-element{
     color: red;
     
 }
+@keyframes scaleUp {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.9);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .scale-up {
+    animation: scaleUp 0.3s ease-in-out;
+  }
 .fa-bookmark{
     color: #4dbf00;
 }
@@ -146,6 +161,12 @@ ul .filter-menu-element{
 .service-wrapper{
     background-color: rgb(150, 148, 148);
     
+}
+
+.not-logged-text{
+    font: 500;
+    font-size: 36px;
+    font-family: var(--popins);
 }
 /* end filtered menu */
 
@@ -157,5 +178,21 @@ ul .filter-menu-element{
 }
 .rating-stars-box .stars i.active-star{
     color: #ff9c1a;
+}
+.stars-container {
+    display: flex;
+    align-items: center;
+}
+
+.cancel-rating {
+    font-size: 26px;
+    cursor: pointer;
+    margin-left: 10px;
+    color: #ff0000;
+    transition: color 0.5s ease;
+}
+
+.cancel-rating:hover {
+    color: #ff4d4d;
 }
 /* end rating stars */

@@ -419,9 +419,6 @@
                         <!-- <button onclick="addMovietoFavorites(<?= $movieId ?>)" data-movie-id="<?= $movie->id ?>" style="background: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)); border-color: rgba(255, 255, 255, 0.5); color: white;">
                                             <i class="fas fa-heart"></i> Add to Favorites
                         </button> -->
-                        <button  class="btn btn-sm btn-outline-primary position-absolute top-0 start-0 mt-2 ms-2 add-to-favorites" data-movie-id="<?= $movie->id ?>" style="background: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)); border-color: rgba(255, 255, 255, 0.5); color: white;">
-                                            <i class="fas fa-heart"></i> Add to Favorites
-                        </button>
                     </div>
                
                 <?php
@@ -790,9 +787,6 @@ $articles = fetchNews();
                                 </div>
                             </a>
                         </div>
-                        <button  class="btn btn-sm btn-outline-primary position-absolute top-0 start-0 mt-2 ms-2 add-to-favorites" data-movie-id="<?= $movie->id ?>" style="background: linear-gradient(to right, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0)); border-color: rgba(255, 255, 255, 0.5); color: white;">
-                                            <i class="fas fa-heart"></i> Add to Favorites
-                        </button>
                     </div>
                 <?php
             }
