@@ -274,3 +274,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
  
 /*end reviews*/
+
+/* start lists */
+
+
+
+/*end lists*/

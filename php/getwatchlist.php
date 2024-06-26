@@ -39,7 +39,7 @@ while ($row = $result->fetch_assoc()) {
 }
 
 $stmt->close();
-$con->close();
+// $con->close();
 
 $apiKey = '90565206247f3b7768d9b25bbedf68d8';
 $client = new \GuzzleHttp\Client();

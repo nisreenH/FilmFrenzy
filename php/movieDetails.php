@@ -288,9 +288,105 @@
                         <div class="col-4 services-text">
                         <i class="fa-solid fa-bookmark p-1 add-to-watchlist" data-movie-id="<?= $movie->id ?>"></i>Watchlist
                         </div>
+                        <!-- lists -->
                         <div class="col-4 services-text">
-                            <i class="fa-solid fa-list p-1"></i>List
+                            <i class="fa-solid fa-list p-1" id="form-open" ></i>List
                         </div>
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <!-- lists popup -->
+                        <div class="home">
+                            <div class="form-container">
+                                    <i class="fa-regular fa-circle-xmark form_close"></i>
+                                    <div class="form list-form">
+                                        <h2>Create a New List</h2>
+                                        <div class="input-box">
+                                            <input type="text" id="listName" placeholder="List Name" required />
+                                        </div>
+                                        <button onclick="createList()" class="button">Create List</button>
+                                        <hr>
+                                        <h3>Your Lists</h3>
+                                        <select id="userLists" class="form-select mb-3"></select>
+                                        <button onclick="addMovieToList(<?= $movie->id ?>)" class="btn btn-secondary"  >Add to List</button>
+                                        <button onclick="deleteMovieFromList(<?= $movie->id ?>)" class="btn btn-danger">Delete from List</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </home>
+                        <script>
+                             $(document).ready(function() {
+                                    const home = document.querySelector(".home");
+                                    const formContainer = document.querySelector(".form-container");
+                                    const formCloseButton = document.querySelector(".form_close");
+                                    const openFormButton = document.querySelector("#form-open");
+                                    
+
+                                    openFormButton.addEventListener("click", () => {
+                                        console.log("clickedd")
+                                        formContainer.classList.add("show");
+                                        
+                                    });
+
+                                    formCloseButton.addEventListener("click", () => {
+                                        formContainer.classList.remove("show");
+                                       
+                                    });
+
+                                    // Function to add blur effect to background
+                                });
+                            
+                            function createList() {
+                                const listName = document.getElementById('listName').value;
+
+                                fetch('createlist.php', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                                    body: 'list_name=' + encodeURIComponent(listName)
+                                })
+                                .then(response => response.text())
+                                .then(data => alert(data))
+                                .catch(error => console.error('Error:', error));
+                            }
+                            // Fetch user's lists on page load
+                            fetch('fetchUserList.php')
+                                .then(response => response.json())
+                                .then(data => {
+                                    const userLists = document.getElementById('userLists');
+                                    data.forEach(list => {
+                                        const option = document.createElement('option');
+                                        option.value = list.list_id;
+                                        option.textContent = list.list_name;
+                                        userLists.appendChild(option);
+                                    });
+                                })
+                                .catch(error => console.error('Error:', error));
+
+                            function addMovieToList(movieId) {
+                                const listId = document.getElementById('userLists').value;
+
+                                fetch('addMovieToList.php', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                                    body: 'list_id=' + encodeURIComponent(listId) + '&movie_id=' + encodeURIComponent(movieId)
+                                })
+                                .then(response => response.text())
+                                .then(data => alert(data))
+                                .catch(error => console.error('Error:', error));
+                            }
+
+                            function deleteMovieFromList(movieId) {
+                                const listId = document.getElementById('userLists').value;
+
+                                fetch('deleteMovieFromList.php', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                                    body: 'list_id=' + encodeURIComponent(listId) + '&movie_id=' + encodeURIComponent(movieId)
+                                })
+                                .then(response => response.text())
+                                .then(data => alert(data))
+                                .catch(error => console.error('Error:', error));
+                            }
+                    </script>
+                        <!-- end lists -->
                         </div>
                         <hr>
                         <div class="row rating-stars-box mb-3">
@@ -348,15 +444,17 @@
                 }
 
                 // Fetch user details
-                $username = $_SESSION['username'];
-                $query = "SELECT username, avatar FROM users WHERE username = ?";
-                $stmt = $con->prepare($query);
-                $stmt->bind_param('s', $username);
-                $stmt->execute();
-                $stmt->bind_result($fetched_username, $avatar);
-                $stmt->fetch();
-                $_SESSION['avatar'] = $avatar;
-                $stmt->close();
+                if (isset($_SESSION['username'])) {
+                    $username = $_SESSION['username'];
+                    $query = "SELECT username, avatar FROM users WHERE username = ?";
+                    $stmt = $con->prepare($query);
+                    $stmt->bind_param('s', $username);
+                    $stmt->execute();
+                    $stmt->bind_result($fetched_username, $avatar);
+                    $stmt->fetch();
+                    $_SESSION['avatar'] = $avatar;
+                    $stmt->close();
+                }
 
                 // Fetch reviews
                 $query = "SELECT reviews.review_text, reviews.timestamp, users.username, users.avatar, ratings.rating
@@ -494,6 +592,8 @@
 <!-- filter menu end   -->
 <hr>
 <!-- review section  -->
+<?php
+    if (isset($_SESSION['username'])) { ?>
 <section class="review-section text-center my-4" id="review-section">
     <form id="review-form">
       <div class="container review-container">
@@ -506,6 +606,14 @@
     </form>
     <div id="review-message"></div>
 </section>
+<?php } else { ?>
+    <div class="row not-logged alert alert-warning mt-3">
+                    <h4 class="text-center my-4 not-logged-text" style="font-family:var(--popins);">
+                        <i class="fa-solid fa-triangle-exclamation"></i>Login to use FilmFrenzy Features!
+                    </h4>
+                    </div>
+                    <?php } ?>
+
 <!-- review section end  -->
 
 

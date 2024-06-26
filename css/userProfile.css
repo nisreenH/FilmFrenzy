@@ -165,3 +165,49 @@ label[for="password"]{
     height: auto;
     margin-bottom: 20px;
 }
+
+/*lists*/
+.lists-row {
+  position: relative; /* Ensure the container is positioned relative */
+}
+
+.overlapping-cards {
+  display: flex;
+  align-items: center;
+  position: relative;
+  height: auto; /* Adjust height dynamically */
+  margin-bottom: 100px; /* Add margin at the bottom to avoid conflict with the footer */
+  
+}
+
+.overlapping-cards .card {
+  position: relative;
+  margin-right: -50px; /* Adjust negative margin to control overlap */
+  transition: margin 0.3s ease-out; /* Optional: Add a transition for smooth movement */
+  width: 200px; /* Adjust width as needed */
+}
+
+.overlapping-cards .card img {
+  width: 100%;
+  height: auto;
+  display: block; /* Ensures the image fills the card */
+}
+.card1 {
+  right: 0;
+  z-index: 3; /* Adjust z-index as needed */
+}
+
+.card2 {
+  right: 50px; /* Adjust the right distance based on your preference */
+  z-index: 2; /* Decrease z-index for subsequent cards */
+}
+
+.card3 {
+  right: 100px; /* Adjust the right distance based on your preference */
+  z-index: 1; /* Decrease z-index for subsequent cards */
+}
+
+.card4 {
+  right: 150px; /* Adjust the right distance based on your preference */
+  z-index: 0; /* Decrease z-index for subsequent cards */
+}
