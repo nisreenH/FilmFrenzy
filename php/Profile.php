@@ -266,6 +266,7 @@
     <div class="container body-container">
         <div class="row movies-liked">
             <div class="container"> 
+                <!-- likes -->
                 <div class="service-list-title row" style="transform: translate(0, 70%);">
                             <div class="col-6">
                                 <h1 style="margin-bottom: 1px;">Movies You Liked</h1>
@@ -275,8 +276,6 @@
                             </div>
                             <hr style="margin-top: 0px;">
                 </div>
-                
-                
                 <div class="container mt-5">
                         <div class="row" id="poster-container">
                             <?php
@@ -302,7 +301,7 @@
                             </div>
                         </div>
                 </div>
-
+                <!-- watchlist -->
                 <div class="service-list-title row" style="transform: translate(0, 70%);">
                             <div class="col-6">
                                 <h1 style="margin-bottom: 1px;">Your Watchlist</h1>
@@ -312,8 +311,6 @@
                             </div>
                             <hr style="margin-top: 0px;">
                 </div>
-                
-                
                 <div class="container mt-5">
                         <div class="row" id="poster-container">
                             <?php
@@ -336,10 +333,132 @@
                                         </a>
                                     </div>
                                 <?php endfor; ?>
+                        </div>
+                    </div>
+                </div>
+              <!-- lists -->
+              <div class="service-list-title row" style="transform: translate(0, 70%);">
+                            <div class="col-6">
+                                <h1 style="margin-bottom: 1px;">Your Lists</h1>
+                            </div>
+                            <div class="col-6 text-right d-flex justify-content-end">
+                                <h2><a href="watchListPage.php" style="text-decoration: none; color: inherit;"><i class="fa-solid fa-layer-group mx-1" style="color:#4dbf00;"></i>more</a></h2>
+                            </div>
+                            <hr style="margin-top: 0px;">
+                </div>
+                <?php
+                    require_once '../php/connection.php'; // Ensure this file includes your database connection
+
+                    if (!isset($_SESSION['user_id'])) {
+                        die("Error: User not logged in.");
+                    }
+
+                    $userId = $_SESSION['user_id'];
+
+                    // Fetch user's lists
+                    $query_lists = "SELECT list_id, list_name FROM lists WHERE user_id = ?";
+                    $stmt_lists = $con->prepare($query_lists);
+                    $stmt_lists->bind_param("i", $userId);
+                    $stmt_lists->execute();
+                    $result_lists = $stmt_lists->get_result();
+
+                    // Array to store movies organized by lists
+                    $lists = [];
+
+                    $apiKey = '90565206247f3b7768d9b25bbedf68d8';
+                    $client = new \GuzzleHttp\Client();
+
+                    // Iterate through each list
+                    while ($row_list = $result_lists->fetch_assoc()) {
+                        $listId = $row_list['list_id'];
+                        $listName = $row_list['list_name'];
+
+                        // Initialize array for current list's movies
+                        $movies = [];
+
+                        // Fetch movies in the current list
+                        $query_list_items = "SELECT movie_id FROM list_items WHERE list_id = ?";
+                        $stmt_list_items = $con->prepare($query_list_items);
+                        $stmt_list_items->bind_param("i", $listId);
+                        $stmt_list_items->execute();
+                        $result_list_items = $stmt_list_items->get_result();
+
+                        // Iterate through each movie in the list
+                        while ($row_list_item = $result_list_items->fetch_assoc()) {
+                            $movieId = $row_list_item['movie_id'];
+
+                            try {
+                                // Fetch movie details from TMDB API
+                                $response = $client->request('GET', "https://api.themoviedb.org/3/movie/{$movieId}?language=en-US", [
+                                    'headers' => [
+                                        'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MDU2NTIwNjI0N2YzYjc3NjhkOWIyNWJiZWRmNjhkOCIsInN1YiI6IjY1ZmVkNzU0MDkyOWY2MDE3ZTliZGUyMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.DW9RlEQ4PPwEzMPv8vutOwT8SAD1j47bBX7F1_RIANk',
+                                        'Accept' => 'application/json',
+                                    ],
+                                ]);
+
+                                // Decode the response
+                                $movieDetails = json_decode($response->getBody()->getContents(), true);
+
+                                // Check if poster path is available
+                                if (isset($movieDetails['poster_path'])) {
+                                    // Construct full poster URL
+                                    $posterPath = $movieDetails['poster_path'];
+                                    $posterUrl = "https://image.tmdb.org/t/p/w500{$posterPath}";
+
+                                    // Add movie details to current list's movies array
+                                    $movies[] = [
+                                        'id' => $movieId,
+                                        'poster_url' => $posterUrl
+                                    ];
+                                }
+                            } catch (\GuzzleHttp\Exception\ClientException $e) {
+                                error_log('Error fetching movie details: ' . $e->getMessage());
+                            }
+                        }
+
+                        // Add current list and its movies to the lists array
+                        $lists[] = [
+                            'list_id' => $listId,
+                            'list_name' => $listName,
+                            'movies' => $movies
+                        ];
+
+                        // Close statement for current list items
+                        $stmt_list_items->close();
+                    }
+
+                    // Close statements and database connection
+                    $stmt_lists->close();
+                    $con->close();
+
+                    // Output the lists array as JSON for use in JavaScript or further processing
+                    //  echo json_encode($lists);
+                    ?>
+                     <div class="container my-5">
+                            <div class="row lists-row">
+                                <?php foreach ($lists as $list) : ?>
+                                    <div class="col-md-6 my-3">
+                                        <h2><?php echo htmlspecialchars($list['list_name']); ?>
+                                        <span>
+                                            <a href="listType.php?list_id=<?php echo htmlspecialchars($list['list_id']); ?>" style="text-decoration: none; color: inherit; padding-left:50px;">
+                                                <i class="fa-solid fa-layer-group mx-1" style="color:#4dbf00;"></i>more
+                                            </a>
+                                        </span>
+                                         </h2>
+                                        <div class="overlapping-cards">
+                                            <?php 
+                                            $moviesToDisplay = array_slice($list['movies'], 0, 4);
+                                            foreach ($moviesToDisplay as $index => $movie) : 
+                                            ?>
+                                                <div class="card card<?php echo $index + 1; ?>" style="z-index: <?php echo count($moviesToDisplay) - $index; ?>;">
+                                                    <img src="<?php echo $movie['poster_url']; ?>" class="card-img-top" alt="Movie Poster">
+                                                </div>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
                             </div>
                         </div>
-                </div>
-              
             </div>
         </div>
     </div>

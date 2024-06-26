@@ -63,7 +63,7 @@
                             </a>
                             <ul class="dropdown-menu ">
                             <li><a class="dropdown-item" href="#">My List</a></li>
-                            <li><a class="dropdown-item" href="#">My Favorites</a></li>
+                            <li><a class="dropdown-item" href="../php/moviesYouLikedPage.php">My Favorites</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="../php/logout.php"> Sign Out </a></li>
                             </ul>
@@ -146,7 +146,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#">My List</a></li>
-                        <li><a class="dropdown-item" href="#">My Favorites</a></li>
+                        <li><a class="dropdown-item" href="../php/moviesYouLikedPage.php">My Favorites</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="../php/logout.php"> Sign Out </a></li>
                         </ul>

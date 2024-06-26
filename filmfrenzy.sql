@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jun 25, 2024 at 04:21 PM
+-- Generation Time: Jun 26, 2024 at 09:55 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -63,6 +63,46 @@ INSERT INTO `favorites` (`user_id`, `movie_id`) VALUES
 (7, 1011985),
 (11, 1011985),
 (12, 1181678);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lists`
+--
+
+CREATE TABLE `lists` (
+  `list_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `list_name` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `lists`
+--
+
+INSERT INTO `lists` (`list_id`, `user_id`, `list_name`, `created_at`) VALUES
+(1, 11, 'Action', '2024-06-26 06:28:55');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `list_items`
+--
+
+CREATE TABLE `list_items` (
+  `list_item_id` int(11) NOT NULL,
+  `list_id` int(11) NOT NULL,
+  `movie_id` int(11) NOT NULL,
+  `added_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `list_items`
+--
+
+INSERT INTO `list_items` (`list_item_id`, `list_id`, `movie_id`, `added_at`) VALUES
+(1, 1, 573435, '2024-06-26 06:36:27');
 
 -- --------------------------------------------------------
 
@@ -176,6 +216,20 @@ ALTER TABLE `favorites`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Indexes for table `lists`
+--
+ALTER TABLE `lists`
+  ADD PRIMARY KEY (`list_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `list_items`
+--
+ALTER TABLE `list_items`
+  ADD PRIMARY KEY (`list_item_id`),
+  ADD KEY `list_id` (`list_id`);
+
+--
 -- Indexes for table `ratings`
 --
 ALTER TABLE `ratings`
@@ -210,6 +264,18 @@ ALTER TABLE `watchlist`
 --
 
 --
+-- AUTO_INCREMENT for table `lists`
+--
+ALTER TABLE `lists`
+  MODIFY `list_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `list_items`
+--
+ALTER TABLE `list_items`
+  MODIFY `list_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `ratings`
 --
 ALTER TABLE `ratings`
@@ -242,6 +308,18 @@ ALTER TABLE `watchlist`
 --
 ALTER TABLE `favorites`
   ADD CONSTRAINT `favorites_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `lists`
+--
+ALTER TABLE `lists`
+  ADD CONSTRAINT `lists_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+--
+-- Constraints for table `list_items`
+--
+ALTER TABLE `list_items`
+  ADD CONSTRAINT `list_items_ibfk_1` FOREIGN KEY (`list_id`) REFERENCES `lists` (`list_id`);
 
 --
 -- Constraints for table `ratings`

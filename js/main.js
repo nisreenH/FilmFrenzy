@@ -124,7 +124,7 @@ function updateCarousel() {
 // Call the function initially to start the carousel
 window.onload = function() {
     updateCarousel();
-   $('.carousel').carousel({ interval: 250 }); // Start cycling through images every 15 seconds
+   $('.carousel').carousel({ interval: 250 }); 
 };
 
 
