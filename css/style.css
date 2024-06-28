@@ -577,6 +577,9 @@ body{
   margin-top: 60px;
 } */
 /* popular-lists */
+.popular-reviews-container{
+  box-shadow: #e6e6e9;
+}
 .popular-title{
   font: normal 200 px/24px var(--popins);
   margin-bottom: 0;

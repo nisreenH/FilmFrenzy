@@ -337,12 +337,12 @@
                     </div>
                 </div>
               <!-- lists -->
-              <div class="service-list-title row" style="transform: translate(0, 70%);">
+              <div class="service-list-title row" style="transform: translate(0, 70%);" id="mylists">
                             <div class="col-6">
                                 <h1 style="margin-bottom: 1px;">Your Lists</h1>
                             </div>
                             <div class="col-6 text-right d-flex justify-content-end">
-                                <h2><a href="watchListPage.php" style="text-decoration: none; color: inherit;"><i class="fa-solid fa-layer-group mx-1" style="color:#4dbf00;"></i>more</a></h2>
+                                <h2><a href="allListsPage.php" style="text-decoration: none; color: inherit;"><i class="fa-solid fa-layer-group mx-1" style="color:#4dbf00;"></i>more</a></h2>
                             </div>
                             <hr style="margin-top: 0px;">
                 </div>

@@ -3,8 +3,8 @@
     require_once('../vendor/autoload.php');
     require_once '../php/connection.php';
 
-    
-    
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,11 +24,11 @@
         <script src="../js/main.js"></script>
         <script src="../js/registrationFunctions.js"></script>
     </head>
-    <!-- The bg-dark class sets the background color of the body to dark, and data-bs-theme="dark" is a Bootstrap 5 attribute 
+    <!-- The bg-dark class sets the background color of the body to dark, and data-bs-theme="dark" is a Bootstrap 5 attribute
         that applies a dark theme to Bootstrap components. This will ensure that all Bootstrap components, including the navbar,
          follow the dark theme. -->
          <header>
-                <!-- .navbar-expand-md sets the drop down navbar for small screens only 
+                <!-- .navbar-expand-md sets the drop down navbar for small screens only
                     (.navbar-expand-lg sets the drop down navbar for medium & small screens)
                     .fixed-top:  navbar remains fixed at the top of the viewport, regardless of scrolling -->
             <nav class="navbar navbar-expand-lg fixed-top"  data-bs-theme="dark">
@@ -55,14 +55,14 @@
                             $stmt->fetch();
                             $_SESSION['avatar'] = $avatar;
                             $stmt->close();
-                    ?> 
+                    ?>
                         <div class="nav-item dropdown ms-3 d-block d-lg-none">
                             <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span  class=" dropdown-toggle"></span>
                             <img src="../img/user-avatar.png" alt="" class="profile-picture">
                             </a>
                             <ul class="dropdown-menu ">
-                            <li><a class="dropdown-item" href="#">My List</a></li>
+                            <li><a class="dropdown-item" href="..php/Profile.php#mylists">My List</a></li>
                             <li><a class="dropdown-item" href="../php/moviesYouLikedPage.php">My Favorites</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="../php/logout.php"> Sign Out </a></li>
@@ -91,7 +91,7 @@
                             </li>
                             <?php
                              if(!isset($_SESSION['username'])) {
-                             ?> 
+                             ?>
                             <li class="nav-item menu-list-items">
                                 <a class="nav-link" id="registerBtn">Create Account</a>
                             </li>
@@ -103,7 +103,7 @@
                                 <a class="nav-link" href="#">Sign In</a>
                             </li> -->
                             <li class="nav-item menu-list-items">
-                                <a class="nav-link" href="#">Movies</a>
+                                <a class="nav-link" href="../php/MoviesPage.php">Movies</a>
                             </li>
                             <!-- <li class="nav-item">
                                 <a class="nav-link disabled" aria-disabled="true">Disabled</a>
@@ -126,7 +126,7 @@
                                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                                 <button class="btn btn-outline-success" type="submit" style="border: none;"><i class="fa-solid fa-magnifying-glass fa-lg"></i></button>
                             </div>
-                        </form>                      
+                        </form>
                     </div>
                     <form class="d-flex d-none d-lg-block" role="search">
                             <div class="input-group">
@@ -138,14 +138,14 @@
                     </form>
                     <?php
                         if(isset($_SESSION['username'])){
-                    ?> 
+                    ?>
                     <div class="nav-item dropdown ps-3 pe-4 d-none d-lg-block">
                         <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <span  class=" dropdown-toggle"></span>
                         <img src="<?php echo isset($_SESSION['avatar']) ? $_SESSION['avatar'] : '../img/user-avatar.png'; ?>" alt="" class="profile-picture navbar-profile-picture" onclick= "window.location.href = 'Profile.php';">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#">My List</a></li>
+                        <li><a class="dropdown-item" href="../php/Profile.php#mylists">My List</a></li>
                         <li><a class="dropdown-item" href="../php/moviesYouLikedPage.php">My Favorites</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="../php/logout.php"> Sign Out </a></li>
@@ -180,10 +180,10 @@
                             'accept' => 'application/json',
                         ],
                         ]);
-                    
+
                     // Get the response body as a string
                     $responseBody = $response->getBody()->getContents();
-                    
+
                     // Decode the JSON string into an object
                     $popularMoviesList = json_decode($responseBody);
                     ?>
@@ -196,7 +196,7 @@
                             $title = $movie->title;
                             $backdropPath = $movie->backdrop_path;
                             // Output the title and backdrop path for each movie
-                            // echo "Movie Title: $title <br>";       
+                            // echo "Movie Title: $title <br>";
 
                     ?>
                     <div class="carousel-item <?=$activeClass?>" data-bs-interval="1500">
@@ -206,7 +206,7 @@
                            <h5 style="font-size:30px">
                            <?php
                         if(isset($_SESSION['username'])){
-                            ?> 
+                            ?>
                             <h5 class="welcome">Welcome <b><?php echo  $_SESSION['username'];?>!<b></h5>
 
 
@@ -215,7 +215,7 @@
                        ?>
                                <div class="featured-content" id="carousel">
                                  <div class="featured-desc">
-                                    
+
                                  </div>
                                </div>
                         <?php
@@ -225,13 +225,13 @@
                            </h5>
                         </div>
                     </div>
-                    <?php 
+                    <?php
                     } } else {
                         echo "Failed to decode or access movie data.";
                     }
                   ?>
                 </div>
-            </div> 
+            </div>
             <!-- login form -->
             <section class="home">
                    <div class="form-container">
@@ -293,7 +293,7 @@
              </section>
 
             <!-- end of login form -->
-            
+
     <!-- End of Movie Carousel -->
 
     <!-- Service Section -->
@@ -376,13 +376,13 @@
     <!-- End of Service Section -->
 </div>
     <!-- start of card carousel (new releases movies) -->
-    <div class="container"> 
+    <div class="container">
         <div class="service-list-title row" style="transform: translate(0, 70%);">
                       <div class="col-6">
                         <h1 style="margin-bottom: 1px;">New Realeases</h1>
                       </div>
                       <div class="col-6 text-right d-flex justify-content-end">
-                        <h2><a href="#" style="text-decoration: none; color: inherit;"><i class="fa-solid fa-layer-group mx-1" style="color:#4dbf00;"></i>more</a></h2>
+                        <h2><a href="../php/MoviesPage.php" style="text-decoration: none; color: inherit;"><i class="fa-solid fa-layer-group mx-1" style="color:#4dbf00;"></i>more</a></h2>
                       </div>
                         <hr style="margin-top: 0px;">
         </div>
@@ -420,14 +420,14 @@
                                             <i class="fas fa-heart"></i> Add to Favorites
                         </button> -->
                     </div>
-               
+
                 <?php
             }
-            ?>      
+            ?>
     </div>
             </div>
         </div>
-        
+
 </div>
 <!-- end of card carousel -->
 
@@ -452,7 +452,7 @@ function fetchNews() {
         if ($statusCode == 200) {
             $body = $response->getBody(); // Get the response body
             $data = json_decode($body, true); // Decode the JSON response as an associative array
-            
+
             $articles = [];
             if (isset($data['data']['news']['edges']) && is_array($data['data']['news']['edges'])) {
                 // Extract title and plain text from each article
@@ -461,7 +461,7 @@ function fetchNews() {
                     $title = $node['articleTitle']['plainText'] ?? 'Title not available';
                     $plainText = $node['text']['plainText'] ?? 'Plain text not available';
                     $imageUrl = $node['image']['url'] ?? 'Image not available';
-                    
+
                     $articles[] = [
                         'title' => $title,
                         'plainText' => $plainText,
@@ -548,6 +548,107 @@ $articles = fetchNews();
 
 <!-- start of popular section -->
 <section>
+<?php
+
+        require_once '../php/connection.php'; // Include your database configuration
+
+        // Fetch user details
+        if (isset($_SESSION['username'])) {
+            $username = $_SESSION['username'];
+            $query = "SELECT username, avatar FROM users WHERE username = ?";
+            $stmt = $con->prepare($query);
+            $stmt->bind_param('s', $username);
+            $stmt->execute();
+            $stmt->bind_result($fetched_username, $avatar);
+            $stmt->fetch();
+            $_SESSION['avatar'] = $avatar;
+            $stmt->close();
+        }
+
+        // Fetch reviews
+        $query = "SELECT DISTINCT reviews.movie_id, reviews.review_text, reviews.timestamp, users.username, users.avatar, ratings.rating
+                    FROM (
+                        SELECT DISTINCT movie_id, user_id, review_text, timestamp
+                        FROM reviews
+                        ORDER BY RAND()
+                        LIMIT 3
+                    ) AS reviews
+                    JOIN users ON reviews.user_id = users.user_id
+                    LEFT JOIN ratings ON reviews.user_id = ratings.user_id AND reviews.movie_id = ratings.movie_id;
+                ";
+        $stmt = $con->prepare($query);
+
+        if (!$stmt) {
+            die("Prepare failed: (" . $con->errno . ") " . $con->error);
+        }
+
+        if (!$stmt->execute()) {
+            die("Execute failed: (" . $stmt->errno . ") " . $stmt->error);
+        }
+
+        $result = $stmt->get_result();
+
+        if (!$result) {
+            die("Getting result set failed: (" . $stmt->errno . ") " . $stmt->error);
+        }
+
+        $reviews = [];
+        require_once('../vendor/autoload.php');
+        $client = new \GuzzleHttp\Client();
+
+        while ($row = $result->fetch_assoc()) {
+            $reviews[] = [
+                'movie_id' => $row['movie_id'],
+                'review_text' => $row['review_text'],
+                'timestamp' => $row['timestamp'],
+                'username' => $row['username'],
+                'avatar' => $row['avatar'],
+                'rating' => $row['rating'],
+                'poster_url' => '',
+                'movie_title' => ''
+            ];
+        }
+
+        $stmt->close();
+
+
+        foreach ($reviews as &$review) {
+            $movieId = $review['movie_id'];
+
+            try {
+
+                $response = $client->request('GET', "https://api.themoviedb.org/3/movie/{$movieId}?language=en-US", [
+                    'headers' => [
+                        'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MDU2NTIwNjI0N2YzYjc3NjhkOWIyNWJiZWRmNjhkOCIsInN1YiI6IjY1ZmVkNzU0MDkyOWY2MDE3ZTliZGUyMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.DW9RlEQ4PPwEzMPv8vutOwT8SAD1j47bBX7F1_RIANk',
+                        'Accept' => 'application/json',
+                    ],
+                ]);
+
+
+                if ($response->getStatusCode() !== 200) {
+                    throw new Exception("TMDB API request failed with status code: " . $response->getStatusCode());
+                }
+
+
+                $movieDetails = json_decode($response->getBody()->getContents(), true);
+                if (isset($movieDetails['poster_path'])) {
+                    $posterPath = $movieDetails['poster_path'];
+                    $review['poster_url'] = "https://image.tmdb.org/t/p/w500{$posterPath}";
+                }
+
+                if (isset($movieDetails['title'])) {
+                    $review['movie_title'] = $movieDetails['title'];
+                }
+            } catch (ClientException $e) {
+                error_log('Error fetching movie details: ' . $e->getMessage());
+            } catch (Exception $e) {
+                error_log('Error: ' . $e->getMessage());
+            }
+        }
+
+
+
+?>
     <div class=" popular-container container">
         <div class="row">
             <div class="col-8 popular-reviews-column">
@@ -555,180 +656,150 @@ $articles = fetchNews();
                 <hr>
                 <div class="border rounded p-2 gradient-background">
                   <div class="wrapper">
+                    <?php foreach ($reviews as $review): ?>
                     <div class="row">
                         <div class="col-2 poster-column mt-5">
                             <div class="card" style="width:6rem; height: 7rem;">
-                                 <img src="../img/opPoster.jpg" alt="" class="card-img-top img-popular-poster img-fluid">
+                                 <img src="<?php echo htmlspecialchars($review['poster_url']); ?>" alt="<?php echo htmlspecialchars($review['movie_title']); ?>" class="card-img-top img-popular-poster img-fluid">
                             </div>
                         </div>
                         <div class="col-10 review-column">
                             <div class="row mt-1">
-                                <div class="col-5 review-username"><i class="fa-regular fa-user p-2"></i>@mhmadiab</div>
-                                <div class="col-3 review-rate">*****</div>
-                                <div class="col-2 review-like"><i class="fa-solid fa-heart p-2"></i></i>330</div>
-                                <div class="col-2 review-cmnt"><i class="fa-regular fa-comment p-2"></i>30</div>
+                                <div class="col-5 review-username">
+                                <img src="<?php echo htmlspecialchars($review['avatar']); ?>" alt="User Avatar" class="rounded-circle" style="width: 24px; height: 24px; margin-right: 8px;">
+                                    @<?php echo htmlspecialchars($review['username']); ?></div>
                             </div>
                             <div class="row movie-name my-3">
-                                <h2>Oppenhimer 2023</h2>
+                                <h2><?php echo htmlspecialchars($review['movie_title']); ?></h2>
                             </div>
                             <div class="row">
-                                  <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolore odio tenetur nisi, voluptates aut fugit impedit illum doloremque saepe inventore dicta debitis similique ea? Beatae, ratione sapiente minima itaque animi, porro alias quam amet distinctio, non blanditiis odio accusamus asperiores!</p>
+                                  <p><?php echo htmlspecialchars($review['review_text']); ?></p>
                             </div>
+                            <p class="row justify-content-end timestamp" style="font-size:10px; padding-right:15px;"><?= htmlspecialchars($review['timestamp']) ?></p>
                         </div>
                     </div>
                     <hr>
-                    <div class="row">
-                        <div class="col-2 poster-column mt-5">
-                            <div class="card" style="width:6rem; height: 7rem;">
-                                 <img src="../img/opPoster.jpg" alt="" class="card-img-top img-popular-poster img-fluid">
-                            </div>
-                        </div>
-                        <div class="col-10 review-column">
-                            <div class="row mt-1">
-                                <div class="col-5 review-username"><i class="fa-regular fa-user p-2"></i>@mhmadiab</div>
-                                <div class="col-3 review-rate">*****</div>
-                                <div class="col-2 review-like"><i class="fa-solid fa-heart p-2"></i></i>330</div>
-                                <div class="col-2 review-cmnt"><i class="fa-regular fa-comment p-2"></i>30</div>
-                            </div>
-                            <div class="row movie-name my-3">
-                                <h2>Oppenhimer 2023</h2>
-                            </div>
-                            <div class="row">
-                                  <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolore odio tenetur nisi, voluptates aut fugit impedit illum doloremque saepe inventore dicta debitis similique ea? Beatae, ratione sapiente minima itaque animi, porro alias quam amet distinctio, non blanditiis odio accusamus asperiores!</p>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-2 poster-column mt-5">
-                            <div class="card" style="width:6rem; height: 7rem;">
-                                 <img src="../img/opPoster.jpg" alt="" class="card-img-top img-popular-poster img-fluid">
-                            </div>
-                        </div>
-                        <div class="col-10 review-column">
-                            <div class="row mt-1">
-                                <div class="col-5 review-username"><i class="fa-regular fa-user p-2"></i>@mhmadiab</div>
-                                <div class="col-3 review-rate">*****</div>
-                                <div class="col-2 review-like"><i class="fa-solid fa-heart p-2"></i></i>330</div>
-                                <div class="col-2 review-cmnt"><i class="fa-regular fa-comment p-2"></i>30</div>
-                            </div>
-                            <div class="row movie-name my-3">
-                                <h2>Oppenhimer 2023</h2>
-                            </div>
-                            <div class="row">
-                                  <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolore odio tenetur nisi, voluptates aut fugit impedit illum doloremque saepe inventore dicta debitis similique ea? Beatae, ratione sapiente minima itaque animi, porro alias quam amet distinctio, non blanditiis odio accusamus asperiores!</p>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                   </div>
                 </div>
             </div>
+<?php
+                $query = "SELECT l.list_id, l.list_name, l.user_id AS creator_user_id, u.username AS creator_username, u.avatar AS creator_avatar, li.movie_id
+                FROM lists l
+                LEFT JOIN list_items li ON l.list_id = li.list_id
+                LEFT JOIN users u ON l.user_id = u.user_id
+                ORDER BY RAND();";
+
+                if ($result = $con->query($query)) {
+                $lists = [];
+
+                while ($row = $result->fetch_assoc()) {
+                    $list_id = $row['list_id'];
+
+                    // Create a new array if the list_id does not exist in $lists
+                    if (!isset($lists[$list_id])) {
+                        $lists[$list_id] = [];
+                    }
+
+                    // Assign list_id and list_name
+                    $lists[$list_id]['list_id'] = $list_id;
+                    $lists[$list_id]['list_name'] = $row['list_name'];
+
+                    // Create 'creator' array if it doesn't exist
+                    if (!isset($lists[$list_id]['creator'])) {
+                        $lists[$list_id]['creator'] = [
+                            'user_id' => $row['creator_user_id'],
+                            'username' => $row['creator_username'],
+                            'avatar' => $row['creator_avatar']
+                        ];
+                    }
+
+                    // Initialize 'movies' array if it doesn't exist
+                    if (!isset($lists[$list_id]['movies'])) {
+                        $lists[$list_id]['movies'] = [];
+                    }
+
+                    // Add movie_id to 'movies' array if it's not empty
+                    if (!empty($row['movie_id'])) {
+                        $lists[$list_id]['movies'][] = $row['movie_id'];
+                    }
+                }
+
+                $result->free();
+                } else {
+                echo "Error: " . $con->error;
+                }
+
+                // Now fetch movie details (like posters) for each movie in the lists using TMDB API
+                foreach ($lists as &$list) {
+                foreach ($list['movies'] as &$movieId) {
+                try {
+                $response = $client->request('GET', "https://api.themoviedb.org/3/movie/{$movieId}?language=en-US", [
+                    'headers' => [
+                        'Authorization' => 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI5MDU2NTIwNjI0N2YzYjc3NjhkOWIyNWJiZWRmNjhkOCIsInN1YiI6IjY1ZmVkNzU0MDkyOWY2MDE3ZTliZGUyMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.DW9RlEQ4PPwEzMPv8vutOwT8SAD1j47bBX7F1_RIANk',
+                        'Accept' => 'application/json',
+                    ],
+                ]);
+
+                if ($response->getStatusCode() === 200) {
+                    $movieDetails = json_decode($response->getBody()->getContents(), true);
+                    if (isset($movieDetails['poster_path'])) {
+                        $list['poster_urls'][$movieId] = "https://image.tmdb.org/t/p/w500{$movieDetails['poster_path']}";
+                    }
+                } else {
+                    throw new Exception("TMDB API request failed with status code: " . $response->getStatusCode());
+                }
+                } catch (Exception $e) {
+                error_log('Error fetching movie details: ' . $e->getMessage());
+                }
+                }
+                }
+
+        // echo json_encode($lists)
+?>
+
             <div class="col-4 popular-lists-column">
                 <h1 class="popular-title">Popular Lists</h1>
                 <hr>
                 <div class="card main-card">
                     <div class="card-bg"></div>
                     <div class="card-content">
-                        <div class="container title-lists-container">
-                            <div class="row mt-3 mx-3 d-md-none d-sm-none d-xs-none d-lg-flex align-items-center " style="transform: translateY(50%);">
-                                <div class="col-6 title">Romance</div>
-                                <div class="col-6 title d-flex justify-content-end"><a href="#" style="text-decoration: none; color: inherit;"><i class="fa-solid fa-layer-group mx-1" style="color:#4dbf00;"></i>more</a></div>
-                            </div>
-                            <div class="row lists-row">
-                                <div class="container lists-container my-3 mx-4">
-                                        <div class="col-md-4">
-                                            <div class="card card1">
-                                            <img src="../img/pastlivesPoster.jpg" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="card card2">
-                                            <img src="../img/pastlivesPoster.jpg" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="card card3">
-                                            <img src="../img/pastlivesPoster.jpg" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="card card4">
-                                            <img src="../img/pastlivesPoster.jpg" alt="">
-                                            </div>
-                                        </div>
+                    <?php $cnt=0;
+                    foreach ($lists as $list):
+                    $cnt++;
+                    if ($cnt>3){
+                        break;
+                    }?>
+                            <div class="container title-lists-container">
+                                <div class="row mt-3 mx-3 d-md-none d-sm-none d-xs-none d-lg-flex align-items-center">
+                                    <div class="col-6 title"><?php echo htmlspecialchars($list['list_name']); ?></div>
+                                    <div class="col-6 title d-flex justify-content-end"><a href="listType.php?list_id=<?php  echo htmlspecialchars($list['list_id']); ?>" style="text-decoration: none; color: inherit;"><i class="fa-solid fa-layer-group mx-1" style="color:#4dbf00;"></i>more</a></div>
                                 </div>
-                            </div>
-                            <div class=" row owner-row title d-flex mx-3 d-md-none d-sm-none d-xs-none d-lg-flex " style="transform: translateY(-50%);">
-                                <div class="col-6">@mhmad</div>
-                                <div class="col-6">66 movies</div>
-                            </div>
+                                <div class="row lists-row">
+                                    <div class="container lists-container my-3 mx-4">
+                                        <?php $counter = 1;
+                                        foreach ($list['movies'] as $movieId): ?>
+                                            <?php
+                                            // Assuming $list['poster_urls'][$movieId] contains the poster URL fetched from TMDB API
+                                            $posterUrl = isset($list['poster_urls'][$movieId]) ? $list['poster_urls'][$movieId] : '../img/default-poster.jpg';
+                                            ?>
+                                            <div class="col-md-4">
+                                                <div class="card card<?php echo $counter; ?>">
 
-                            <div class="row mt-3 mx-3 d-md-none d-sm-none d-xs-none d-lg-flex align-items-center " style="transform: translateY(50%);">
-                                <div class="col-6 title">Romance</div>
-                                <div class="col-6 title d-flex justify-content-end"><a href="#" style="text-decoration: none; color: inherit;"><i class="fa-solid fa-layer-group mx-1" style="color:#4dbf00;"></i>more</a></div>
-                            </div>
-                            <div class="row lists-row">
-                                <div class="container lists-container my-3 mx-4">
-                                        <div class="col-md-4">
-                                            <div class="card card1">
-                                            <img src="../img/pastlivesPoster.jpg" alt="">
+                                                    <img src="<?php echo htmlspecialchars($posterUrl); ?>" alt="">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="card card2">
-                                            <img src="../img/opPoster.jpg" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="card card3">
-                                            <img src="../img/pastlivesPoster.jpg" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="card card4">
-                                            <img src="../img/dune-part-2-poster.jpg" alt="">
-                                            </div>
-                                        </div>
+                                        <?php $counter++;
+                                    endforeach; ?>
+                                    </div>
+                                </div>
+                                <div class="row owner-row title d-flex mx-3 d-md-none d-sm-none d-xs-none d-lg-flex">
+                                    <div class="col-6">@<?php echo htmlspecialchars($list['creator']['username']); ?></div>
+                                    <div class="col-6"><?php echo count($list['movies']); ?> movies</div>
                                 </div>
                             </div>
-                            <div class=" row owner-row title d-flex mx-3 d-md-none d-sm-none d-xs-none d-lg-flex " style="transform: translateY(-50%);">
-                                <div class="col-6">@mhmad</div>
-                                <div class="col-6">66 movies</div>
-                            </div>
-
-                            <div class="row mt-3 mx-3 d-md-none d-sm-none d-xs-none d-lg-flex align-items-center " style="transform: translateY(50%);">
-                                <div class="col-6 title">Romance</div>
-                                <div class="col-6 title d-flex justify-content-end"><a href="#" style="text-decoration: none; color: inherit;"><i class="fa-solid fa-layer-group mx-1" style="color:#4dbf00;"></i>more</a></div>
-                            </div>
-                            <div class="row lists-row">
-                                <div class="container lists-container my-3 mx-4">
-                                        <div class="col-md-4">
-                                            <div class="card card1">
-                                            <img src="../img/pastlivesPoster.jpg" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="card card2">
-                                            <img src="../img/opPoster.jpg" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="card card3">
-                                            <img src="../img/pastlivesPoster.jpg" alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="card card4">
-                                            <img src="../img/dune-part-2-poster.jpg" alt="">
-                                            </div>
-                                        </div>
-                                </div>
-                            </div>
-                            <div class=" row owner-row title d-flex mx-3 d-md-none d-sm-none d-xs-none d-lg-flex " style="transform: translateY(-50%);">
-                                <div class="col-6">@mhmad</div>
-                                <div class="col-6">66 movies</div>
-                            </div>
-                        </div>
+                            <?php
+                        endforeach; ?>
                     </div>
                 </div>
             </div>
@@ -744,7 +815,7 @@ $articles = fetchNews();
                         <h1 style="margin-bottom: 1px;">Top Rated</h1>
                       </div>
                       <div class="col-6 text-right d-flex justify-content-end">
-                        <h2><a href="#" style="text-decoration: none; color: inherit;"><i class="fa-solid fa-layer-group mx-1" style="color:#4dbf00;"></i>more</a></h2>
+                        <h2><a href="../php/MoviesPage.php" style="text-decoration: none; color: inherit;"><i class="fa-solid fa-layer-group mx-1" style="color:#4dbf00;"></i>more</a></h2>
                       </div>
                         <hr style="margin-top: 0px;">
         </div>
@@ -760,14 +831,14 @@ $articles = fetchNews();
                             'accept' => 'application/json',
                         ],
                         ]);
-                    
+
                     // Get the response body as a string
                     $responseBody = $response->getBody()->getContents();
-                    
+
                     // Decode the JSON string into an object
                     $popularMoviesList = json_decode($responseBody);
                     ?>
-                  
+
             <?php
             // Iterate through each movie in the results array
             foreach ($popularMoviesList->results as $movie) {
@@ -790,10 +861,10 @@ $articles = fetchNews();
                     </div>
                 <?php
             }
-            ?>      
+            ?>
     </div>
             </div>
-        </div> 
+        </div>
 </div>
 <!-- start of second owl carousel -->
 
@@ -879,45 +950,45 @@ $articles = fetchNews();
                     }
                 })
         </script>
-       
+
     </body>
 </html>
 
 
-<?php 
+<?php
 // if(isset($_GET['Message'])){
-// 	echo '<script>alert("Registration Successful! Please login")</script>';	
+// 	echo '<script>alert("Registration Successful! Please login")</script>';
 // }
 if(isset($Message)){
-	echo '<script>alert("Registration Successful! Please login")</script>';	
+	echo '<script>alert("Registration Successful! Please login")</script>';
 }
 
     // Process the LOGIN form data
-    if(isset($_POST['login_button'])) {   
+    if(isset($_POST['login_button'])) {
         if (isset($_POST['username'], $_POST['password'])) {
             $username=$_POST['username'];
             $password=$_POST['password'];
-            
+
             $query = "SELECT `user_id`,`username`,`email`,`password`,`type` FROM `users` WHERE username='$username';";
             $result= mysqli_query($con,$query);
-            
+
             if(!$result){
             die("Error insert: " . mysqli_error($con) . "</br> Error number: " . mysqli_errno($con));
             } else {
-                $row = mysqli_fetch_assoc($result);       
-                if (mysqli_num_rows($result)==1) { 
+                $row = mysqli_fetch_assoc($result);
+                if (mysqli_num_rows($result)==1) {
                         if(!password_verify($password, $row['password'])){
-                            echo '<script>alert("Wrong Password! Try again")</script>';	
-                        }  
+                            echo '<script>alert("Wrong Password! Try again")</script>';
+                        }
                         else {
                             $_SESSION['useremail'] = $row['email'];
                             $_SESSION['username'] = $row['username'];
                             $_SESSION['user_id'] = $row['user_id'];
 
-                            // this is used to reload the page after he user logs in 
-                            echo "<meta http-equiv='refresh' content='0'>";                          
+                            // this is used to reload the page after he user logs in
+                            echo "<meta http-equiv='refresh' content='0'>";
                             }
-                } else{ 
+                } else{
                     echo '<script>alert("User not found! Please Register first")</script>'; }
             }
         // mysqli_close($con);
@@ -925,7 +996,7 @@ if(isset($Message)){
     }
 
     // Process the SIGN UP form data
-    if(isset($_POST['signup_button'])) {   
+    if(isset($_POST['signup_button'])) {
         if (isset($_POST['username'], $_POST['password'],$_POST['email'],$_POST['security'])) {
              $uname=$_POST['username'];
              $password=$_POST['password'];
@@ -935,18 +1006,18 @@ if(isset($Message)){
             //  $dob=$_POST['dob'];
              $Security=$_POST['security'];
              $userType="Member";
-             
-             
+
+
             $query1 = "SELECT `email` FROM `users` WHERE `email`='$mail';";
             $query_exist = mysqli_query($con,$query1);
-         
+
             if(!$query_exist){
-             
+
              die("Error insert: " . mysqli_error($con) . "</br> Error number: " . mysqli_errno($con));
-         
+
             }
             else{
-             
+
                 if (mysqli_num_rows($query_exist)==1) {
                           echo '<script>
                                   displayWarningMessage("Email already exist.")
@@ -955,11 +1026,11 @@ if(isset($Message)){
                  else{
                      $usernameQuery = "SELECT `username` FROM `users` WHERE `username`='$uname';";
                      $query_exist = mysqli_query($con,$usernameQuery);
-                  
+
                      if(!$query_exist){
-                      
+
                       die("Error insert: " . mysqli_error($con) . "</br> Error number: " . mysqli_errno($con));
-                  
+
                      }
                      else{
                          if (mysqli_num_rows($query_exist)==1) {
@@ -968,24 +1039,24 @@ if(isset($Message)){
                         //  $query = "INSERT INTO users(email, username, password, gender, dob, type, security_answer) VALUES('$mail','$uname','$hashed_password','$Gender','$dob','$userType','$Security')";
                         $query = "INSERT INTO users(email, username, password, gender, dob, type, security_answer) VALUES('$mail','$uname','$hashed_password','','','$userType','$Security')";
                         $result= mysqli_query($con,$query);
-             
+
                          if(!$result){
                            die("Error insert: " . mysqli_error($con) . "</br> Error number: " . mysqli_errno($con));
                                      }
-             
-                         else { 
+
+                         else {
                              $Message='Registeration Successful! Kindly Login';
                              header("location:login.php?Message={$Message}");
-                            //  header("Location: ../php/registerationSuccess.php"); // Redirect to a success page    
-                            
-                                // this is used to reload the page after he user logs in 
-                                echo "<meta http-equiv='refresh' content='0'>";  
+                            //  header("Location: ../php/registerationSuccess.php"); // Redirect to a success page
+
+                                // this is used to reload the page after he user logs in
+                                echo "<meta http-equiv='refresh' content='0'>";
                              }
-                             
-                         }     
+
+                         }
                      }
                  }
-                } 
+                }
         //  mysqli_close($con);
         }
     }

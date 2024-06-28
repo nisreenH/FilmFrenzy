@@ -173,12 +173,12 @@
 </header>
 
 <?php
-session_start();
+
 require_once '../php/connection.php';
 
-if (!isset($_SESSION['user_id'])) {
-    die("Error: User not logged in.");
-}
+// if (!isset($_SESSION['user_id'])) {
+//     die("Error: User not logged in.");
+// }
 
 if (!isset($_GET['list_id'])) {
     die("Error: List ID not specified.");
