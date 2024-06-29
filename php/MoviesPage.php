@@ -165,7 +165,21 @@
                 </div>
             </nav>
         </header>
-        <div class="row mt-5"><h1 class="display-4 mt-5 text-center" style="font-family:var(--popins); margin-top 70px;;"> Browse By <br> <b class="text-center" style="color:#4dbf00;">FilmFrenzy's Movie Browser</b></h1></div>
+        <div class="row mt-5"><h1 class="display-4 my-5 text-center" style="font-family:var(--popins); margin-top 70px;;"> Browse By <br> <b class="text-center" style="color:#4dbf00;">FilmFrenzy's Movie Browser</b></h1></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                    <div class="col-12 col-md-12 col-lg-12 col-xl-12 text-center">
+                                    <form class="d-flex d-none d-lg-block" role="search" id="search-form">
+                                            <div class="input-group">
+                                                <input class="form-control pe-2" type="search" placeholder="Search" aria-label="Search" id="search_query" name="search_query" style="border: 2px solid black;">
+                                                <button class="btn btn-outline-secondary" type="submit"  >
+                                                    <i class="bi bi-search text-dark"></i>
+                                                </button>
+                                            </div>
+                                    </form>
+                </div>
+            </div>
+        </div>
         <section class="filter-browsing-menu" style="margin-top:60px;">
         <div class="container border rounded text-center pt-3 bg-dark">
             <form id="filtering-form" enctype="multipart/form-data" method="POST" action="../php/filterbrowsing.php">
@@ -233,23 +247,19 @@
                     <div class="col-12 col-md-6 col-lg-3 col-xl-2 mb-3">
                         <button type="submit" class="btn  w-100" style="background-color:#4dbf00; color:white; font-family:var(--popins);">Filter Movies</button>
                     </div>
-
-                    <div class="col-12 col-md-6 col-lg-3 col-xl-2 mb-3 justify-content-end">
-                            <form class="d-flex d-none d-lg-block" role="search">
-                                    <div class="input-group">
-                                        <input class="form-control pe-2" type="search" placeholder="Search" aria-label="Search">
-                                        <button class="btn btn-outline-secondary" type="submit">
-                                            <i class="bi bi-search text-white"></i>
-                                        </button>
-                                    </div>
-                            </form>
-                    </div>
                 </div>
             </form>
         </div>
     </section>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <section class="filter-browsing" style="">
+    <div id="search-results" class="container text-center bg-danger border rounded">
+        <!-- Search results or error message will be inserted here by JavaScript -->
+    </div>
+    </section>
+
     <section class="filter-browsing" style="">
     <div id="filter-params" class="container text-center bg-dark border rounded" style="font-size: small; color: white;">
         <!-- Selected filter parameters will be displayed here -->
@@ -265,8 +275,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('filtering-form');
     const moviesContainer = document.getElementById('movies-container');
     const filterParamsDiv = document.getElementById('filter-params');
-    let currentPage = 1; // Track the current page
-    let queryData = {};  // Store form data for pagination
+    let currentPage = 1; 
+    let queryData = {}; 
 
     function displayFilterParams(params) {
         const { genre, sort_by, language, year } = params;
@@ -279,10 +289,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function fetchMovies(page = 1) {
-        // Add the page to the query data
         queryData.page = page;
-
-        // Fetch movies from server
         fetch('../php/filterbrowsing.php', {
             method: 'POST',
             headers: {
@@ -302,26 +309,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Clear movies container if it's a new search (page 1)
             if (page === 1) {
                 moviesContainer.innerHTML = '';
             }
 
-            let movieCounter = (page - 1) * 30; // Adjust starting counter based on page
+            let movieCounter = (page - 1) * 30; 
             let row;
 
-            // Iterate through each movie in the response data
+            
             data.forEach(movie => {
                 if (movieCounter % 5 === 0) {
                     if (movieCounter !== (page - 1) * 30) {
-                        moviesContainer.appendChild(row); // Append previous row
+                        moviesContainer.appendChild(row); 
                     }
                     row = document.createElement('div');
                     row.classList.add('row');
                     row.classList.add('justify-content-center');
                 }
 
-                // Create a movie card element
+               
                 const movieCard = document.createElement('div');
                 movieCard.classList.add('col-12', 'col-md-6', 'col-lg-2');
                 movieCard.innerHTML = `
@@ -344,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 `;
 
-                row.appendChild(movieCard); // Append movie card to the row
+                row.appendChild(movieCard); 
                 movieCounter++;
             });
 
@@ -381,5 +387,92 @@ document.addEventListener('DOMContentLoaded', function() {
     form.dispatchEvent(new Event('submit'));
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    const searchForm = document.getElementById('search-form');
+    const searchResultsContainer = document.getElementById('search-results');
+
+    searchForm.addEventListener('submit', function(event) {
+        event.preventDefault(); 
+        const searchQuery = document.getElementById('search_query').value;
+
+        console.log('Search query:', searchQuery); 
+
+        
+        fetch('../php/search.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ search_query: searchQuery })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Response:', data); 
+            if (data.error) {
+                searchResultsContainer.innerHTML = `<p class="text-white">${data.error}</p>`;
+            } else if (data.movieId) {
+                window.location.href = `../php/movieDetails.php?movieId=${data.movieId}`;
+            } else {
+                searchResultsContainer.innerHTML = '<p class="text-white">Search Result : No movie found.</p>';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            searchResultsContainer.innerHTML = '<p class="text-white">An error occurred. Please try again later.</p>';
+        });
+    });
+});
     </script>
-    
+<footer>
+    <div class="footer-section mt-5">
+        <div class="container footer-container p-5">
+            <div class="row footer-row">
+                <div class="col-lg-5 col-sm-6">
+                    <div class="single-box">
+                         <h1><a class="navbar-brand logo ps-2 order-first" href="#">Film Frenzy</a></h1>
+                         <p class="footer-message my-2">Lights, camera, action! Thanks for being part of our blockbuster journey through the world of cinema.
+                            And remember to always be a FILMER.
+                         </p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                     <div class="single-box">
+                        <h3>Helpful links</h3>
+                        <ul>
+                            <li><a href="index.php">Home</a></li>
+                            <li><a href="newsPage.php">News</a></li>
+                            <li><a href="MoviesPage.php">Movies</a></li>
+                            <li><a href="Profile.php">Profile</a></li>
+                        </ul>
+                     </div>
+                </div>
+                <div class="col-lg-3 col-md-2 ">
+                    <div class="single-box">
+                            <h3>References</h3>
+                            <ul>
+                                <li><a href="">TMDB</a></li>
+                                <li><a href="">GitHub</a></li>
+                                <li><a href="">IMDB</a></li>
+                                <li><a href="">Letterboxd</a></li>
+                                <li><a href="">UIVERSE</a></li>
+                                <li><a href="">Bootstrap</a></li>
+                                <li><a href="">W3schools</a></li>
+                            </ul>
+                    </div>
+                </div>
+            </div>
+            <hr>
+             <div class="container">
+                <div class="row d-flex jutsify-content-center text-center">
+                    <div class="col-lg-3 col-sm-6 socials"><a href="#"><i class="fa-brands fa-instagram"></i></a></div>
+                    <div class="col-lg-3 col-sm-6 socials "><a href="#"><i class="fa-brands fa-github"></i></a></div>
+                    <div class="col-lg-3 col-sm-6 socials"><a href="#"><i class="fa-brands fa-facebook"></i></a></div>
+                    <div class="col-lg-3 col-sm-6 socials "><a href="#"><i class="fa-brands fa-discord"></i></a></div>
+                </div>
+                <div class="row">
+                    <h4 class="copyrights">@2024 All rights reserved</h4>
+                </div>
+             </div>
+        </div>
+    </div>
+</footer>

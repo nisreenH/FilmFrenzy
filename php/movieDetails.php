@@ -389,6 +389,31 @@
                         <!-- end lists -->
                         </div>
                         <hr>
+                        <?php
+                        require_once '../php/connection.php';
+                        if(isset($_SESSION['user_id'])) {
+                            if(isset($_GET['movieId'])){
+                                $movieId = $_GET['movieId'];
+                                $userId = $_SESSION['user_id'];
+                            }
+                            try { 
+                                $stmt = $con->prepare("SELECT rating FROM ratings WHERE user_id = ? AND movie_id = ?");
+                                $stmt->bind_param("ii", $userId, $movieId);
+                                $stmt->execute();
+                                $stmt->bind_result($rating);
+                                $stmt->fetch();
+                                $stmt->close();
+                        
+                                if ($rating !== null) {
+                                    // echo json_encode(['rating' => $rating]);
+                                } else {
+                                    // echo json_encode(['rating' => null]);
+                                }
+                            } catch (Exception $e) {
+                                echo json_encode(['error' => $e->getMessage()]);
+                            }
+                        }
+                        ?>
                         <div class="row rating-stars-box mb-3">
                         <div class="container stars-container">
                             <div class="stars text-center col-lg-12" data-rating="0" data-movie-id="<?= $movie->id ?>">
@@ -404,6 +429,42 @@
                         <div id="star-count-display"></div>
                         
                     </div>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                        const stars = document.querySelectorAll(".stars i");
+                        const starCountDisplay = document.getElementById("star-count-display");
+                        const cancelRating = document.querySelector(".cancel-rating");
+                        const starContainer = document.querySelector(".stars");
+                        const movieId = starContainer.getAttribute("data-movie-id");
+
+                        // Existing rating from PHP
+                        const existingRating = <?= json_encode($rating) ?>;
+                        
+                        if (existingRating !== null) {
+                            updateStarUI(existingRating);
+                            starContainer.setAttribute("data-rating", existingRating);
+                            starCountDisplay.textContent = `Rating: ${existingRating} out of 5`;
+                        }
+
+                        // Function to update the star UI
+                        function updateStarUI(rating) {
+                            stars.forEach(star => {
+                                star.classList.remove("active-star");
+                                if (parseInt(star.getAttribute("data-value")) <= rating) {
+                                    star.classList.add("active-star");
+                                }
+                            });
+                        }
+
+                        
+                        function setRating(rating) {
+                            updateStarUI(rating);
+                            starContainer.setAttribute("data-rating", rating);
+                            starCountDisplay.textContent = rating > 0 ? `Rating: ${rating} out of 5` : "";
+                            sendRatingToServer(movieId, rating);
+                        }
+                    });
+                    </script>
                     </div>
                     <?php } else { ?>
                     <div class="row not-logged alert alert-warning mt-3">
@@ -615,6 +676,59 @@
                     <?php } ?>
 
 <!-- review section end  -->
+<footer>
+    <div class="footer-section mt-5">
+        <div class="container footer-container p-5">
+            <div class="row footer-row">
+                <div class="col-lg-5 col-sm-6">
+                    <div class="single-box">
+                         <h1><a class="navbar-brand logo ps-2 order-first" href="#">Film Frenzy</a></h1>
+                         <p class="footer-message my-2">Lights, camera, action! Thanks for being part of our blockbuster journey through the world of cinema.
+                            And remember to always be a FILMER.
+                         </p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                     <div class="single-box">
+                        <h3>Helpful links</h3>
+                        <ul>
+                            <li><a href="index.php">Home</a></li>
+                            <li><a href="newsPage.php">News</a></li>
+                            <li><a href="MoviesPage.php">Movies</a></li>
+                            <li><a href="Profile.php">Profile</a></li>
+                        </ul>
+                     </div>
+                </div>
+                <div class="col-lg-3 col-md-2 ">
+                    <div class="single-box">
+                            <h3>References</h3>
+                            <ul>
+                                <li><a href="">TMDB</a></li>
+                                <li><a href="">GitHub</a></li>
+                                <li><a href="">IMDB</a></li>
+                                <li><a href="">Letterboxd</a></li>
+                                <li><a href="">UIVERSE</a></li>
+                                <li><a href="">Bootstrap</a></li>
+                                <li><a href="">W3schools</a></li>
+                            </ul>
+                    </div>
+                </div>
+            </div>
+            <hr>
+             <div class="container">
+                <div class="row d-flex jutsify-content-center text-center">
+                    <div class="col-lg-3 col-sm-6 socials"><a href="#"><i class="fa-brands fa-instagram"></i></a></div>
+                    <div class="col-lg-3 col-sm-6 socials "><a href="#"><i class="fa-brands fa-github"></i></a></div>
+                    <div class="col-lg-3 col-sm-6 socials"><a href="#"><i class="fa-brands fa-facebook"></i></a></div>
+                    <div class="col-lg-3 col-sm-6 socials "><a href="#"><i class="fa-brands fa-discord"></i></a></div>
+                </div>
+                <div class="row">
+                    <h4 class="copyrights">@2024 All rights reserved</h4>
+                </div>
+             </div>
+        </div>
+    </div>
+</footer>
 
 
 

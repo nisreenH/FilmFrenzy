@@ -128,13 +128,13 @@
                             </div>
                         </form>
                     </div>
-                    <form class="d-flex d-none d-lg-block" role="search">
-                            <div class="input-group">
-                                <input class="form-control pe-2" type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-secondary" type="submit">
-                                    <i class="bi bi-search text-white"></i>
-                                </button>
-                            </div>
+                    <form class="d-flex d-none d-lg-block" role="search" id="search-form">
+                                            <div class="input-group">
+                                                <input class="form-control pe-2" type="search" placeholder="Search" aria-label="Search" id="search_query" name="search_query">
+                                                <button class="btn btn-outline-secondary" type="submit">
+                                                    <i class="bi bi-search text-dark"></i>
+                                                </button>
+                                            </div>
                     </form>
                     <?php
                         if(isset($_SESSION['username'])){
@@ -441,12 +441,17 @@ function fetchNews() {
     $client = new Client();
     $limit = 3;
     try {
-        $response = $client->request('GET', 'https://imdb8.p.rapidapi.com/news/v2/get-by-category?category=MOVIE&first=' . $limit, [
-            'headers' => [
-                'X-RapidAPI-Host' => 'imdb8.p.rapidapi.com',
-                'X-RapidAPI-Key' => 'f99bdd951cmsh34d1f532f613152p11b581jsn2c3e240b89fb',
-            ],
-        ]);
+       
+            $client = new \GuzzleHttp\Client();
+
+            $response = $client->request('GET', 'https://imdb8.p.rapidapi.com/news/v2/get-by-category?category=MOVIE&first=20&country=US&language=en-US', [
+                'headers' => [
+                    'x-rapidapi-host' => 'imdb8.p.rapidapi.com',
+                    'x-rapidapi-key' => 'c08e66a1f4mshd7169b5e33e18c9p16ae5djsnaea437567782',
+                ],
+            ]);
+
+            // echo $response->getBody();
 
         $statusCode = $response->getStatusCode();
         if ($statusCode == 200) {
@@ -885,9 +890,9 @@ $articles = fetchNews();
                      <div class="single-box">
                         <h3>Helpful links</h3>
                         <ul>
-                            <li><a href="">Home</a></li>
-                            <li><a href="">News</a></li>
-                            <li><a href="">Movies</a></li>
+                            <li><a href="index.php">Home</a></li>
+                            <li><a href="newsPage.php">News</a></li>
+                            <li><a href="MoviesPage.php">Movies</a></li>
                             <li><a href="Profile.php">Profile</a></li>
                         </ul>
                      </div>
