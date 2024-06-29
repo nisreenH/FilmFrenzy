@@ -189,3 +189,39 @@ window.onload = function() {
 
 
 /*news section*/
+
+/*search section*/
+document.addEventListener('DOMContentLoaded', function() {
+    const searchForm = document.getElementById('search-form');
+    
+
+    searchForm.addEventListener('submit', function(event) {
+        event.preventDefault(); 
+        const searchQuery = document.getElementById('search_query').value;
+
+        
+
+        
+        fetch('../php/search.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ search_query: searchQuery })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error); // Show error message in alert
+            } else if (data.movieId) {
+                window.location.href = `../php/movieDetails.php?movieId=${data.movieId}`;
+            } else {
+                alert('No movie found.'); // Show no movie found message in alert
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred. Please try again later.'); // Show generic error message in alert
+        });
+    });
+});

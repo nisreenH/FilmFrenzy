@@ -220,10 +220,10 @@
                      <div class="single-box">
                         <h3>Helpful links</h3>
                         <ul>
-                            <li><a href="">Home</a></li>
-                            <li><a href="">News</a></li>
-                            <li><a href="">Movies</a></li>
-                            <li><a href="">Profile</a></li>
+                        <li><a href="index.php">Home</a></li>
+                            <li><a href="newsPage.php">News</a></li>
+                            <li><a href="MoviesPage.php">Movies</a></li>
+                            <li><a href="Profile.php">Profile</a></li>
                         </ul>
                      </div>
                 </div>

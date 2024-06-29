@@ -3,9 +3,9 @@
     require_once('../vendor/autoload.php');
     $client = new \GuzzleHttp\Client();
     require_once '../php/connection.php';
-    // if(isset($_GET['movieId'])){
-    //     $movieId = $_GET['movieId'];
-    //}
+     if(isset($_GET['movieId'])){
+         $movieId = $_GET['movieId'];
+    }
     // Fetch user details
     $username = $_SESSION['username'];
     $query = "SELECT username, avatar FROM users WHERE username = ?";
@@ -37,6 +37,9 @@
         <!-- <script src="../js/movieDetails.js" defer></script> -->
         <script src="../js/userProfile.js"></script>
         <link rel="stylesheet" href="../css/userProfile.css">
+        <style>
+            .active-star { color: gold; }
+        </style>
     </head>
     <!-- The bg-dark class sets the background color of the body to dark, and data-bs-theme="dark" is a Bootstrap 5 attribute 
         that applies a dark theme to Bootstrap components. This will ensure that all Bootstrap components, including the navbar,
@@ -193,14 +196,34 @@
                 <a href="movieDetails.php?movieId=<?php echo $movieId; ?>">
                     <img src="https://image.tmdb.org/t/p/w500/<?php echo $posterPath; ?>" class="poster-img img-fluid" alt="Movie Poster">
                 </a>
+                <?php
+                require_once '../php/connection.php';
+
+                if (isset($_SESSION['user_id'])) {
+                    if (isset($_GET['movieId'])) {
+                        $movieId = $_GET['movieId'];
+                        $userId = $_SESSION['user_id'];
+                    }
+                    try { 
+                        $stmt = $con->prepare("SELECT rating FROM ratings WHERE user_id = ? AND movie_id = ?");
+                        $stmt->bind_param("ii", $userId, $movieId);
+                        $stmt->execute();
+                        $stmt->bind_result($rating);
+                        $stmt->fetch();
+                        $stmt->close();
+                        
+                        // Set default rating to 0 if no rating is found
+                        $rating = $rating !== null ? $rating : 0;
+                    } catch (Exception $e) {
+                        echo json_encode(['error' => $e->getMessage()]);
+                        exit;
+                    }
+                }
+                    ?>
                 <div class="card-body text-center">
-                    <div class="stars">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                    </div>
+                    <?php for ($i = 1; $i <= 5; $i++): ?>
+                      <i class="fa-solid fa-star <?php echo $i <= $rating ? 'active-star' : ''; ?>" data-value="<?php echo $i; ?>"></i>
+                    <?php endfor; ?>
                 </div>
                </div>
             </div>
@@ -229,10 +252,10 @@
                      <div class="single-box">
                         <h3>Helpful links</h3>
                         <ul>
-                            <li><a href="">Home</a></li>
-                            <li><a href="">News</a></li>
-                            <li><a href="">Movies</a></li>
-                            <li><a href="">Profile</a></li>
+                            <li><a href="index.php">Home</a></li>
+                            <li><a href="newsPage.php">News</a></li>
+                            <li><a href="MoviesPage.php">Movies</a></li>
+                            <li><a href="Profile.php">Profile</a></li>
                         </ul>
                      </div>
                 </div>

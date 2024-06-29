@@ -48,49 +48,49 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Fetching rating for movieId:', movieId); // Add this line for debugging
     fetchUserRating(movieId);
     // Function to update the star UI
-    const updateStarUI = (rating) => {
-        stars.forEach(star => {
-            star.classList.remove("active-star");
-            if (parseInt(star.getAttribute("data-value")) <= rating) {
-                star.classList.add("active-star");
-            }
-        });
-    };
+    // const updateStarUI = (rating) => {
+    //     stars.forEach(star => {
+    //         star.classList.remove("active-star");
+    //         if (parseInt(star.getAttribute("data-value")) <= rating) {
+    //             star.classList.add("active-star");
+    //         }
+    //     });
+    // };
 
-    // Function to set rating and update UI
-    const setRating = (rating) => {
-        // Update star UI
-        updateStarUI(rating);
+    // // Function to set rating and update UI
+    // const setRating = (rating) => {
+    //     // Update star UI
+    //     updateStarUI(rating);
 
-        // Update rating display
-        starContainer.setAttribute("data-rating", rating);
-        starCountDisplay.textContent = rating > 0 ? `Rating: ${rating} out of 5` : "";
+    //     // Update rating display
+    //     starContainer.setAttribute("data-rating", rating);
+    //     starCountDisplay.textContent = rating > 0 ? `Rating: ${rating} out of 5` : "";
 
-        // Send rating to the server
-        sendRatingToServer(movieId, rating);
-    };
+    //     // Send rating to the server
+    //     sendRatingToServer(movieId, rating);
+    // };
 
-    // Fetch user's existing rating for the movie
-    function fetchUserRating(movieId) {
-        const xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    const response = JSON.parse(xhr.responseText);
-                    if (response.rating !== null) {
-                        // Update UI with existing rating
-                        updateStarUI(response.rating);
-                        starContainer.setAttribute("data-rating", response.rating);
-                        starCountDisplay.textContent = `Rating: ${response.rating} out of 5`;
-                    }
-                } else {
-                    console.error('Error fetching rating:', xhr.statusText);
-                }
-            }
-        };
-        xhr.open('GET', `get_rating.php?movieId=${encodeURIComponent(movieId)}`, true);
-        xhr.send();
-    }
+    // // Fetch user's existing rating for the movie
+    // function fetchUserRating(movieId) {
+    //     const xhr = new XMLHttpRequest();
+    //     xhr.onreadystatechange = function() {
+    //         if (xhr.readyState === XMLHttpRequest.DONE) {
+    //             if (xhr.status === 200) {
+    //                 const response = JSON.parse(xhr.responseText);
+    //                 if (response.rating !== null) {
+    //                     // Update UI with existing rating
+    //                     updateStarUI(response.rating);
+    //                     starContainer.setAttribute("data-rating", response.rating);
+    //                     starCountDisplay.textContent = `Rating: ${response.rating} out of 5`;
+    //                 }
+    //             } else {
+    //                 console.error('Error fetching rating:', xhr.statusText);
+    //             }
+    //         }
+    //     };
+    //     xhr.open('GET', `get_rating.php?movieId=${encodeURIComponent(movieId)}`, true);
+    //     xhr.send();
+    // }
 
     
 
